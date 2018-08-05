@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="start_updates" />
+                android:text="Follow me" />
 
             <Button
                 android:id="@+id/btn_stop_location_updates"
@@ -39,14 +39,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:enabled="false"
-                android:text="stop_updates" />
+                android:text="Stop Follow" />
 
             <Button
                 android:id="@+id/btn_get_last_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="get_last_location" />
+                android:text="Location" />
         </LinearLayout>
 
         <LinearLayout

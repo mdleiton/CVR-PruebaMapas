@@ -48,6 +48,8 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -126,15 +128,10 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize the necessary libraries
         init();
-
         // restore the values from saved instance state
         restoreValuesFromBundle(savedInstanceState);
 
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        //map.setBuiltInZoomControls(true);
-        map.setMultiTouchControls(true);
-        mapController = map.getController();
-        mapController.setZoom(5.0);
+        setupMap();
 
 
 
@@ -143,6 +140,38 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    private void setupMap(){
+
+
+        map.setTileSource(TileSourceFactory.MAPNIK);
+        //map.setBuiltInZoomControls(true);
+        map.setMultiTouchControls(true);
+        mapController = map.getController();
+        mapController.setZoom(5.0);
+
+
+        MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
+        map.getOverlays().add(oMapLocationOverlay);
+        oMapLocationOverlay.enableFollowLocation();
+        oMapLocationOverlay.enableMyLocation();
+        oMapLocationOverlay.enableFollowLocation();
+
+
+
+        // Compass
+        CompassOverlay compassOverlay = new CompassOverlay(this, map);
+        compassOverlay.enableCompass();
+        map.getOverlays().add(compassOverlay);
+
+
+
+
+    }
+
+
+
+
+
 
     private void init() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
