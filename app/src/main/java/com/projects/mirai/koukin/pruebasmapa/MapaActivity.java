@@ -18,6 +18,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +49,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -62,9 +64,9 @@ import butterknife.OnClick;
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MapaActivity extends AppCompatActivity {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MapaActivity.class.getSimpleName();
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -73,11 +75,11 @@ public class MainActivity extends AppCompatActivity {
     TextView txtUpdatedOn;
 
     @BindView(R.id.btn_start_location_updates)
-    Button btnStartUpdates;
-
+    ImageButton btnStartUpdates;
+    /*
     @BindView(R.id.btn_stop_location_updates)
     Button btnStopUpdates;
-
+    */
     @BindView(R.id.map)
     MapView map;
 
@@ -87,12 +89,12 @@ public class MainActivity extends AppCompatActivity {
     private String mLastUpdateTime;
 
     // location updates interval - 10sec
-    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
+    private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 15000;
 
     // fastest updates interval - 5 sec
     // location updates will be received if another app is requesting the locations
     // than your app can handle
-    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
+    private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = 15000;
 
     private static final int REQUEST_CHECK_SETTINGS = 100;
 
@@ -108,6 +110,7 @@ public class MainActivity extends AppCompatActivity {
     // boolean flag to toggle the ui
     private Boolean mRequestingLocationUpdates;
 
+    private boolean follow_on = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
         //see also StorageUtils
         //note, the load method also sets the HTTP User Agent to your application's package name, abusing osm's tile servers will get you banned based on this string
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_mapa);
         ButterKnife.bind(this);
 
         // initialize the necessary libraries
@@ -234,8 +237,16 @@ public class MainActivity extends AppCompatActivity {
                             "Lng: " + mCurrentLocation.getLongitude()
             );
             GeoPoint startPoint = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
+            Marker startMarker = new Marker(map);
+            startMarker.setPosition(startPoint);
+            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(startMarker);
+
+
+
             mapController.setCenter(startPoint);
-            mapController.setZoom(18.0);
+            //mapController.setZoom(18.0);
             // giving a blink animation on TextView
             txtLocationResult.setAlpha(0);
             txtLocationResult.animate().alpha(1).setDuration(300);
@@ -258,12 +269,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void toggleButtons() {
         if (mRequestingLocationUpdates) {
-            mapController.setZoom(18.0);
-            btnStartUpdates.setEnabled(false);
-            btnStopUpdates.setEnabled(true);
-        } else {
-            btnStartUpdates.setEnabled(true);
-            btnStopUpdates.setEnabled(false);
+            btnStartUpdates.setImageResource(R.drawable.pause);
         }
     }
 
@@ -302,7 +308,7 @@ public class MainActivity extends AppCompatActivity {
                                     // Show the dialog by calling startResolutionForResult(), and check the
                                     // result in onActivityResult().
                                     ResolvableApiException rae = (ResolvableApiException) e;
-                                    rae.startResolutionForResult(MainActivity.this, REQUEST_CHECK_SETTINGS);
+                                    rae.startResolutionForResult(MapaActivity.this, REQUEST_CHECK_SETTINGS);
                                 } catch (IntentSender.SendIntentException sie) {
                                     Log.i(TAG, "PendingIntent unable to execute request.");
                                 }
@@ -312,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
                                         "fixed here. Fix in Settings.";
                                 Log.e(TAG, errorMessage);
 
-                                Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+                                Toast.makeText(MapaActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
 
                         updateLocationUI();
@@ -323,36 +329,45 @@ public class MainActivity extends AppCompatActivity {
     @OnClick(R.id.btn_start_location_updates)
     public void startLocationButtonClick() {
         // Requesting ACCESS_FINE_LOCATION using Dexter library
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        mRequestingLocationUpdates = true;
-                        startLocationUpdates();
-                    }
-
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        if (response.isPermanentlyDenied()) {
-                            // open device settings when the permission is
-                            // denied permanently
-                            openSettings();
+        follow_on = !follow_on;
+        mapController.setZoom(18.0);
+        if(follow_on){
+            Dexter.withActivity(this)
+                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            mRequestingLocationUpdates = true;
+                            startLocationUpdates();
                         }
-                    }
 
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            if (response.isPermanentlyDenied()) {
+                                // open device settings when the permission is
+                                // denied permanently
+                                openSettings();
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).check();
+        }else{
+            mRequestingLocationUpdates = false;
+            stopLocationUpdates();
+            btnStartUpdates.setImageResource(R.drawable.playbutton);
+        }
+
     }
-
+    /*
     @OnClick(R.id.btn_stop_location_updates)
     public void stopLocationButtonClick() {
         mRequestingLocationUpdates = false;
         stopLocationUpdates();
-    }
+    }*/
 
     public void stopLocationUpdates() {
         // Removing location updates
@@ -367,6 +382,7 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /*
     @OnClick(R.id.btn_get_last_location)
     public void showLastKnownLocation() {
         if (mCurrentLocation != null) {
@@ -375,7 +391,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Last known location is not available!", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
