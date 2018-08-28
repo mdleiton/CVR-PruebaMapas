@@ -43,5 +43,9 @@ dependencies {
     //Geo Json Library
     implementation 'com.cocoahero.android:geojson:1.0.1@jar'
 
+    //OSMBonusPack
+    implementation 'com.github.MKergall:osmbonuspack:6.5.2'
+
+
 
 }
