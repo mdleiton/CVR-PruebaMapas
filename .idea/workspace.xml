@@ -6,7 +6,33 @@
     </shared>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5cb8fe2-adb4-437c-8244-39837a146fec" name="Default" comment="" />
+    <list default="true" id="b5cb8fe2-adb4-437c-8244-39837a146fec" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_cocoahero_android_geojson_1_0_1_jar.xml" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/resourceHashesCache.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/resourceHashesCache.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/jarAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/jarAnalysis.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_design_27_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_design_27_1_1.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_recyclerview_v7_27_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_recyclerview_v7_27_1_1.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_media_compat_27_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_media_compat_27_1_1.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_v4_27_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_transition_27_1_1.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_transition_27_1_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_android_support_support_v4_27_1_1.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java" afterPath="$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,55 +57,89 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MapaActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MapaActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4119">
-              <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            <state relative-caret-position="68">
+              <caret line="607" column="38" lean-forward="false" selection-start-line="607" selection-start-column="38" selection-end-line="607" selection-end-column="38" />
               <folding>
-                <element signature="e#14168#14503#0" expanded="true" />
-                <element signature="e#14502#14503#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#7233#7662#0" expanded="true" />
+                <element signature="e#7661#7662#0" expanded="true" />
+                <element signature="e#16161#19932#0" expanded="true" />
+                <element signature="e#16945#17650#0" expanded="true" />
+                <element signature="e#17649#17650#0" expanded="true" />
+                <element signature="e#17707#18004#0" expanded="true" />
+                <element signature="e#18003#18004#0" expanded="true" />
+                <element signature="e#18589#19288#0" expanded="true" />
+                <element signature="e#19287#19288#0" expanded="true" />
+                <element signature="e#19345#19642#0" expanded="true" />
+                <element signature="e#19641#19642#0" expanded="true" />
+                <element signature="e#19931#19932#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ExampleUnitTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="23" column="33" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="23" selection-end-column="33" />
+              <folding>
+                <element signature="e#742#743#0" expanded="true" />
+                <element signature="e#778#779#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider editor-type-id="android-manifest">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="150">
+              <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="16" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="activity_mapa.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
-          </provider>
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="356">
+            <state relative-caret-position="615">
               <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
               <folding />
             </state>
           </provider>
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
+          </provider>
         </entry>
       </file>
-      <file leaf-file-name="MenuPrincipalActivity.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MenuPrincipalActivity.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="17" column="48" lean-forward="true" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
-              <folding>
-                <element signature="e#835#1050#0" expanded="true" />
-                <element signature="e#1049#1050#0" expanded="true" />
-              </folding>
+              <caret line="17" column="48" lean-forward="false" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="activity_menu_principal.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml">
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
-          </provider>
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="478">
+            <state relative-caret-position="945">
               <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
               <folding />
             </state>
+          </provider>
+          <provider selected="true" editor-type-id="android-designer2">
+            <state />
           </provider>
         </entry>
       </file>
@@ -90,6 +150,11 @@
       <find>onclick</find>
       <find>18</find>
       <find>setZoom</find>
+      <find>start</find>
+      <find>startLocationButtonClick</find>
+      <find>on</find>
+      <find>click</find>
+      <find>Marker</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2117,6 +2182,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
       </list>
     </option>
@@ -2141,7 +2208,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane" />
       <pane id="AndroidView">
@@ -2165,25 +2231,19 @@
             <path>
               <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
+              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
+              <item name="pruebasmapa" type="cbb59c9e:AndroidPsiDirectoryNode" />
             </path>
             <path>
               <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
-            </path>
-            <path>
-              <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="values" type="ddeffd01:AndroidResFolderTypeNode" />
+              <item name="Gradle Scripts" type="ae0cef3a:AndroidBuildScriptsGroupNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2209,7 +2269,32 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android App.app">
+    <configuration name="ExampleUnitTest" type="AndroidJUnit" factoryName="Android JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.projects.mirai.koukin.pruebasmapa.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="app" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.projects.mirai.koukin.pruebasmapa" />
+      <option name="MAIN_CLASS_NAME" value="com.projects.mirai.koukin.pruebasmapa.ExampleUnitTest" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$/app" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
     <configuration default="true" type="AndroidJUnit" factoryName="Android JUnit">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -2344,6 +2429,15 @@
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
       <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
     </configuration>
+    <list size="2">
+      <item index="0" class="java.lang.String" itemvalue="Android App.app" />
+      <item index="1" class="java.lang.String" itemvalue="Android JUnit.ExampleUnitTest" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Android JUnit.ExampleUnitTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -2361,6 +2455,38 @@
     </task>
     <servers />
   </component>
+  <component name="TestHistory">
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 22m 12s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 22m 41s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 23m 05s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 23m 36s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 24m 17s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 24m 35s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 24m 47s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 25m 09s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 25m 17s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+    <history-entry file="ExampleUnitTest - 2018.08.28 at 09h 26m 48s.xml">
+      <configuration name="ExampleUnitTest" configurationId="AndroidJUnit" />
+    </history-entry>
+  </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <editor active="true" />
@@ -2372,7 +2498,6 @@
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -2380,21 +2505,22 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.49328858" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.27932286" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.4864865" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27932286" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24964234" sideWeight="0.5067114" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24964234" sideWeight="0.5135135" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297568" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -2407,11 +2533,74 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#7233#7662#0" expanded="true" />
+            <element signature="e#7661#7662#0" expanded="true" />
+            <element signature="e#16161#19932#0" expanded="true" />
+            <element signature="e#16945#17650#0" expanded="true" />
+            <element signature="e#17649#17650#0" expanded="true" />
+            <element signature="e#17707#18004#0" expanded="true" />
+            <element signature="e#18003#18004#0" expanded="true" />
+            <element signature="e#18589#19288#0" expanded="true" />
+            <element signature="e#19287#19288#0" expanded="true" />
+            <element signature="e#19345#19642#0" expanded="true" />
+            <element signature="e#19641#19642#0" expanded="true" />
+            <element signature="e#19931#19932#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="17" column="48" lean-forward="true" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14168#14503#0" expanded="true" />
-            <element signature="e#14502#14503#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7233#7662#0" expanded="true" />
+            <element signature="e#7661#7662#0" expanded="true" />
+            <element signature="e#16161#19932#0" expanded="true" />
+            <element signature="e#16945#17650#0" expanded="true" />
+            <element signature="e#17649#17650#0" expanded="true" />
+            <element signature="e#17707#18004#0" expanded="true" />
+            <element signature="e#18003#18004#0" expanded="true" />
+            <element signature="e#18589#19288#0" expanded="true" />
+            <element signature="e#19287#19288#0" expanded="true" />
+            <element signature="e#19345#19642#0" expanded="true" />
+            <element signature="e#19641#19642#0" expanded="true" />
+            <element signature="e#19931#19932#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2421,8 +2610,19 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#14168#14503#0" expanded="true" />
-            <element signature="e#14502#14503#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7233#7662#0" expanded="true" />
+            <element signature="e#7661#7662#0" expanded="true" />
+            <element signature="e#16161#19932#0" expanded="true" />
+            <element signature="e#16945#17650#0" expanded="true" />
+            <element signature="e#17649#17650#0" expanded="true" />
+            <element signature="e#17707#18004#0" expanded="true" />
+            <element signature="e#18003#18004#0" expanded="true" />
+            <element signature="e#18589#19288#0" expanded="true" />
+            <element signature="e#19287#19288#0" expanded="true" />
+            <element signature="e#19345#19642#0" expanded="true" />
+            <element signature="e#19641#19642#0" expanded="true" />
+            <element signature="e#19931#19932#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2432,20 +2632,77 @@
         <state relative-caret-position="1365">
           <caret line="147" column="40" lean-forward="false" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
           <folding>
-            <element signature="e#14168#14503#0" expanded="true" />
-            <element signature="e#14502#14503#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7233#7662#0" expanded="true" />
+            <element signature="e#7661#7662#0" expanded="true" />
+            <element signature="e#16161#19932#0" expanded="true" />
+            <element signature="e#16945#17650#0" expanded="true" />
+            <element signature="e#17649#17650#0" expanded="true" />
+            <element signature="e#17707#18004#0" expanded="true" />
+            <element signature="e#18003#18004#0" expanded="true" />
+            <element signature="e#18589#19288#0" expanded="true" />
+            <element signature="e#19287#19288#0" expanded="true" />
+            <element signature="e#19345#19642#0" expanded="true" />
+            <element signature="e#19641#19642#0" expanded="true" />
+            <element signature="e#19931#19932#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="945">
+          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="25" column="53" lean-forward="false" selection-start-line="25" selection-start-column="53" selection-end-line="25" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="17" column="48" lean-forward="false" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="615">
+          <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
@@ -2453,54 +2710,41 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="56" lean-forward="false" selection-start-line="18" selection-start-column="56" selection-end-line="18" selection-end-column="56" />
+        <state relative-caret-position="150">
+          <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="23" column="33" lean-forward="false" selection-start-line="21" selection-start-column="8" selection-end-line="23" selection-end-column="33" />
           <folding>
-            <element signature="e#667#685#0" expanded="false" />
+            <element signature="e#742#743#0" expanded="true" />
+            <element signature="e#778#779#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="356">
-          <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml">
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="478">
-          <caret line="63" column="0" lean-forward="false" selection-start-line="63" selection-start-column="0" selection-end-line="63" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4119">
-          <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="68">
+          <caret line="607" column="38" lean-forward="false" selection-start-line="607" selection-start-column="38" selection-end-line="607" selection-end-column="38" />
           <folding>
-            <element signature="e#14168#14503#0" expanded="true" />
-            <element signature="e#14502#14503#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="17" column="48" lean-forward="true" selection-start-line="17" selection-start-column="48" selection-end-line="17" selection-end-column="48" />
-          <folding>
-            <element signature="e#835#1050#0" expanded="true" />
-            <element signature="e#1049#1050#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#7233#7662#0" expanded="true" />
+            <element signature="e#7661#7662#0" expanded="true" />
+            <element signature="e#16161#19932#0" expanded="true" />
+            <element signature="e#16945#17650#0" expanded="true" />
+            <element signature="e#17649#17650#0" expanded="true" />
+            <element signature="e#17707#18004#0" expanded="true" />
+            <element signature="e#18003#18004#0" expanded="true" />
+            <element signature="e#18589#19288#0" expanded="true" />
+            <element signature="e#19287#19288#0" expanded="true" />
+            <element signature="e#19345#19642#0" expanded="true" />
+            <element signature="e#19641#19642#0" expanded="true" />
+            <element signature="e#19931#19932#0" expanded="true" />
           </folding>
         </state>
       </provider>

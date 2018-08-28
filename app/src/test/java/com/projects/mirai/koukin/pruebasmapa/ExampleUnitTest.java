@@ -2,6 +2,12 @@ package com.projects.mirai.koukin.pruebasmapa;
 
 import org.junit.Test;
 
+import java.sql.SQLOutput;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +19,12 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
+        DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        System.out.println(date);
+    }
+
+    public void main(String args[]){
+        addition_isCorrect();
     }
 }
