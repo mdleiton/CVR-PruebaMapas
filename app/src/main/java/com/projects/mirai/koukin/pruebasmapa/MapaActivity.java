@@ -55,9 +55,12 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
+
+import org.osmdroid.events.MapEventsReceiver;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
@@ -86,7 +89,7 @@ import java.util.List;
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
  */
 
-public class MapaActivity extends AppCompatActivity {
+public class MapaActivity extends AppCompatActivity implements MapEventsReceiver {
 
     private static final String TAG = MapaActivity.class.getSimpleName();
 
@@ -194,6 +197,9 @@ public class MapaActivity extends AppCompatActivity {
 
         MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
         map.getOverlays().add(oMapLocationOverlay);
+
+        MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
+        map.getOverlays().add(0, mapEventsOverlay);
 
         oMapLocationOverlay.enableFollowLocation();
         oMapLocationOverlay.enableMyLocation();
@@ -679,5 +685,22 @@ public class MapaActivity extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+    }
+
+    @Override
+    public boolean singleTapConfirmedHelper(GeoPoint p) {
+        return false;
+    }
+
+    @Override
+    public boolean longPressHelper(GeoPoint p) {
+        if(mode == 2){
+            Marker startMarker = new Marker(map);
+            startMarker.setPosition(p);
+            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            map.getOverlays().add(startMarker);
+            marcadores.add(startMarker);
+        }
+        return false;
     }
 }
