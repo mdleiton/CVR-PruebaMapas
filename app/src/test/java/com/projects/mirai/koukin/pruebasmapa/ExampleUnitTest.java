@@ -1,12 +1,16 @@
 package com.projects.mirai.koukin.pruebasmapa;
 
 import org.junit.Test;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.overlay.Polyline;
 
 import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import static org.junit.Assert.*;
 

@@ -29,6 +29,9 @@ import android.widget.Toast;
 
 import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.FeatureCollection;
+import com.cocoahero.android.geojson.GeoJSON;
+import com.cocoahero.android.geojson.GeoJSONObject;
+import com.cocoahero.android.geojson.LineString;
 import com.cocoahero.android.geojson.Point;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -52,6 +55,8 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
@@ -66,10 +71,13 @@ import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -137,7 +145,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     private static final int REQUEST_CHECK_SETTINGS = 100;
 
     ArrayList<Marker> marcadores;
-
+    ArrayList<Polyline> lineas;
 
     // bunch of location related apis
     private FusedLocationProviderClient mFusedLocationClient;
@@ -149,6 +157,10 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
     // boolean flag to toggle the ui
     private Boolean mRequestingLocationUpdates;
+
+
+    private Point lastKnowLocation;
+
     //Valida en que si es -1 no ha eligido ningun modulo.
     private int mode = -1;
     private int distancia = 10;
@@ -157,6 +169,18 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         marcadores = new ArrayList<>();
+        lineas = new ArrayList<>();
+
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            Uri selectedFile = (Uri) extras.get("selectedFile");
+            Toast.makeText(getApplicationContext(), selectedFile.getPath(), Toast.LENGTH_SHORT).show();
+            cargarArchivo(selectedFile);
+        }
+
+
+
 
 
         Context ctx = getApplicationContext();
@@ -193,7 +217,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         map.setMultiTouchControls(true);
         mapController = map.getController();
         mapController.setZoom(5.0);
-
 
         MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
         map.getOverlays().add(oMapLocationOverlay);
@@ -575,6 +598,12 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 Point point = new Point(punto.getLatitude(),punto.getLongitude());
                 features.addFeature(new Feature(point));
             }
+            for (Polyline linea :lineas){
+                LineString lineString = new LineString(new JSONArray());
+
+                features.addFeature(new Feature(lineString));
+            }
+
             try{
                 JSONObject geoJSON = features.toJSON();
                 verifyStoragePermissions(this);
@@ -628,8 +657,49 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         }
 
     }
+    private void cargarArchivo(Uri selectedFile){
+        String textJson = getStringFromFile(selectedFile);
+        GeoJSONObject geoJSON;
+        try{
+            geoJSON = GeoJSON.parse(textJson);
+        }catch(JSONException e){
+            Toast.makeText(getBaseContext(), "No se pudo Parsear el json", Toast.LENGTH_LONG).show();
+            System.out.println(e.toString());
+            geoJSON = null;
+        }
+        if(geoJSON != null){
+            Toast.makeText(getBaseContext(), geoJSON.getType(), Toast.LENGTH_LONG).show();
+        }
 
 
+    }
+    public String getStringFromFile(Uri selectedFile){
+        //File sdcard = Environment.getExternalStorageDirectory();
+
+        //Get the text file
+        //File file = new File(sdcard,"file.txt");
+        System.out.println("Path:"+selectedFile.getLastPathSegment().split(":")[1]);
+        File file = new File(selectedFile.getPath());
+        //Read text from file
+        StringBuilder text = new StringBuilder();
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                text.append(line);
+                System.out.println(line);
+                text.append('\n');
+            }
+            br.close();
+        }
+        catch (IOException e) {
+            //You'll need to add proper error handling here
+            System.out.println("Error Lectura:"+e.toString());
+        }
+        return text.toString();
+    }
 
 
     private void openSettings() {
@@ -698,9 +768,29 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             Marker startMarker = new Marker(map);
             startMarker.setPosition(p);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+            /*startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(final Marker marker, MapView mapView) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(MapaActivity.this);
+                    alert.setTitle("¿Desea eliminar el marcador?");
+                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            marcadores.remove(marker);
+                            map.getOverlays().remove(marker);
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+
+                        }
+                    });
+                    return false;
+                }
+            });*/
             map.getOverlays().add(startMarker);
             marcadores.add(startMarker);
         }
         return false;
     }
+
 }
