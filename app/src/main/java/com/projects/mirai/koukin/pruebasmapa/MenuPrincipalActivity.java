@@ -52,12 +52,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==123 && resultCode==RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
-            System.out.println(data.getData().getPath());
+            String path = FileUtils.getPath(this, selectedfile);
+            System.out.println("New Path:"+path);
 
-            if(selectedfile.getPath().endsWith(".json")){
-                Toast.makeText(getApplicationContext(), selectedfile.getPath(), Toast.LENGTH_SHORT).show();
+            if(path.endsWith(".json")){
                 Intent intent = new Intent(getBaseContext(), MapaActivity.class);
-                intent.putExtra("selectedFile", selectedfile);
+                intent.putExtra("selectedFile", path);
                 startActivity(intent);
             }else{
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);

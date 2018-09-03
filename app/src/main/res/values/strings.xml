@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PruebasMapa</string>
+    <string name="internal_storage">Internal storage</string>
 </resources>

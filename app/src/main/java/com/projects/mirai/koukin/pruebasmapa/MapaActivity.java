@@ -48,6 +48,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.JsonArray;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -172,12 +173,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         lineas = new ArrayList<>();
 
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            Uri selectedFile = (Uri) extras.get("selectedFile");
-            Toast.makeText(getApplicationContext(), selectedFile.getPath(), Toast.LENGTH_SHORT).show();
-            cargarArchivo(selectedFile);
-        }
+
 
 
 
@@ -201,13 +197,16 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
         setupMap();
 
-
-
-
-
-
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String selectedFile = extras.getString("selectedFile");
+            Toast.makeText(getApplicationContext(), selectedFile, Toast.LENGTH_SHORT).show();
+            cargarArchivo(selectedFile);
+        }
 
     }
+
+
     private void setupMap(){
 
 
@@ -228,6 +227,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         oMapLocationOverlay.enableMyLocation();
         oMapLocationOverlay.enableFollowLocation();
 
+        mapController.setZoom(15.0);
 
 
         // Compass
@@ -657,29 +657,48 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         }
 
     }
-    private void cargarArchivo(Uri selectedFile){
+    private void cargarArchivo(String selectedFile){
+
         String textJson = getStringFromFile(selectedFile);
         GeoJSONObject geoJSON;
         try{
             geoJSON = GeoJSON.parse(textJson);
+            JSONObject Json = geoJSON.toJSON();
+            System.out.println("Texto Leido:"+selectedFile);
+            System.out.println("Probando:"+Json.getJSONArray("features").get(0));
+            JSONArray features = Json.getJSONArray("features");
+            for(int i=0;i< features.length();i++){
+                JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
+                System.out.println("Elemento"+i+":"+elemento);
+
+                if(elemento.get("type").equals("Point")){
+                    JSONArray coordenadas = elemento.getJSONArray("coordinates");
+                    Marker startMarker = new Marker(map);
+                    //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
+                    startMarker.setPosition(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)));
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+                    marcadores.add(startMarker);
+                }
+
+            }
+            map.invalidate();
         }catch(JSONException e){
             Toast.makeText(getBaseContext(), "No se pudo Parsear el json", Toast.LENGTH_LONG).show();
             System.out.println(e.toString());
             geoJSON = null;
         }
-        if(geoJSON != null){
-            Toast.makeText(getBaseContext(), geoJSON.getType(), Toast.LENGTH_LONG).show();
-        }
+
 
 
     }
-    public String getStringFromFile(Uri selectedFile){
+    public String getStringFromFile(String selectedFile){
         //File sdcard = Environment.getExternalStorageDirectory();
 
         //Get the text file
         //File file = new File(sdcard,"file.txt");
-        System.out.println("Path:"+selectedFile.getLastPathSegment().split(":")[1]);
-        File file = new File(selectedFile.getPath());
+        System.out.println("Path:"+selectedFile);
+        File file = new File(selectedFile);
         //Read text from file
         StringBuilder text = new StringBuilder();
 
@@ -689,7 +708,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
             while ((line = br.readLine()) != null) {
                 text.append(line);
-                System.out.println(line);
                 text.append('\n');
             }
             br.close();
