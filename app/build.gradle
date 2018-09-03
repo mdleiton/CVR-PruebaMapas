@@ -47,5 +47,4 @@ dependencies {
     implementation 'com.github.MKergall:osmbonuspack:6.5.2'
 
 
-
 }

@@ -57,6 +57,28 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
             }
         });
+
+        btn_config.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent i = new Intent(MenuPrincipalActivity.this,ConfigActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btn_enviar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
+                alert.setTitle("Funcion en Desarrollo");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                alert.show();
+            }
+        });
     }
 
 
