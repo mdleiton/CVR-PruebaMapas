@@ -8,7 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
@@ -35,6 +36,18 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
 
         btn_coord.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent intent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
+            }
+        });
+
+
+        btn_recorridos.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
                 Intent intent = new Intent()

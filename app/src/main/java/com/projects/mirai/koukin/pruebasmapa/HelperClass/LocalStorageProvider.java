@@ -1,4 +1,4 @@
-package com.projects.mirai.koukin.pruebasmapa;
+package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 
 import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
@@ -15,6 +15,8 @@ import android.provider.DocumentsProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+
+import com.projects.mirai.koukin.pruebasmapa.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;

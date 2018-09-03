@@ -1,4 +1,4 @@
-package com.projects.mirai.koukin.pruebasmapa;
+package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
@@ -14,7 +14,6 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
-
 
 
 import java.io.File;

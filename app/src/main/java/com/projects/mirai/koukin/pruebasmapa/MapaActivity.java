@@ -21,7 +21,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.widget.Button;
+//import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,7 +48,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.gson.JsonArray;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -69,19 +68,15 @@ import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
-import org.osmdroid.views.overlay.compass.CompassOverlay;
+//import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,10 +102,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
     };
-
-
-
-
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -145,9 +136,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
     private static final int REQUEST_CHECK_SETTINGS = 100;
 
-    ArrayList<Marker> marcadores;
-    ArrayList<Polyline> lineas;
-
     // bunch of location related apis
     private FusedLocationProviderClient mFusedLocationClient;
     private SettingsClient mSettingsClient;
@@ -166,6 +154,11 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     private int mode = -1;
     private int distancia = 10;
     private boolean follow_on = false;
+
+    ArrayList<Marker> marcadores;
+    ArrayList<Polyline> lineas;
+
+    private String sesionID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -173,7 +166,9 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         lineas = new ArrayList<>();
 
 
-
+        DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
+        String date = df.format(Calendar.getInstance().getTime());
+        sesionID = "GeoJson"+date ;
 
 
 
@@ -198,9 +193,9 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         setupMap();
 
         Bundle extras = getIntent().getExtras();
+        //Si me envian un archivo a cargar , hago esto:
         if (extras != null) {
             String selectedFile = extras.getString("selectedFile");
-            Toast.makeText(getApplicationContext(), selectedFile, Toast.LENGTH_SHORT).show();
             cargarArchivo(selectedFile);
         }
 
@@ -373,7 +368,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                         Log.i(TAG, "All location settings are satisfied.");
 
-                        Toast.makeText(getApplicationContext(), "Started location updates!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación iniciadas!", Toast.LENGTH_SHORT).show();
 
                         //noinspection MissingPermission
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest,
@@ -547,7 +542,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 .addOnCompleteListener(this, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "Location updates stopped!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación detenidas!", Toast.LENGTH_SHORT).show();
                         toggleButtons();
                     }
                 });
@@ -598,22 +593,25 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 Point point = new Point(punto.getLatitude(),punto.getLongitude());
                 features.addFeature(new Feature(point));
             }
+            /*
             for (Polyline linea :lineas){
                 LineString lineString = new LineString(new JSONArray());
 
                 features.addFeature(new Feature(lineString));
-            }
+            }*/
 
             try{
                 JSONObject geoJSON = features.toJSON();
                 verifyStoragePermissions(this);
 
 
-                DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
-                String date = df.format(Calendar.getInstance().getTime());
-                String filename = "GeoJson"+date ;
+                String path;
+                if(sesionID.endsWith(".json")){
+                    path = Environment.getExternalStorageDirectory() + File.separator + sesionID;
+                }else{
+                    path = Environment.getExternalStorageDirectory() + File.separator + sesionID +".json";
+                }
 
-                String path = Environment.getExternalStorageDirectory() + File.separator +filename +".json";
                 //String path = "samplefile1.json";
 
                 System.out.println(path);
@@ -665,7 +663,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             geoJSON = GeoJSON.parse(textJson);
             JSONObject Json = geoJSON.toJSON();
             System.out.println("Texto Leido:"+selectedFile);
-            System.out.println("Probando:"+Json.getJSONArray("features").get(0));
+            System.out.println("Probando:"+Json.getJSONArray("features"));
             JSONArray features = Json.getJSONArray("features");
             for(int i=0;i< features.length();i++){
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
@@ -682,15 +680,29 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 }
 
             }
+            String elementos[] = selectedFile.split("/");
+            sesionID = elementos[elementos.length-1];
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Archivo "+sesionID+" Cargado.");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+
+
+
+
             map.invalidate();
         }catch(JSONException e){
             Toast.makeText(getBaseContext(), "No se pudo Parsear el json", Toast.LENGTH_LONG).show();
             System.out.println(e.toString());
-            geoJSON = null;
+        }catch(Exception ex){
+            Toast.makeText(getBaseContext(), "Existe un problema con su json", Toast.LENGTH_LONG).show();
+            System.out.println(ex.toString());
         }
-
-
-
     }
     public String getStringFromFile(String selectedFile){
         //File sdcard = Environment.getExternalStorageDirectory();
@@ -809,6 +821,31 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             marcadores.add(startMarker);
         }
         return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if(marcadores.size() >0){
+            AlertDialog.Builder alert = new AlertDialog.Builder(MapaActivity.this);
+            alert.setTitle("Seguro que desea Salir?");
+
+            alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    MapaActivity.super.onBackPressed();
+                }
+            });
+            alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    MapaActivity.super.onBackPressed();
+
+                }
+            });
+            alert.show();
+        }else{
+            super.onBackPressed();
+        }
+
     }
 
 }
