@@ -11,22 +11,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5cb8fe2-adb4-437c-8244-39837a146fec" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/circular_corner.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_config.xml" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
+      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-mdpi/ic_launcher.png" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xhdpi/ic_launcher.png" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" afterPath="$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -52,30 +57,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="MapaActivity.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MapaActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="848" column="5" lean-forward="false" selection-start-line="825" selection-start-column="4" selection-end-line="848" selection-end-column="5" />
+            <state relative-caret-position="433">
+              <caret line="551" column="0" lean-forward="false" selection-start-line="551" selection-start-column="0" selection-end-line="551" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#30815#30816#0" expanded="true" />
-                <element signature="e#30843#30844#0" expanded="true" />
-                <element signature="e#32527#32733#0" expanded="true" />
-                <element signature="e#32732#32733#0" expanded="true" />
-                <element signature="e#32778#32985#0" expanded="true" />
-                <element signature="e#32984#32985#0" expanded="true" />
+                <element signature="e#8532#8961#0" expanded="true" />
+                <element signature="e#8960#8961#0" expanded="true" />
+                <element signature="e#12910#13654#0" expanded="true" />
+                <element signature="e#13653#13654#0" expanded="true" />
+                <element signature="e#13700#15405#0" expanded="true" />
+                <element signature="e#15404#15405#0" expanded="true" />
+                <element signature="e#17475#21246#0" expanded="true" />
+                <element signature="e#18259#18964#0" expanded="true" />
+                <element signature="e#18963#18964#0" expanded="true" />
+                <element signature="e#19021#19318#0" expanded="true" />
+                <element signature="e#19317#19318#0" expanded="true" />
+                <element signature="e#19903#20602#0" expanded="true" />
+                <element signature="e#20601#20602#0" expanded="true" />
+                <element signature="e#20659#20956#0" expanded="true" />
+                <element signature="e#20955#20956#0" expanded="true" />
+                <element signature="e#21245#21246#0" expanded="true" />
+                <element signature="e#23651#24001#0" expanded="true" />
+                <element signature="e#24000#24001#0" expanded="true" />
+                <element signature="e#33063#33064#0" expanded="true" />
+                <element signature="e#33091#33092#0" expanded="true" />
+                <element signature="e#34775#34981#0" expanded="true" />
+                <element signature="e#34980#34981#0" expanded="true" />
+                <element signature="e#35026#35233#0" expanded="true" />
+                <element signature="e#35232#35233#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MenuPrincipalActivity.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="282">
-              <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -83,8 +96,8 @@
       <file leaf-file-name="activity_mapa.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
           <provider editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+            <state relative-caret-position="570">
+              <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
               <folding />
             </state>
           </provider>
@@ -93,18 +106,26 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ConfigActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java">
+      <file leaf-file-name="MenuPrincipalActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="207">
-              <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-              <folding>
-                <element signature="e#1607#2195#0" expanded="true" />
-                <element signature="e#2194#2195#0" expanded="true" />
-                <element signature="e#2236#2429#0" expanded="true" />
-                <element signature="e#2428#2429#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="1365">
+              <caret line="115" column="20" lean-forward="false" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="20" />
+              <folding />
             </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="23" column="28" lean-forward="false" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="android-manifest">
+            <state />
           </provider>
         </entry>
       </file>
@@ -144,7 +165,14 @@
       <find>Path</find>
       <find>Toast</find>
       <find>AlertDialog</find>
+      <find>downloadPrompt</find>
+      <find>downloadPromp</find>
     </findStrings>
+  </component>
+  <component name="GenerateSignedApkSettings">
+    <option name="KEY_STORE_PATH" value="$PROJECT_DIR$/SIgnature/key" />
+    <option name="KEY_ALIAS" value="key0" />
+    <option name="REMEMBER_PASSWORDS" value="true" />
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -2169,20 +2197,20 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MainActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/test/java/com/projects/mirai/koukin/pruebasmapa/ExampleUnitTest.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/FileUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/LocalStorageProvider.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/FileUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/LocalStorageProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/circular_corner.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_config.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
       </list>
     </option>
   </component>
@@ -2221,19 +2249,7 @@
             <path>
               <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
               <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="java" type="edd41e36:AndroidSourceTypeNode" />
-              <item name="pruebasmapa" type="cbb59c9e:AndroidPsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
               <item name="res" type="d4f16f75:AndroidResFolderNode" />
-            </path>
-            <path>
-              <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
-              <item name="app" type="feadf853:AndroidModuleNode" />
-              <item name="res" type="d4f16f75:AndroidResFolderNode" />
-              <item name="drawable" type="ddeffd01:AndroidResFolderTypeNode" />
             </path>
             <path>
               <item name="CVR-PruebaMapas" type="1abcf292:AndroidViewProjectNode" />
@@ -2258,6 +2274,11 @@
     <property name="device.picker.selection" value="HT5AVBE08401" />
     <property name="android.profiler.active" value="true" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
+    <property name="ExportApk.ApkPath" value="$PROJECT_DIR$/app" />
+    <property name="ExportApk.Flavors" value="" />
+    <property name="ExportApk.BuildType" value="release" />
+    <property name="ExportApk.SignV1" value="true" />
+    <property name="ExportApk.SignV2" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="android.template.packageName">
@@ -2508,7 +2529,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49713877" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -2525,7 +2545,7 @@
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23032904" sideWeight="0.48125756" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23032904" sideWeight="0.48125756" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27932286" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2556,12 +2576,30 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2626,12 +2664,30 @@
           <caret line="681" column="53" lean-forward="false" selection-start-line="681" selection-start-column="53" selection-end-line="681" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2650,12 +2706,30 @@
           <caret line="690" column="39" lean-forward="false" selection-start-line="690" selection-start-column="39" selection-end-line="690" selection-end-column="39" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2690,12 +2764,30 @@
           <caret line="2" column="7" lean-forward="false" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2736,12 +2828,30 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2752,12 +2862,30 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2768,12 +2896,30 @@
           <caret line="147" column="40" lean-forward="false" selection-start-line="147" selection-start-column="40" selection-end-line="147" selection-end-column="40" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2855,17 +3001,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="16" lean-forward="false" selection-start-line="10" selection-start-column="5" selection-end-line="10" selection-end-column="16" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-manifest">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="375">
@@ -2898,14 +3033,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="61" lean-forward="false" selection-start-line="2" selection-start-column="61" selection-end-line="2" selection-end-column="61" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/FileUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -2919,46 +3046,6 @@
         <state relative-caret-position="60">
           <caret line="25" column="13" lean-forward="false" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
-      <provider editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="41" column="47" lean-forward="false" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-      <provider selected="true" editor-type-id="android-designer2">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="848" column="5" lean-forward="false" selection-start-line="825" selection-start-column="4" selection-end-line="848" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#30815#30816#0" expanded="true" />
-            <element signature="e#30843#30844#0" expanded="true" />
-            <element signature="e#32527#32733#0" expanded="true" />
-            <element signature="e#32732#32733#0" expanded="true" />
-            <element signature="e#32778#32985#0" expanded="true" />
-            <element signature="e#32984#32985#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="207">
-          <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
-          <folding>
-            <element signature="e#1607#2195#0" expanded="true" />
-            <element signature="e#2194#2195#0" expanded="true" />
-            <element signature="e#2236#2429#0" expanded="true" />
-            <element signature="e#2428#2429#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -2981,11 +3068,114 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="36" column="33" lean-forward="false" selection-start-line="36" selection-start-column="33" selection-end-line="36" selection-end-column="33" />
+          <folding>
+            <element signature="e#1607#2195#0" expanded="false" />
+            <element signature="e#2194#2195#0" expanded="false" />
+            <element signature="e#2236#2429#0" expanded="false" />
+            <element signature="e#2428#2429#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/projects/mirai/koukin/pruebasmapa/MapaActivity_ViewBinding.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="127">
+          <caret line="70" column="0" lean-forward="false" selection-start-line="70" selection-start-column="0" selection-end-line="70" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="48" column="20" lean-forward="false" selection-start-line="48" selection-start-column="20" selection-end-line="48" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="282">
-          <caret line="75" column="0" lean-forward="false" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
+        <state relative-caret-position="1365">
+          <caret line="115" column="20" lean-forward="false" selection-start-line="115" selection-start-column="20" selection-end-line="115" selection-end-column="20" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/ic_launcher.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png">
+      <provider selected="true" editor-type-id="images">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="0" lean-forward="false" selection-start-line="4" selection-start-column="0" selection-end-line="4" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" column="28" lean-forward="false" selection-start-line="23" selection-start-column="28" selection-end-line="23" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="android-manifest">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="551" column="0" lean-forward="false" selection-start-line="551" selection-start-column="0" selection-end-line="551" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#8532#8961#0" expanded="true" />
+            <element signature="e#8960#8961#0" expanded="true" />
+            <element signature="e#12910#13654#0" expanded="true" />
+            <element signature="e#13653#13654#0" expanded="true" />
+            <element signature="e#13700#15405#0" expanded="true" />
+            <element signature="e#15404#15405#0" expanded="true" />
+            <element signature="e#17475#21246#0" expanded="true" />
+            <element signature="e#18259#18964#0" expanded="true" />
+            <element signature="e#18963#18964#0" expanded="true" />
+            <element signature="e#19021#19318#0" expanded="true" />
+            <element signature="e#19317#19318#0" expanded="true" />
+            <element signature="e#19903#20602#0" expanded="true" />
+            <element signature="e#20601#20602#0" expanded="true" />
+            <element signature="e#20659#20956#0" expanded="true" />
+            <element signature="e#20955#20956#0" expanded="true" />
+            <element signature="e#21245#21246#0" expanded="true" />
+            <element signature="e#23651#24001#0" expanded="true" />
+            <element signature="e#24000#24001#0" expanded="true" />
+            <element signature="e#33063#33064#0" expanded="true" />
+            <element signature="e#33091#33092#0" expanded="true" />
+            <element signature="e#34775#34981#0" expanded="true" />
+            <element signature="e#34980#34981#0" expanded="true" />
+            <element signature="e#35026#35233#0" expanded="true" />
+            <element signature="e#35232#35233#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

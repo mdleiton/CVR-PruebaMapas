@@ -13,7 +13,8 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    private ImageButton btn_mapa,btn_coord,btn_recorridos,btn_config,btn_enviar;
+    private ImageButton btn_mapa, btn_coord, btn_recorridos, btn_config, btn_enviar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,11 +26,10 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_enviar = findViewById(R.id.btn_enviar);
 
 
-
         btn_mapa.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent i = new Intent(MenuPrincipalActivity.this,MapaActivity.class);
+                Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
                 startActivity(i);
             }
         });
@@ -54,14 +54,14 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                         .setType("*/*")
                         .setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
             }
         });
 
         btn_config.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
-                Intent i = new Intent(MenuPrincipalActivity.this,ConfigActivity.class);
+                Intent i = new Intent(MenuPrincipalActivity.this, ConfigActivity.class);
                 startActivity(i);
             }
         });
@@ -85,16 +85,16 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==123 && resultCode==RESULT_OK) {
+        if (requestCode == 123 && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
             String path = FileUtils.getPath(this, selectedfile);
-            System.out.println("New Path:"+path);
+            System.out.println("New Path:" + path);
 
-            if(path.endsWith(".json")){
+            if (path.endsWith(".json")) {
                 Intent intent = new Intent(getBaseContext(), MapaActivity.class);
                 intent.putExtra("selectedFile", path);
                 startActivity(intent);
-            }else{
+            } else {
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 alert.setTitle("Debe elegir un archivo con extension .json");
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -104,6 +104,28 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 });
                 alert.show();
             }
+        } else if (requestCode == 1233 && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+            String path = FileUtils.getPath(this, selectedfile);
+            System.out.println("New Path:" + path);
+
+            if (path.endsWith("C.json")) {
+                Intent intent = new Intent(getBaseContext(), MapaActivity.class);
+                intent.putExtra("selectedFile", path);
+                startActivity(intent);
+            } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Debe elegir un archivo GeoJson");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                alert.show();
+
+            }
+
         }
+
     }
 }

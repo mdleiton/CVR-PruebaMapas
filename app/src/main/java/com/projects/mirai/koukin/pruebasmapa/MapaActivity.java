@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
 //import android.widget.Button;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -62,7 +63,10 @@ import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 
 import org.osmdroid.events.MapEventsReceiver;
+import org.osmdroid.tileprovider.cachemanager.CacheManager;
+import org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
@@ -158,6 +162,8 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     ArrayList<Marker> marcadores;
     ArrayList<Polyline> lineas;
 
+    SqliteArchiveTileWriter writer=null;
+    AlertDialog downloadPrompt=null;
     private String sesionID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -532,7 +538,56 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         stopLocationUpdates();
     }*/
 
+    @OnClick(R.id.btn_dowload)
+    public void downloadJobAlert() {
+        try{
+            String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "ProbandoDowload".toString();
+            writer=new SqliteArchiveTileWriter(outputName);
+            CacheManager mgr = new CacheManager(map, writer);
 
+            int zoommin = 10;
+            int zoommax = 15;
+            BoundingBox bb= map.getBoundingBox();
+            int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+            mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
+
+                @Override
+                public void onTaskComplete() {
+                    Toast.makeText(MapaActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
+                    if (writer!=null)
+                        writer.onDetach();
+                }
+
+                @Override
+                public void onTaskFailed(int errors) {
+                    Toast.makeText(MapaActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+                    if (writer!=null)
+                        writer.onDetach();
+                }
+
+                @Override
+                public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+                    //NOOP since we are using the build in UI
+                }
+
+                @Override
+                public void downloadStarted() {
+                    //NOOP since we are using the build in UI
+                }
+
+                @Override
+                public void setPossibleTilesInArea(int total) {
+                    //NOOP since we are using the build in UI
+                }
+            });
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), "¡Something Happen!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+    }
 
 
     public void stopLocationUpdates() {
