@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:digits="1234567890.-"
-                android:editable="false"
+                android:enabled="false"
                 android:inputType="number|numberDecimal|numberSigned" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:digits="1234567890.-"
-                android:editable="false"
+                android:enabled="false"
                 android:inputType="number|numberDecimal|numberSigned" />
 
             <TextView
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:digits="1234567890.-"
-                android:editable="false"
+                android:enabled="false"
                 android:inputType="number|numberDecimal|numberSigned" />
 
             <TextView
@@ -78,7 +78,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:digits="1234567890.-"
-                android:editable="false"
+                android:enabled="false"
                 android:inputType="number|numberDecimal|numberSigned" />
 
 
@@ -113,7 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
-                android:text="Estimacion de cuadrilla:"
+                android:text="Estimación de cuadrillas:"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
