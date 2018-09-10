@@ -1,19 +1,26 @@
 package com.projects.mirai.koukin.pruebasmapa;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
     private ImageButton btn_mapa, btn_coord, btn_recorridos, btn_config, btn_enviar;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +31,9 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_recorridos = findViewById(R.id.btn_recorridos);
         btn_config = findViewById(R.id.btn_config);
         btn_enviar = findViewById(R.id.btn_enviar);
+        Permissions.verifyStoragePermissions(this);
+        Permissions.verifyLocationPermission(this);
+
 
 
         btn_mapa.setOnClickListener(new View.OnClickListener() {
@@ -38,6 +48,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_coord.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent intent = new Intent()
                         .setType("*/*")
                         .setAction(Intent.ACTION_GET_CONTENT);
@@ -50,6 +61,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_recorridos.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent intent = new Intent()
                         .setType("*/*")
                         .setAction(Intent.ACTION_GET_CONTENT);
@@ -104,12 +116,12 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 });
                 alert.show();
             }
-        } else if (requestCode == 1233 && resultCode == RESULT_OK) {
+        } else if (requestCode == 1234 && resultCode == RESULT_OK) {
             Uri selectedfile = data.getData(); //The uri with the location of the file
             String path = FileUtils.getPath(this, selectedfile);
             System.out.println("New Path:" + path);
 
-            if (path.endsWith("C.json")) {
+            if (path.endsWith("C.json") || path.endsWith("P.json")) {
                 Intent intent = new Intent(getBaseContext(), MapaActivity.class);
                 intent.putExtra("selectedFile", path);
                 startActivity(intent);

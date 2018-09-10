@@ -55,6 +55,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -101,11 +102,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
     private static final String TAG = MapaActivity.class.getSimpleName();
 
-    private static final int REQUEST_EXTERNAL_STORAGE = 1;
-    private static String[] PERMISSIONS_STORAGE = {
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-    };
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -157,6 +153,10 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     //Valida en que si es -1 no ha eligido ningun modulo.
     private int mode = -1;
     private int distancia = 10;
+    private GeoPoint lastPoint = null;
+
+
+
     private boolean follow_on = false;
 
     ArrayList<Marker> marcadores;
@@ -168,6 +168,8 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Permissions.verifyLocationPermission(this);
+        Permissions.verifyStoragePermissions(this);
         marcadores = new ArrayList<>();
         lineas = new ArrayList<>();
 
@@ -329,7 +331,16 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
 
             }else if(mode==1){
-
+                if(marcadores.size()==0){
+                    GeoPoint startPoint = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                    Marker startMarker = new Marker(map);
+                    //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
+                    startMarker.setPosition(startPoint);
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(startMarker);
+                    marcadores.add(startMarker);
+                    mapController.setCenter(startPoint);
+                }
             }else if(mode ==2){
 
             }
@@ -523,7 +534,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
                 }else{
                     Toast.makeText(MapaActivity.this, "Manual ha sido elegido", Toast.LENGTH_LONG).show();
-                    mode =2;
+                    mode = 2;
                     startLocationButtonClick();
                 }
 
@@ -657,7 +668,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
             try{
                 JSONObject geoJSON = features.toJSON();
-                verifyStoragePermissions(this);
+                Permissions.verifyStoragePermissions(this);
 
 
                 String path;
@@ -826,19 +837,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             // pausing location updates
             stopLocationUpdates();
             guardarGeoPoints();
-        }
-    }
-    public static void verifyStoragePermissions(Activity activity) {
-        // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so prompt the user
-            ActivityCompat.requestPermissions(
-                    activity,
-                    PERMISSIONS_STORAGE,
-                    REQUEST_EXTERNAL_STORAGE
-            );
         }
     }
 
