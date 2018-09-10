@@ -32,6 +32,8 @@ public class Permissions {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
+
+
     }
     public static void verifyLocationPermission(Activity activity) {
         // Check if we have write permission
@@ -45,5 +47,6 @@ public class Permissions {
                     REQUEST_LOCATION
             );
         }
+
     }
 }

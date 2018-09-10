@@ -19,12 +19,16 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 //import android.widget.Button;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,7 +102,7 @@ import java.util.List;
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
  */
 
-public class MapaActivity extends AppCompatActivity implements MapEventsReceiver {
+public class MapaActivity extends AppCompatActivity implements MapEventsReceiver,SeekBar.OnSeekBarChangeListener, View.OnClickListener, TextWatcher {
 
     private static final String TAG = MapaActivity.class.getSimpleName();
 
@@ -165,6 +169,24 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     SqliteArchiveTileWriter writer=null;
     AlertDialog downloadPrompt=null;
     private String sesionID;
+
+
+
+
+
+
+    Button btnCache,executeJob;
+    SeekBar zoom_min;
+    SeekBar zoom_max;
+    EditText cache_north, cache_south, cache_east,cache_west, cache_output;
+    TextView cache_estimate;
+    CacheManager mgr=null;
+    AlertDialog alertDialog=null;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -549,56 +571,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         stopLocationUpdates();
     }*/
 
-    @OnClick(R.id.btn_dowload)
-    public void downloadJobAlert() {
-        try{
-            String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "ProbandoDowload".toString();
-            writer=new SqliteArchiveTileWriter(outputName);
-            CacheManager mgr = new CacheManager(map, writer);
 
-            int zoommin = 10;
-            int zoommax = 15;
-            BoundingBox bb= map.getBoundingBox();
-            int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-            mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
-
-                @Override
-                public void onTaskComplete() {
-                    Toast.makeText(MapaActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void onTaskFailed(int errors) {
-                    Toast.makeText(MapaActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void downloadStarted() {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void setPossibleTilesInArea(int total) {
-                    //NOOP since we are using the build in UI
-                }
-            });
-
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), "¡Something Happen!", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-    }
 
 
     public void stopLocationUpdates() {
@@ -900,5 +873,245 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         }
 
     }
+
+
+
+
+
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.executeJob:
+                updateEstimate(true);
+                break;
+
+        }
+    }
+
+
+
+
+    private void updateEstimate(boolean startJob) {
+        try {
+            if (cache_east != null &&
+                    cache_west != null &&
+                    cache_north != null &&
+                    cache_south != null &&
+                    zoom_max != null &&
+                    zoom_min != null &&
+                    cache_output!=null) {
+                double n = Double.parseDouble(cache_north.getText().toString());
+                double s = Double.parseDouble(cache_south.getText().toString());
+                double e = Double.parseDouble(cache_east.getText().toString());
+                double w = Double.parseDouble(cache_west.getText().toString());
+                if (startJob) {
+                    String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
+                    writer=new SqliteArchiveTileWriter(outputName);
+                    mgr = new CacheManager(map, writer);
+                } else {
+                    if (mgr==null)
+                        mgr = new CacheManager(map);
+                }
+                int zoommin = zoom_min.getProgress();
+                int zoommax = zoom_max.getProgress();
+                //nesw
+                BoundingBox bb= new BoundingBox(n, e, s, w);
+                int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+                cache_estimate.setText(tilecount + " Cuadrillas");
+                if (startJob)
+                {
+                    if ( downloadPrompt!=null) {
+                        downloadPrompt.dismiss();
+                        downloadPrompt=null;
+                    }
+
+                    //this triggers the download
+                    mgr.downloadAreaAsync(MapaActivity.this, bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
+                        @Override
+                        public void onTaskComplete() {
+                            Toast.makeText(MapaActivity.this, "Descarga Completa!", Toast.LENGTH_LONG).show();
+                            if (writer!=null)
+                                writer.onDetach();
+                        }
+
+                        @Override
+                        public void onTaskFailed(int errors) {
+                            Toast.makeText(MapaActivity.this, "Descarga completa con " + errors + " errores", Toast.LENGTH_LONG).show();
+                            if (writer!=null)
+                                writer.onDetach();
+                        }
+
+                        @Override
+                        public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+                            //NOOP since we are using the build in UI
+                        }
+
+                        @Override
+                        public void downloadStarted() {
+                            //NOOP since we are using the build in UI
+                        }
+
+                        @Override
+                        public void setPossibleTilesInArea(int total) {
+                            //NOOP since we are using the build in UI
+                        }
+                    });
+                }
+
+            }
+        }catch (Exception ex){
+            //TODO something better?
+            ex.printStackTrace();
+        }
+    }
+
+
+    @OnClick(R.id.btn_dowload)
+    public void downloadJobAlert() {
+        /*try{
+            AlertDialog.Builder builder = new AlertDialog.Builder(MapaActivity.this);
+
+            String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "ProbandoDowload".toString();
+            writer=new SqliteArchiveTileWriter(outputName);
+            CacheManager mgr = new CacheManager(map, writer);
+
+            int zoommin = 10;
+            int zoommax = 15;
+            BoundingBox bb= map.getBoundingBox();
+            int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
+            mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
+
+                @Override
+                public void onTaskComplete() {
+                    Toast.makeText(MapaActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
+                    if (writer!=null)
+                        writer.onDetach();
+                }
+
+                @Override
+                public void onTaskFailed(int errors) {
+                    Toast.makeText(MapaActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
+                    if (writer!=null)
+                        writer.onDetach();
+                }
+
+                @Override
+                public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
+                    //NOOP since we are using the build in UI
+                }
+
+                @Override
+                public void downloadStarted() {
+                    //NOOP since we are using the build in UI
+                }
+
+                @Override
+                public void setPossibleTilesInArea(int total) {
+                    //NOOP since we are using the build in UI
+                }
+            });
+
+            downloadPrompt=builder.create();
+            downloadPrompt.show();
+
+
+
+        }catch(Exception e){
+            Toast.makeText(getApplicationContext(), "¡Something Happen!", Toast.LENGTH_SHORT).show();
+        }*/
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(MapaActivity.this);
+
+        View view = View.inflate(MapaActivity.this, R.layout.sample_cachemgr_input, null);
+        view.findViewById(R.id.cache_archival_section).setVisibility(View.VISIBLE);
+
+        BoundingBox boundingBox = map.getBoundingBox();
+        zoom_max=(SeekBar) view.findViewById(R.id.slider_zoom_max);
+        zoom_max.setMax((int) map.getMaxZoomLevel());
+        zoom_max.setOnSeekBarChangeListener(MapaActivity.this);
+
+
+        zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
+        zoom_min.setMax((int) map.getMaxZoomLevel());
+        zoom_min.setProgress((int) map.getMinZoomLevel());
+        zoom_min.setOnSeekBarChangeListener(MapaActivity.this);
+        cache_east= (EditText) view.findViewById(R.id.cache_east);
+        cache_east.setText(boundingBox.getLonEast() +"");
+        cache_north= (EditText) view.findViewById(R.id.cache_north);
+        cache_north.setText(boundingBox.getLatNorth()  +"");
+        cache_south= (EditText) view.findViewById(R.id.cache_south);
+        cache_south.setText(boundingBox.getLatSouth()  +"");
+        cache_west= (EditText) view.findViewById(R.id.cache_west);
+        cache_west.setText(boundingBox.getLonWest()  +"");
+        cache_estimate = (TextView) view.findViewById(R.id.cache_estimate);
+        cache_output=(EditText) view.findViewById(R.id.cache_output);
+
+        //change listeners for both validation and to trigger the download estimation
+        cache_east.addTextChangedListener((TextWatcher) this);
+        cache_north.addTextChangedListener((TextWatcher) this);
+        cache_south.addTextChangedListener((TextWatcher) this);
+        cache_west.addTextChangedListener((TextWatcher) this);
+        executeJob= (Button) view.findViewById(R.id.executeJob);
+        executeJob.setOnClickListener(MapaActivity.this);
+        builder.setView(view);
+        builder.setCancelable(true);
+        builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                cache_east=null;
+                cache_south=null;
+                cache_estimate=null;
+                cache_north=null;
+                cache_west=null;
+                executeJob=null;
+                zoom_min=null;
+                zoom_max=null;
+                cache_output=null;
+            }
+        });
+        downloadPrompt=builder.create();
+        downloadPrompt.show();
+
+
+
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        updateEstimate(false);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+        updateEstimate(false);
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
+    }
+
+
+
+
+
 
 }

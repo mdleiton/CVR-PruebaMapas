@@ -39,6 +39,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_mapa.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
                 startActivity(i);
             }
@@ -53,7 +54,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                         .setType("*/*")
                         .setAction(Intent.ACTION_GET_CONTENT);
 
-                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archiv o"), 123);
             }
         });
 
