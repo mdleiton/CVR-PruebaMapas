@@ -36,7 +36,6 @@ import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.GeoJSON;
 import com.cocoahero.android.geojson.GeoJSONObject;
-import com.cocoahero.android.geojson.LineString;
 import com.cocoahero.android.geojson.Point;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -59,6 +58,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 import org.json.JSONArray;
@@ -156,7 +156,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
     //Valida en que si es -1 no ha eligido ningun modulo.
     private int mode = -1;
-    private int distancia = 10;
+    private double distancia = 10;
     private GeoPoint lastPoint = null;
 
 
@@ -226,7 +226,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         //Si me envian un archivo a cargar , hago esto:
         if (extras != null) {
             String selectedFile = extras.getString("selectedFile");
-            cargarArchivo(selectedFile);
+            loadFile(selectedFile);
         }
 
     }
@@ -344,7 +344,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     List <GeoPoint> geoPoints = new ArrayList<>();
                     geoPoints.add(marcadores.get(marcadores.size()-2).getPosition());
                     geoPoints.add(startPoint);
-                    Polyline line = new Polyline();   //see note below!
+                    Polyline line = new Polyline();
                     line.setPoints(geoPoints);
                     map.getOverlayManager().add(line);
 
@@ -362,6 +362,24 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     map.getOverlays().add(startMarker);
                     marcadores.add(startMarker);
                     mapController.setCenter(startPoint);
+                }else{
+                    GeoPoint startPoint = marcadores.get(marcadores.size()-1).getPosition();
+                    GeoPoint newPoint = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                    double distance = DistanceCalculator.calculateDistanceInMeters(startPoint,newPoint);
+                    if(distance >= distancia){
+                        Marker startMarker = new Marker(map);
+                        startMarker.setPosition(newPoint);
+                        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                        map.getOverlays().add(startMarker);
+                        marcadores.add(startMarker);
+                        mapController.setCenter(newPoint);
+                        List <GeoPoint> geoPoints = new ArrayList<>();
+                        geoPoints.add(startPoint);
+                        geoPoints.add(newPoint);
+                        Polyline line = new Polyline();
+                        line.setPoints(geoPoints);
+                        map.getOverlayManager().add(line);
+                    }
                 }
             }else if(mode ==2){
 
@@ -533,7 +551,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     alert.setView(input);
                     alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
-                            distancia = Integer.parseInt(input.getText().toString())*1000;
+                            distancia = Double.parseDouble(input.getText().toString());
                             UPDATE_INTERVAL_IN_MILLISECONDS=5000;
                             FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
                             mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
@@ -618,7 +636,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     }
 
     @OnClick(R.id.btn_save)
-    public void guardarGeoPoints(){
+    public void saveGeoPoints(){
         btn_save.animate().alpha(1).setDuration(300);
         if(marcadores.size() > 0){
             btn_save.setEnabled(false);
@@ -694,7 +712,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         }
 
     }
-    private void cargarArchivo(String selectedFile){
+    private void loadFile(String selectedFile){
 
         String textJson = getStringFromFile(selectedFile);
         GeoJSONObject geoJSON;
@@ -730,9 +748,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 }
             });
             alert.show();
-
-
-
 
             map.invalidate();
         }catch(JSONException e){
@@ -809,12 +824,13 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         if (mRequestingLocationUpdates) {
             // pausing location updates
             stopLocationUpdates();
-            guardarGeoPoints();
+            saveGeoPoints();
         }
     }
 
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
+        System.out.println(map.getZoomLevelDouble());
         return false;
     }
 
@@ -880,20 +896,18 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
 
 
-
+    //DESCARGA DE MAPA
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.executeJob:
                 updateEstimate(true);
+                System.out.println("Zoom Max solicitado: "+zoom_max.getProgress());
+                System.out.println("Zoom Min solicitado: "+zoom_min.getProgress());
                 break;
 
         }
     }
-
-
-
-
     private void updateEstimate(boolean startJob) {
         try {
             if (cache_east != null &&
@@ -963,7 +977,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
             }
         }catch (Exception ex){
-            //TODO something better?
             ex.printStackTrace();
         }
     }
@@ -978,8 +991,8 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             writer=new SqliteArchiveTileWriter(outputName);
             CacheManager mgr = new CacheManager(map, writer);
 
-            int zoommin = 10;
-            int zoommax = 15;
+            int zoommin = 15;
+            int zoommax = 20;
             BoundingBox bb= map.getBoundingBox();
             int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
             mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
@@ -1033,10 +1046,14 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         zoom_max.setMax((int) map.getMaxZoomLevel());
         zoom_max.setOnSeekBarChangeListener(MapaActivity.this);
 
+        zoom_max.setProgress(20);
 
         zoom_min=(SeekBar) view.findViewById(R.id.slider_zoom_min);
         zoom_min.setMax((int) map.getMaxZoomLevel());
         zoom_min.setProgress((int) map.getMinZoomLevel());
+
+        zoom_min.setProgress(15);
+
         zoom_min.setOnSeekBarChangeListener(MapaActivity.this);
         cache_east= (EditText) view.findViewById(R.id.cache_east);
         cache_east.setText(boundingBox.getLonEast() +"");

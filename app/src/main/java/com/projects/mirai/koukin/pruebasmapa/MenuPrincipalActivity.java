@@ -40,6 +40,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
                 startActivity(i);
             }
@@ -49,6 +50,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_coord.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent intent = new Intent()
                         .setType("*/*")
@@ -62,6 +64,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_recorridos.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent intent = new Intent()
                         .setType("*/*")
@@ -131,7 +134,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 alert.setTitle("Debe elegir un archivo GeoJson");
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-
                     }
                 });
                 alert.show();
