@@ -1,5 +1,8 @@
 package com.projects.mirai.koukin.pruebasmapa;
 
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.UTM2Deg;
+
 import org.junit.Test;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.overlay.Polyline;
@@ -28,7 +31,7 @@ public class ExampleUnitTest {
         assertEquals(4, 2 + 2);
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
-        System.out.println(date);
+        //System.out.println(date);
     }
     @Test
     public void calculateDistanceInMeters() {
@@ -48,11 +51,14 @@ public class ExampleUnitTest {
 
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        System.out.println((AVERAGE_RADIUS_OF_EARTH_MT * c));
+        //System.out.println((AVERAGE_RADIUS_OF_EARTH_MT * c));
     }
-
-    public void main(String args[]){
-        addition_isCorrect();
-        calculateDistanceInMeters();
+    @Test
+    public void main(){
+        Deg2UTM prueba = new Deg2UTM(-0.149334,-78.407120);
+        System.out.println(prueba);
+        UTM2Deg prueba1 = new UTM2Deg(prueba.toString());
+        System.out.println(prueba1);
+        System.out.println(prueba1.getGeoPoint());
     }
 }

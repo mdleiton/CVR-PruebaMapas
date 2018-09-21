@@ -33,7 +33,7 @@
             android:layout_margin="10dp"
             android:background="@null"
             android:padding="5dp"
-            app:srcCompat="@drawable/button_descargarMapa" />
+            app:srcCompat="@drawable/button_descargar_mapa" />
 
         <ImageButton
             android:id="@+id/btn_coord"
@@ -42,7 +42,7 @@
             android:layout_margin="10dp"
             android:background="@null"
             android:padding="5dp"
-            app:srcCompat="@drawable/button_cargarPuntos" />
+            app:srcCompat="@drawable/button_cargar_puntos" />
 
         <ImageButton
             android:id="@+id/btn_recorridos"
