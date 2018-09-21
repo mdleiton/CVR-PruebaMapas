@@ -1,24 +1,22 @@
 package com.projects.mirai.koukin.pruebasmapa;
 
-import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.MyHelperSql;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
-    private ImageButton btn_mapa, btn_coord, btn_recorridos, btn_config, btn_enviar;
+    private ImageButton btn_mapa, btn_cargar_puntos, btn_georeferenciar, btn_config, btn_enviar;
 
 
 
@@ -26,13 +24,19 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_principal);
-        btn_mapa = findViewById(R.id.btn_mapa);
-        btn_coord = findViewById(R.id.btn_coord);
-        btn_recorridos = findViewById(R.id.btn_recorridos);
-        btn_config = findViewById(R.id.btn_config);
-        btn_enviar = findViewById(R.id.btn_enviar);
+
+        MyHelperSql myHelperDB = new MyHelperSql(MenuPrincipalActivity.this,"MAPDB",null,1);
+        SQLiteDatabase mSqliteDB = myHelperDB.getWritableDatabase();
+        myHelperDB.loadMapsDb(mSqliteDB,this);
+
         Permissions.verifyStoragePermissions(this);
         Permissions.verifyLocationPermission(this);
+
+        btn_mapa = findViewById(R.id.btn_mapa);
+        btn_cargar_puntos = findViewById(R.id.btn_coord);
+        btn_georeferenciar = findViewById(R.id.btn_recorridos);
+        btn_config = findViewById(R.id.btn_config);
+        btn_enviar = findViewById(R.id.btn_enviar);
 
 
 
@@ -41,36 +45,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
+                Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
                 startActivity(i);
-            }
-        });
-
-
-        btn_coord.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
-                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent intent = new Intent()
-                        .setType("*/*")
-                        .setAction(Intent.ACTION_GET_CONTENT);
-
-                startActivityForResult(Intent.createChooser(intent, "Elige un Archiv o"), 123);
-            }
-        });
-
-
-        btn_recorridos.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
-                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent intent = new Intent()
-                        .setType("*/*")
-                        .setAction(Intent.ACTION_GET_CONTENT);
-
-                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
             }
         });
 
@@ -85,6 +61,11 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         btn_enviar.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
+                startActivity(i);
+
                 AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
                 alert.setTitle("Funcion en Desarrollo");
                 alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -95,6 +76,79 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 alert.show();
             }
         });
+
+
+
+        btn_cargar_puntos.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                Intent intent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
+            }
+        });
+
+
+        btn_georeferenciar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                Intent intent = new Intent()
+                        .setType("*/*")
+                        .setAction(Intent.ACTION_GET_CONTENT);
+
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
+            }
+        });
+
+
+        //DEPRECATED
+        /*
+        btn_mapa.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btn_config.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Intent i = new Intent(MenuPrincipalActivity.this, ConfigActivity.class);
+                startActivity(i);
+            }
+        });
+
+        btn_enviar.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
+                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
+                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
+                startActivity(i);
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
+                alert.setTitle("Funcion en Desarrollo");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                });
+                alert.show();
+        }
+    });*/
+
+
+
+
     }
 
 
