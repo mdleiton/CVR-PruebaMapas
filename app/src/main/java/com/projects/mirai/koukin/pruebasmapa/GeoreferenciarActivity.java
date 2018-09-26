@@ -16,18 +16,23 @@ import android.os.Environment;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +62,9 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 import org.json.JSONArray;
@@ -124,6 +131,18 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     @BindView(R.id.btn_save)
     ImageButton btn_save;
 
+    @BindView(R.id.btn_open)
+    ImageButton btn_open;
+
+    @BindView(R.id.btn_stop)
+    ImageButton btn_stop;
+
+    @BindView(R.id.btn_mark)
+    ImageButton btn_mark;
+
+    @BindView(R.id.btn_config)
+    ImageButton btn_config;
+
     IMapController mapController;
 
     // location last updated time
@@ -154,8 +173,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private Point lastKnowLocation;
 
     //Valida en que si es -1 no ha eligido ningun modulo.
-    private int mode = -1;
-    private double distancia = 10;
+    // mode = 0 significa tiempo
+    // mode = 1 significa distancia
+    private int mode = 1;
+    //Distancia que se debe dezplazar para hacer otro punto.
+    private double distancia = 1;
     private GeoPoint lastPoint = null;
 
 
@@ -241,10 +263,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
-
-
-
-
     private void init() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -301,9 +319,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      */
     private void updateLocationUI() {
         if (mCurrentLocation != null) {
+
+            Deg2UTM transform = new Deg2UTM(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
             txtLocationResult.setText(
-                    "Lat: " + mCurrentLocation.getLatitude() + ", " +
-                            "Lng: " + mCurrentLocation.getLongitude()
+                    "Ubicacion: " + transform.toString()
             );
             if(mode==0){
                 GeoPoint startPoint = new GeoPoint(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
@@ -356,8 +375,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                         map.getOverlayManager().add(line);
                     }
                 }
-            }else if(mode ==2){
-
             }
             //mapController.setZoom(18.0);
             // giving a blink animation on TextView
@@ -439,92 +456,196 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 });
     }
 
+
     @OnClick(R.id.btn_start_location_updates)
     public void startLocationButtonClick() {
         // Requesting ACCESS_FINE_LOCATION using Dexter library
-        if(mode != -1){
-            follow_on = !follow_on;
-            mapController.setZoom(18.0);
-            if(follow_on){
-                Dexter.withActivity(this)
-                        .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response) {
-                                mRequestingLocationUpdates = true;
-                                startLocationUpdates();
-                            }
 
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
-                                if (response.isPermanentlyDenied()) {
-                                    // open device settings when the permission is
-                                    // denied permanently
-                                    openSettings();
-                                }
-                            }
+        follow_on = !follow_on;
+        mapController.setZoom(18.0);
+        if(follow_on){
+            Dexter.withActivity(this)
+                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            mRequestingLocationUpdates = true;
+                            startLocationUpdates();
+                        }
 
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            if (response.isPermanentlyDenied()) {
+                                // open device settings when the permission is
+                                // denied permanently
+                                openSettings();
                             }
-                        }).check();
-            }else{
-                mRequestingLocationUpdates = false;
-                stopLocationUpdates();
-                btnStartUpdates.setImageResource(R.drawable.playbutton);
-            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).check();
         }else{
-            changeMode();
-
+            mRequestingLocationUpdates = false;
+            stopLocationUpdates();
+            btnStartUpdates.setImageResource(R.drawable.playbutton);
         }
 
 
     }
+
+
     @OnClick(R.id.btn_config)
     public void changeMode(){
-        String[] colors = {"Tiempo", "Distancia", "Manual"};
+        String[] modes = {"Tiempo", "Distancia"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Elija un tipo de Marcado.");
-        builder.setItems(colors, new DialogInterface.OnClickListener() {
+        builder.setItems(modes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, final int which) {
                 // the user clicked
                 if(which==0){
                     Toast.makeText(GeoreferenciarActivity.this, "Tiempo ha sido elegido", Toast.LENGTH_LONG).show();
                     AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
-                    alert.setTitle("Ingrese el tiempo en segundos:");
-                    final EditText input = new EditText(GeoreferenciarActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    //input.setRawInputType(Configuration.KEYBOARD_12KEY);
-                    alert.setView(input);
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            long segundos =Integer.parseInt(input.getText().toString())*1000;
-                            UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
-                            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
-                            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-                            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-                            mode=0;
-                            startLocationButtonClick();
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            //Put actions for CANCEL button here, or leave in blank
-                            mode = -1;
+                    alert.setTitle("Elija el tiempo a trabajar:");
+                    String[] tiempos = {"5 Segundos","15 Segundos","30 Segundos","1 Minuto"};
+                    alert.setItems(tiempos, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mode=which;
+                            updateMode(i);
                         }
                     });
                     alert.show();
+
+
+
                 }else if(which ==1){
 
                     Toast.makeText(GeoreferenciarActivity.this, "Distancia ha sido elegido", Toast.LENGTH_LONG).show();
                     AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
-                    alert.setTitle("Ingrese la distancia en metros:");
-                    final EditText input = new EditText(GeoreferenciarActivity.this);
-                    input.setInputType(InputType.TYPE_CLASS_NUMBER);
-                    alert.setView(input);
-                    alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    alert.setTitle("Elija la distancia a trabajar:");
+                    String[] distancias = {"1 Metro","2 Metros","5 Metros","10 Metros","15 Metros","30 Metros"};
+                    alert.setItems(distancias, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            mode=which;
+                            updateMode(i);
+                        }
+                    });
+                    alert.show();
+
+                }
+
+            }
+        });
+        builder.show();
+    }
+
+
+    public void stopLocationUpdates() {
+        // Removing location updates
+        mFusedLocationClient
+                .removeLocationUpdates(mLocationCallback)
+                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación detenidas!", Toast.LENGTH_SHORT).show();
+                        toggleButtons();
+                    }
+                });
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            // Check for the integer request code originally supplied to startResolutionForResult().
+            case REQUEST_CHECK_SETTINGS:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        Log.e(TAG, "User agreed to make required location settings changes.");
+                        // Nothing to do. startLocationupdates() gets called in onResume again.
+                        break;
+                    case Activity.RESULT_CANCELED:
+                        Log.e(TAG, "User chose not to make required location settings changes.");
+                        mRequestingLocationUpdates = false;
+                        break;
+                }
+                break;
+        }
+
+        if (requestCode == 1234 && resultCode == RESULT_OK) {
+            Uri selectedfile = data.getData(); //The uri with the location of the file
+            String path = FileUtils.getPath(this, selectedfile);
+            System.out.println("New Path:" + path);
+
+            if (path.endsWith(".json")) {
+                loadFile(path);
+                //Intent intent = new Intent(getBaseContext(), MapaActivity.class);
+                //intent.putExtra("selectedFile", path);
+                //startActivity(intent);
+            } else {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("Debe elegir un archivo GeoJson");
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alert.show();
+
+            }
+
+        }
+    }
+
+
+    public void updateMode( int valor){
+
+        follow_on=!follow_on;
+        if(mode==0){
+            int[] tiempos = {5,15,30,60};
+            int[] imagenesTiempo = {R.drawable.seg5,R.drawable.seg15,R.drawable.seg30,R.drawable.min1};
+            long segundos=tiempos[valor]*1000;
+            UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
+            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
+            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+            mode=0;
+            System.out.println(UPDATE_INTERVAL_IN_MILLISECONDS);
+            System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+            btn_config.animate().alpha(1).setDuration(600);
+            btn_config.setImageResource(imagenesTiempo[valor]);
+            startLocationButtonClick();
+
+
+        }else if(mode ==1){
+            int[] distancias = {1,2,5,10,15,30};
+            int[] imagenesDistancia = {R.drawable.mts1,R.drawable.mts2,R.drawable.mts5,R.drawable.mts10,R.drawable.mts15,R.drawable.mts30};
+
+            distancia = distancias[valor];
+            UPDATE_INTERVAL_IN_MILLISECONDS=5000;
+            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
+            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+            btn_config.animate().alpha(1).setDuration(600);
+            btn_config.setImageResource(imagenesDistancia[valor]);
+            startLocationButtonClick();
+            System.out.println(UPDATE_INTERVAL_IN_MILLISECONDS);
+            System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+
+        }
+
+
+
+
+
+
+
+        /*alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                             distancia = Double.parseDouble(input.getText().toString());
                             UPDATE_INTERVAL_IN_MILLISECONDS=5000;
@@ -542,53 +663,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                             mode = -1;
                         }
                     });
-                    alert.show();
+                    alert.show();*/
 
-
-
-
-                }else{
-                    Toast.makeText(GeoreferenciarActivity.this, "Manual ha sido elegido", Toast.LENGTH_LONG).show();
-                    mode = 2;
-                    startLocationButtonClick();
-                }
-
-            }
-        });
-        builder.show();
     }
 
-    public void stopLocationUpdates() {
-        // Removing location updates
-        mFusedLocationClient
-                .removeLocationUpdates(mLocationCallback)
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación detenidas!", Toast.LENGTH_SHORT).show();
-                        toggleButtons();
-                    }
-                });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            // Check for the integer request code originally supplied to startResolutionForResult().
-            case REQUEST_CHECK_SETTINGS:
-                switch (resultCode) {
-                    case Activity.RESULT_OK:
-                        Log.e(TAG, "User agreed to make required location settings changes.");
-                        // Nothing to do. startLocationupdates() gets called in onResume again.
-                        break;
-                    case Activity.RESULT_CANCELED:
-                        Log.e(TAG, "User chose not to make required location settings changes.");
-                        mRequestingLocationUpdates = false;
-                        break;
-                }
-                break;
-        }
-    }
 
     @OnClick(R.id.btn_save)
     public void saveGeoPoints(){
@@ -667,6 +745,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
 
     }
+
+
     private void loadFile(String selectedFile){
 
         String textJson = getStringFromFile(selectedFile);
@@ -713,6 +793,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             System.out.println(ex.toString());
         }
     }
+
+
     public String getStringFromFile(String selectedFile){
         //File sdcard = Environment.getExternalStorageDirectory();
 
@@ -752,6 +834,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         startActivity(intent);
     }
 
+
     @Override
     public void onResume() {
         super.onResume();
@@ -764,6 +847,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
         updateLocationUI();
     }
+
 
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
@@ -779,9 +863,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         if (mRequestingLocationUpdates) {
             // pausing location updates
             stopLocationUpdates();
-            saveGeoPoints();
+
         }
     }
+
 
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
@@ -789,10 +874,12 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         return false;
     }
 
+
     @Override
     public boolean longPressHelper(GeoPoint p) {
         return false;
     }
+
 
     @Override
     public void onBackPressed() {
@@ -819,4 +906,61 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     }
 
+
+    @OnClick(R.id.btn_open)
+    public void openFile(){
+        Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
+        Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
+
+        Intent intent = new Intent()
+                .setType("*/*")
+                .setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
+    }
+
+
+    @OnClick(R.id.btn_mark)
+    public void setMark(){
+        if(mRequestingLocationUpdates){
+            LinearLayout view = (LinearLayout) View.inflate(this,R.layout.spinner_list,null);
+
+            final Spinner staticSpinner = (Spinner) view.findViewById(R.id.spinner) ;
+            final EditText numeroProcedencia = (EditText) view.findViewById(R.id.input_numeroP);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Indique que encontro:");
+
+            //alert.setView(staticSpinner);
+            alert.setView(view);
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    System.out.println(staticSpinner.getSelectedItem().toString());
+
+                    GeoPoint punto = new GeoPoint(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+                    Marker marker = new Marker(map);
+                    marker.setPosition(punto);
+                    marker.setTitle(staticSpinner.getSelectedItem().toString());
+                    marker.setSubDescription(numeroProcedencia.getText().toString());
+                    marker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    marker.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.marker));
+                    map.getOverlays().add(marker);
+                    marcadores.add(marker);
+
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Put actions for CANCEL button here, or leave in blank
+
+                }
+            });
+            alert.show();
+
+
+
+
+
+        }
+
+    }
 }

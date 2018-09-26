@@ -708,7 +708,7 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
 
     public void saveMapInDb(){
         IGeoPoint centro = map.getMapCenter();
-        long id = myHelperDB.insertMapInDb(mSqliteDB,mapName.getText().toString(),centro.getLatitude(),centro.getLongitude());
+        long id = myHelperDB.insertMapInDb(mSqliteDB,mapName.getText().toString(),centro.getLatitude(),centro.getLongitude(),map.getZoomLevelDouble());
         Toast.makeText(Descargar_Mapa.this,String.valueOf(id),Toast.LENGTH_LONG).show();
     }
 }

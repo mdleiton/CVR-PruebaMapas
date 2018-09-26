@@ -24,7 +24,10 @@
             </intent-filter>
         </activity>
         <activity android:name=".ConfigActivity" />
-        <activity android:name=".Descargar_Mapa"></activity>
+        <activity android:name=".Descargar_Mapa" />
+        <activity android:name=".GeoreferenciarActivity" />
+        <activity android:name=".CargarPuntosActivity" />
+        <activity android:name=".SelectMapActivity"></activity>
     </application>
 
 </manifest>

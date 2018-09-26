@@ -22,6 +22,7 @@ public class MyHelperSql extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         sqLiteDatabase.execSQL("create table mapas(_id integer primary key, name text NOT NULL, latitud real NOT NULL, longitud real NOT NULL , zoomlvl real NOT NULL , date text NOT NULL)");
+        sqLiteDatabase.execSQL("create table emails(_id integer primary key,email text NOT NULL)");
     }
 
     @Override
@@ -30,7 +31,7 @@ public class MyHelperSql extends SQLiteOpenHelper {
     }
 
 
-    public long insertMapInDb(SQLiteDatabase mSqliteDB,String mapName,double latitude,double longitude){
+    public long insertMapInDb(SQLiteDatabase mSqliteDB,String mapName,double latitude,double longitude,double zoomlvl){
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
 
@@ -38,6 +39,7 @@ public class MyHelperSql extends SQLiteOpenHelper {
         cv.put("name",mapName);
         cv.put("latitud",latitude);
         cv.put("longitud",longitude);
+        cv.put("zoomlvl",zoomlvl);
         cv.put("date",date);
 
         long id = mSqliteDB.insert("mapas",null,cv);

@@ -27,7 +27,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         MyHelperSql myHelperDB = new MyHelperSql(MenuPrincipalActivity.this,"MAPDB",null,1);
         SQLiteDatabase mSqliteDB = myHelperDB.getWritableDatabase();
-        myHelperDB.loadMapsDb(mSqliteDB,this);
+        //myHelperDB.loadMapsDb(mSqliteDB,this);
 
         Permissions.verifyStoragePermissions(this);
         Permissions.verifyLocationPermission(this);
@@ -69,7 +69,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
+                Intent i = new Intent(MenuPrincipalActivity.this, SelectMapActivity.class);
                 startActivity(i);
             }
         });
@@ -88,8 +88,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
-                startActivity(i);
 
                 AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
                 alert.setTitle("Funcion en Desarrollo");

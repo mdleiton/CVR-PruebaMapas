@@ -1,5 +1,7 @@
 package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 
+import android.widget.Toast;
+
 public class SavedMap {
     private int id;
     private String name;
@@ -17,6 +19,20 @@ public class SavedMap {
         this.cLongitude = cLongitude;
         this.zoomlvl = zoomlvl;
         this.date = date;
+    }
+    public SavedMap(String textoParsear){
+        String[] elementos = textoParsear.split(",");
+        try{
+            this.id = Integer.parseInt(elementos[0]);
+            this.name = elementos[1];
+            this.cLatitude = Float.parseFloat(elementos[2]);
+            this.cLongitude = Float.parseFloat(elementos[3]);
+            this.zoomlvl = Float.parseFloat(elementos[4]);
+            this.date= elementos[5];
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public double getZoomlvl() {
