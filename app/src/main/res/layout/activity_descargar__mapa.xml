@@ -89,7 +89,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:padding="20dp"
-            android:text="Tamaño: ?? MB"
+
+            android:text=""
             android:textColor="#F0BC00"
             android:textSize="18dp" />
 

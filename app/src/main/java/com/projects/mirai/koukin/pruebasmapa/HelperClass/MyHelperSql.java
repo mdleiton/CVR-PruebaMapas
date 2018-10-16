@@ -65,6 +65,10 @@ public class MyHelperSql extends SQLiteOpenHelper {
         return mapas;
 
     }
+    public boolean deleteMap(SQLiteDatabase mSqliteDB,Context cont , int id){
+        return mSqliteDB.delete("mapas","_id ="+id,null)>0;
+
+    }
 
 
 }

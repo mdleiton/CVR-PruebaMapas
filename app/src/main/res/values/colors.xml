@@ -6,4 +6,12 @@
     <color name="colorBrownButtons">#a06b34</color>
     <color name="colorYellowTitles">#F0BC00</color>
     <color name="colorGreenBackground">#1d6706</color>
+
+
+
+    <!--Colores para recorridos-->
+    <color name="colorRed">#FF0000</color>
+    <color name="colorBlue">#0000FF</color>
+    <color name="colorGreen">#00FF00</color>
+    <color name="colorYellow">#FFFF00</color>
 </resources>

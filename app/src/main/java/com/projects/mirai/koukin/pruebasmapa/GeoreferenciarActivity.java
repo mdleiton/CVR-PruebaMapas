@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,7 +41,9 @@ import com.cocoahero.android.geojson.Feature;
 import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.GeoJSON;
 import com.cocoahero.android.geojson.GeoJSONObject;
+import com.cocoahero.android.geojson.LineString;
 import com.cocoahero.android.geojson.Point;
+import com.cocoahero.android.geojson.Position;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -66,6 +69,7 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.SavedMap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -189,6 +193,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
     private String sesionID;
+    private SavedMap mapaCargado;
+    private int numberOfFoadedFiles=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -223,6 +229,17 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         // restore the values from saved instance state
         restoreValuesFromBundle(savedInstanceState);
 
+        Bundle extras = getIntent().getExtras();
+        //Si me envian un archivo a cargar , hago esto:
+        if (extras != null) {
+            String maptoParse = extras.getString("selectedMap");
+            mapaCargado = new SavedMap(maptoParse);
+        }
+
+
+
+
+
         setupMap();
 
 
@@ -237,7 +254,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         mapController = map.getController();
-        mapController.setZoom(5.0);
 
         MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
         map.getOverlays().add(oMapLocationOverlay);
@@ -245,11 +261,24 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
         map.getOverlays().add(0, mapEventsOverlay);
 
-        oMapLocationOverlay.enableFollowLocation();
-        oMapLocationOverlay.enableMyLocation();
-        oMapLocationOverlay.enableFollowLocation();
 
-        mapController.setZoom(15.0);
+        if(mapaCargado!=null){
+            if(mapaCargado.getName().equals("Mapa General")){
+                mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
+                oMapLocationOverlay.enableFollowLocation();
+            }else{
+                mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
+            }
+            mapController.setZoom(mapaCargado.getZoomlvl());
+            oMapLocationOverlay.enableMyLocation();
+
+        }else{
+            oMapLocationOverlay.enableFollowLocation();
+            oMapLocationOverlay.enableMyLocation();
+            oMapLocationOverlay.enableFollowLocation();
+            mapController.setZoom(15.0);
+        }
+
 
 
         // Compass
@@ -340,6 +369,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     geoPoints.add(startPoint);
                     Polyline line = new Polyline();
                     line.setPoints(geoPoints);
+                    lineas.add(line);
                     map.getOverlayManager().add(line);
 
                 }
@@ -376,7 +406,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     }
                 }
             }
-            //mapController.setZoom(18.0);
             // giving a blink animation on TextView
             txtLocationResult.setAlpha(0);
             txtLocationResult.animate().alpha(1).setDuration(300);
@@ -681,15 +710,20 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             for (Marker marker:marcadores){
                 GeoPoint punto = marker.getPosition();
                 Point point = new Point(punto.getLatitude(),punto.getLongitude());
+
                 features.addFeature(new Feature(point));
             }
-            /*
+            LineString lineString = new LineString();
+            List<Position> posiciones = new ArrayList<>();
+            System.out.println("Numero de lineas:"+lineas.size());
             for (Polyline linea :lineas){
-                LineString lineString = new LineString(new JSONArray());
-
-                features.addFeature(new Feature(lineString));
-            }*/
-
+                GeoPoint p1 = linea.getPoints().get(0);
+                GeoPoint p2 = linea.getPoints().get(1);
+                posiciones.add(new Position(p1.getLatitude(),p1.getLongitude()));
+                posiciones.add(new Position(p2.getLatitude(),p2.getLongitude()));
+            }
+            lineString.setPositions(posiciones);
+            features.addFeature(new Feature(lineString));
             try{
                 JSONObject geoJSON = features.toJSON();
                 Permissions.verifyStoragePermissions(this);
@@ -699,7 +733,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 if(sesionID.endsWith(".json")){
                     path = Environment.getExternalStorageDirectory() + File.separator + sesionID;
                 }else{
-                    path = Environment.getExternalStorageDirectory() + File.separator + sesionID +".json";
+                    path = Environment.getExternalStorageDirectory() + File.separator + "Temp"+sesionID +".json";
                 }
 
                 //String path = "samplefile1.json";
@@ -746,6 +780,106 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     }
 
+    @OnClick(R.id.btn_stop)
+    public void stop(){
+        btn_stop.animate().alpha(1).setDuration(300);
+        if(marcadores.size() > 0){
+            btn_save.setEnabled(false);
+            btn_stop.setEnabled(false);
+
+
+            final EditText input = new EditText(GeoreferenciarActivity.this);
+            input.setText("Recorrido #1");
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Indique el nombre del Recorrido:");
+            alert.setView(input);
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    savetravel(input.getText().toString());
+                }
+            });
+            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+                    //Put actions for CANCEL button here, or leave in blank
+                    btn_save.setEnabled(true);
+                    btn_stop.setEnabled(true);
+                }
+            });
+            alert.show();
+
+        }else{
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("No tiene ningun punto que guardar.");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+        }
+
+
+    }
+
+    public void savetravel(String fileName){
+
+        // Create geometry
+
+        // Create feature with geometry
+        FeatureCollection features = new FeatureCollection();
+
+        for (Marker marker:marcadores){
+            GeoPoint punto = marker.getPosition();
+            Point point = new Point(punto.getLatitude(),punto.getLongitude());
+            features.addFeature(new Feature(point));
+        }
+
+        LineString lineString = new LineString();
+        for (Polyline linea :lineas){
+            GeoPoint p1 = linea.getPoints().get(0);
+            GeoPoint p2 = linea.getPoints().get(1);
+            lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude()));
+            lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude()));
+
+        }
+        features.addFeature(new Feature(lineString));
+        try{
+            JSONObject geoJSON = features.toJSON();
+            Permissions.verifyStoragePermissions(this);
+
+
+            String path = Environment.getExternalStorageDirectory() + File.separator + fileName +".json";
+
+
+            System.out.println(path);
+
+            File file = new File(path);
+            file.createNewFile();
+
+            if(file.exists()){
+                OutputStream fOut = new FileOutputStream(file);
+                //OutputStreamWriter osw = new OutputStreamWriter(fOut);
+                //osw.write(geoJSON.toString());
+                fOut.write(geoJSON.toString().getBytes());
+                System.out.println(geoJSON.toString());
+                //osw.flush();
+                //osw.close();
+                Toast.makeText(getApplicationContext(), "Puntos Guardados", Toast.LENGTH_LONG).show();
+            }else{
+                Toast.makeText(getApplicationContext(), "No se pudo crear el archivo", Toast.LENGTH_LONG).show();
+            }
+            Toast.makeText(getApplicationContext(), "Puntos Guardados", Toast.LENGTH_LONG).show();
+            Intent i = new Intent(GeoreferenciarActivity.this,MenuPrincipalActivity.class);
+            startActivity(i);
+            finish();
+        }catch(Exception e){
+            System.out.println(e);
+            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        btn_save.setEnabled(true);
+    }
+
+
 
     private void loadFile(String selectedFile){
 
@@ -769,12 +903,35 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     map.getOverlays().add(startMarker);
                     marcadores.add(startMarker);
+                }else if(elemento.get("type").equals("LineString")){
+                    JSONArray coordenadas = elemento.getJSONArray("coordinates");
+                    //int colors[] = {R.color.colorRed,R.color.colorBlue,R.color.colorGreen,R.color.colorYellow};
+                    int colors[] = {Color.RED,Color.BLUE,Color.GREEN,Color.YELLOW};
+                    for(int j = 0;j< coordenadas.length()-1;j++){
+                        Polyline linea = new Polyline();
+                        JSONArray punto1 = coordenadas.getJSONArray(j);
+                        JSONArray punto2 = coordenadas.getJSONArray(j+1);
+                        List <GeoPoint> geoPoints = new ArrayList<>();
+                        GeoPoint p1 = new GeoPoint(punto1.getDouble(1),punto1.getDouble(0));
+                        GeoPoint p2 = new GeoPoint(new GeoPoint(punto2.getDouble(1),punto2.getDouble(0)));
+                        geoPoints.add(p1);
+                        geoPoints.add(p2);
+                        linea.setPoints(geoPoints);
+                        if(numberOfFoadedFiles>0){
+                            linea.setColor(colors[numberOfFoadedFiles-1]);
+
+                        }
+
+                        lineas.add(linea);
+                        map.getOverlayManager().add(linea);
+
+                    }
                 }
 
             }
             String elementos[] = selectedFile.split("/");
             sesionID = elementos[elementos.length-1];
-
+            numberOfFoadedFiles+=1;
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("Archivo "+sesionID+" Cargado.");
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -887,15 +1044,17 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         if(marcadores.size() >0){
             AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
             alert.setTitle("Seguro que desea Salir?");
+            alert.setMessage("Recomiendo que presione stop para guardar el recorrido finalizado.");
 
             alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     GeoreferenciarActivity.super.onBackPressed();
+                    saveGeoPoints();
                 }
             });
             alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    GeoreferenciarActivity.super.onBackPressed();
+
 
                 }
             });
@@ -911,12 +1070,23 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     public void openFile(){
         Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
         Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
+        if(numberOfFoadedFiles<5){
+            Intent intent = new Intent()
+                    .setType("*/*")
+                    .setAction(Intent.ACTION_GET_CONTENT);
 
-        Intent intent = new Intent()
-                .setType("*/*")
-                .setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
+        }else{
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("No puede abrir mas archivos.");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
 
-        startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
+                }
+            });
+            alert.show();
+        }
+
     }
 
 
@@ -960,6 +1130,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
 
+        }else{
+            Toast.makeText(this,"Necesita estar en play.",Toast.LENGTH_LONG).show();
         }
 
     }

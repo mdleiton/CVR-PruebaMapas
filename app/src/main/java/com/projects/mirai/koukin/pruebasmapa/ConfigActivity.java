@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
@@ -14,6 +16,7 @@ public class ConfigActivity extends AppCompatActivity {
 
     EditText txt_email,txt_ftp;
     RadioButton rb_gps,rb_rtk;
+    Button guardar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,16 @@ public class ConfigActivity extends AppCompatActivity {
         txt_ftp = (EditText) findViewById(R.id.txt_ftp);
         rb_gps = (RadioButton) findViewById(R.id.rb_gps);
         rb_rtk = (RadioButton) findViewById(R.id.rb_rtk);
+
+        guardar = (Button) findViewById(R.id.button);
+
+        guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
 
 
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);

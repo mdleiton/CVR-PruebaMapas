@@ -89,14 +89,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
-                alert.setTitle("Funcion en Desarrollo");
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                });
-                alert.show();
+                Intent i = new Intent(MenuPrincipalActivity.this,SendMailActivity.class);
+                startActivity(i);
             }
         });
 

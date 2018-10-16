@@ -446,7 +446,8 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
                 double e = Double.parseDouble(cache_east.getText().toString());
                 double w = Double.parseDouble(cache_west.getText().toString());
                 if (startJob) {
-                    String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
+                    //String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
+                    String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + mapName.getText().toString();
                     writer=new SqliteArchiveTileWriter(outputName);
                     mgr = new CacheManager(map, writer);
                 } else {
@@ -462,7 +463,12 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
                 cache_estimate.setText(tilecount + " Cuadrillas");
 
                 double tamanio = (tilecount * 633)/1000;
-                tv_tamanioMB.setText(tamanio + " KB");
+                if(tamanio < 1000){
+                    tv_tamanioMB.setText(tamanio + " KB");
+                }else{
+                    tamanio = tamanio /1000;
+                    tv_tamanioMB.setText(tamanio + " MB");
+                }
 
 
                 if (startJob)
@@ -665,7 +671,13 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
             int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
             cache_estimate.setText(tilecount + " Cuadrillas");
             double tamanio = (tilecount * 633)/1000;
-            tv_tamanioMB.setText(tamanio + " KB");
+
+            if(tamanio < 1000){
+                tv_tamanioMB.setText(tamanio + " KB");
+            }else {
+                tamanio = tamanio / 1000;
+                tv_tamanioMB.setText(tamanio + " MB");
+            }
 
         }
 

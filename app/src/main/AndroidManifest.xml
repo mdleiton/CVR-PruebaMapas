@@ -27,7 +27,8 @@
         <activity android:name=".Descargar_Mapa" />
         <activity android:name=".GeoreferenciarActivity" />
         <activity android:name=".CargarPuntosActivity" />
-        <activity android:name=".SelectMapActivity"></activity>
+        <activity android:name=".SelectMapActivity" />
+        <activity android:name=".SendMailActivity"></activity>
     </application>
 
 </manifest>

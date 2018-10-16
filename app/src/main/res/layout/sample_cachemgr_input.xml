@@ -23,13 +23,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:text="Tamaño aproximado:"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/tv_tamanioMB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:visibility="gone"
                 android:layout_margin="1dp"
                 android:text="hola mundoo" />
 
@@ -142,13 +143,14 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="1dp"
                 android:text="Estimación de cuadrillas:"
+                android:visibility="gone"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/cache_estimate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
+                android:visibility="gone"
                 android:layout_margin="1dp"
                 android:text="hola mund" />
 
@@ -165,6 +167,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
                     android:text="Nombre del Archive:"
+                    android:visibility="gone"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <EditText
@@ -172,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="1dp"
-
+                    android:visibility="gone"
                     android:hint="archive.sqlite"
                     android:lines="1"
 

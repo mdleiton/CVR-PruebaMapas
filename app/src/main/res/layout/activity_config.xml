@@ -15,6 +15,7 @@
         android:layout_marginStart="49dp"
         android:layout_marginTop="39dp"
         android:text="Email:"
+        android:visibility="gone"
         android:textSize="20sp" />
 
     <TextView
@@ -25,6 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="56dp"
         android:layout_marginTop="168dp"
+        android:visibility="gone"
         android:text="Ftp:"
         android:textSize="22sp" />
 
@@ -37,6 +39,7 @@
         android:layout_marginTop="210dp"
         android:background="@drawable/circular_corner"
         android:ems="10"
+        android:visibility="gone"
         android:inputType="textEmailAddress|textEmailSubject"
         android:padding="8dp" />
 
@@ -47,17 +50,19 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="85dp"
+        android:visibility="gone"
         android:background="@drawable/circular_corner"
         android:ems="10"
         android:inputType="textEmailAddress|textEmailSubject"
         android:padding="8dp" />
 
     <RadioGroup
-        android:layout_width="280dp"
-        android:layout_height="200dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="67dp">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_vertical|center_horizontal"
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/textView4"
@@ -65,12 +70,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Seleccione el tipo de Geo-localizador a usar:"
-            android:textSize="14sp" />
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb_gps"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:text="GPS" />
 
@@ -78,8 +84,20 @@
             android:id="@+id/rb_rtk"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_weight="1"
             android:checked="true"
             android:text="RTK" />
     </RadioGroup>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="84dp"
+        android:padding="20dp"
+        android:text="Guardar"
+        android:textSize="20sp" />
 </RelativeLayout>
