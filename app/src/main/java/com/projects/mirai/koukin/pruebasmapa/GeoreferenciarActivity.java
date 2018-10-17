@@ -1013,6 +1013,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -1049,12 +1050,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     GeoreferenciarActivity.super.onBackPressed();
-                    saveGeoPoints();
                 }
             });
             alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-
 
                 }
             });

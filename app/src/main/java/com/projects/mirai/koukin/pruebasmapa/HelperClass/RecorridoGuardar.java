@@ -6,58 +6,58 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
 
-public class Recorrido {
+public class RecorridoGuardar {
 
-    private ArrayList<Marker> markers;
+    private ArrayList<GeoPoint> geoPoints;
     private ArrayList<Polyline> lines;
     private int lineColor;
     private int idNumber;
     private String sesionId;
 
-    public Recorrido(int lineColor, int idNumber, String sesionId) {
-        this.markers = new ArrayList<>();
+    public RecorridoGuardar(int lineColor, int idNumber, String sesionId) {
+        this.geoPoints = new ArrayList<>();
         this.lines = new ArrayList<>();
         this.lineColor = lineColor;
         this.idNumber = idNumber;
         this.sesionId = sesionId;
     }
 
-    public Recorrido(boolean bool) {
+    public RecorridoGuardar(boolean bool) {
         if(bool){
-            this.markers = new ArrayList<>();
+            this.geoPoints = new ArrayList<>();
             this.lines = new ArrayList<>();
         }
     }
 
-    public Recorrido(ArrayList<Marker> markers, ArrayList<Polyline> lines, int lineColor, int idNumber, String sesionId) {
-        this.markers = markers;
+    public RecorridoGuardar(ArrayList<GeoPoint> geoPoints, ArrayList<Polyline> lines, int lineColor, int idNumber, String sesionId) {
+        this.geoPoints = geoPoints;
         this.lines = lines;
         this.lineColor = lineColor;
         this.idNumber = idNumber;
         this.sesionId = sesionId;
     }
 
-    public void addPoint(Marker m){
+    public void addPoint(GeoPoint m){
         if(m!=null)
-            this.markers.add(m);
+            this.geoPoints.add(m);
     }
     public void addLine(Polyline l){
         if(l!=null)
             this.lines.add(l);
     }
-    public Marker getLastMarker(){
-        return this.markers.get(this.markers.size()-1);
+    public GeoPoint getLastMarker(){
+        return this.geoPoints.get(this.geoPoints.size()-1);
     }
 
     public GeoPoint getLastPoint(){
-        return this.markers.get(this.markers.size()-1).getPosition();
+        return this.geoPoints.get(this.geoPoints.size()-1);
     }
-    public ArrayList<Marker> getMarkers() {
-        return markers;
+    public ArrayList<GeoPoint> getGeoPoints() {
+        return geoPoints;
     }
 
-    public void setMarkers(ArrayList<Marker> markers) {
-        this.markers = markers;
+    public void setGeoPoints(ArrayList<GeoPoint> geoPoints) {
+        this.geoPoints = geoPoints;
     }
 
     public ArrayList<Polyline> getLines() {
