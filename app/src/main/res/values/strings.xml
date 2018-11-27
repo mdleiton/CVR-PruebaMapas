@@ -4,8 +4,8 @@
 
 
     <string-array name="brew_array">
-        <item>Tiesto Diagnostico</item>
         <item>Tiesto no Diagnostico</item>
+        <item>Tiesto Diagnostico</item>
         <item>Itica</item>
         <item>Hueso</item>
         <item>Hueso Animal</item>

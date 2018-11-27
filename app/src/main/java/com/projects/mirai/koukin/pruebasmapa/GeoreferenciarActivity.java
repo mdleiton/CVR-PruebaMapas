@@ -207,7 +207,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
-        sesionID = "GeoJson"+date ;
+        sesionID =date ;
 
 
 
@@ -402,6 +402,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                         geoPoints.add(newPoint);
                         Polyline line = new Polyline();
                         line.setPoints(geoPoints);
+                        lineas.add(line);
                         map.getOverlayManager().add(line);
                     }
                 }
@@ -730,11 +731,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
                 String path;
-                if(sesionID.endsWith(".json")){
-                    path = Environment.getExternalStorageDirectory() + File.separator + sesionID;
-                }else{
-                    path = Environment.getExternalStorageDirectory() + File.separator + "Temp"+sesionID +".json";
-                }
+
+                path = Environment.getExternalStorageDirectory() + File.separator +"MapasArq"+File.separator + "Temp"+File.separator+sesionID +".json";
+
 
                 //String path = "samplefile1.json";
 
@@ -795,7 +794,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.setView(input);
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    savetravel(input.getText().toString());
+                    savetravel(input.getText().toString()+"|"+sesionID);
                 }
             });
             alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -823,6 +822,25 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     public void savetravel(String fileName){
 
+
+        String path = Environment.getExternalStorageDirectory() + File.separator + "MapasArq" + File.separator + fileName +".json";
+
+
+        System.out.println(path);
+
+        File file = new File(path);
+        if(file.exists()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Ese nombre de Archivo Ya existe");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+            return;
+        }
+
         // Create geometry
 
         // Create feature with geometry
@@ -848,12 +866,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             Permissions.verifyStoragePermissions(this);
 
 
-            String path = Environment.getExternalStorageDirectory() + File.separator + fileName +".json";
 
-
-            System.out.println(path);
-
-            File file = new File(path);
             file.createNewFile();
 
             if(file.exists()){
@@ -930,10 +943,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             }
             String elementos[] = selectedFile.split("/");
-            sesionID = elementos[elementos.length-1];
+            String fileName = elementos[elementos.length-1];
             numberOfFoadedFiles+=1;
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Archivo "+sesionID+" Cargado.");
+            alert.setTitle("Archivo "+fileName+" Cargado.");
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 

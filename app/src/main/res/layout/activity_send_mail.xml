@@ -43,7 +43,8 @@
             android:layout_weight="1"
             android:background="@drawable/circular_corner_chopped"
             android:hint="email"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:text="lbasante@espol.edu.ec" />
     </LinearLayout>
 
     <Button

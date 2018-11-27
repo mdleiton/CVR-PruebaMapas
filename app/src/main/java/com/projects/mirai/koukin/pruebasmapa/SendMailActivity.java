@@ -15,8 +15,15 @@ import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.Toast;
 
+import com.cocoahero.android.geojson.Feature;
+import com.cocoahero.android.geojson.FeatureCollection;
 import com.cocoahero.android.geojson.GeoJSON;
 import com.cocoahero.android.geojson.GeoJSONObject;
+import com.cocoahero.android.geojson.LineString;
+import com.cocoahero.android.geojson.Point;
+import com.cocoahero.android.geojson.Position;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Constants;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.RecorridoGuardar;
 
 import org.json.JSONArray;
@@ -28,8 +35,10 @@ import org.osmdroid.views.overlay.Polyline;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,11 +51,16 @@ public class SendMailActivity extends AppCompatActivity {
     CalendarView calendarView;
     private int daySelected,monthSelected,yearSelected;
     SimpleDateFormat dayFormat,monthFormat,yearFormat;
+    ArrayList <RecorridoGuardar> recorridos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_mail);
+        recorridos = new ArrayList<>();
+
+
+
         btn_enviar = (Button) findViewById(R.id.btn_enviar);
         email_auto = (AutoCompleteTextView) findViewById(R.id.email_auto);
         calendarView = (CalendarView) findViewById(R.id.calendarView);
@@ -70,7 +84,6 @@ public class SendMailActivity extends AppCompatActivity {
                 daySelected=dayOfMonth;
                 yearSelected=year;
                 monthSelected=month+1;
-                Toast.makeText(SendMailActivity.this,daySelected+"/"+monthSelected+"/"+yearSelected,Toast.LENGTH_LONG).show();
             }
         });
 
@@ -78,30 +91,29 @@ public class SendMailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validateFields()){
-                    String filename="Jornada_"+daySelected+"/"+monthSelected+"/"+yearSelected+".json";
-                    generateFile(filename);
+                    String filename="Jornada_"+daySelected+"-"+monthSelected+"-"+yearSelected+".json";
 
 
+                    if(generateFile(filename)){
+
+                        File filelocation = new File(Constants.pathJornadas, filename);
+                        Uri path = Uri.fromFile(filelocation);
+
+                        recorridos.clear();
+                        Intent intent = new Intent(Intent.ACTION_SEND);
+
+                        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email_auto.getText().toString()});
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Jordada del :"+daySelected+"-"+monthSelected+"-"+yearSelected);
+                        intent.putExtra(Intent.EXTRA_TEXT, "Aqui va el archivo de la jornada adjunto. Saludos Cordiales.");
+
+                        intent.putExtra(Intent.EXTRA_STREAM, path);
+
+                        intent.setType("message/rfc822");
+
+                        startActivity(Intent.createChooser(intent, "Elija aplicación para enviar mail :"));
+                    }
 
 
-
-
-
-                    File filelocation = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), filename);
-                    Uri path = Uri.fromFile(filelocation);
-
-
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-
-                    intent.putExtra(Intent.EXTRA_EMAIL, new String[]{email_auto.getText().toString()});
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Jordada del :"+daySelected+"/"+monthSelected+"/"+yearSelected);
-                    intent.putExtra(Intent.EXTRA_TEXT, "Aqui va el archivo de la jornada adjunto. Saludos Cordiales.");
-
-                    intent.putExtra(Intent.EXTRA_STREAM, path);
-
-                    intent.setType("message/rfc822");
-
-                    startActivity(Intent.createChooser(intent, "Elija aplicación para enviar mail :"));
                 }
 
 
@@ -131,20 +143,22 @@ public class SendMailActivity extends AppCompatActivity {
     }
 
 
-    public void generateFile(String filename){
-        String path = Environment.getExternalStorageDirectory().toString();
+    public boolean generateFile(String filename){
+        String path = Constants.pathMapaArq;
         Log.d("Files", "Path: " + path);
         File directory = new File(path);
         File[] files = directory.listFiles();
         Log.d("Files", "Size: "+ files.length);
         File archivo;
-        ArrayList <RecorridoGuardar> recorridos = new ArrayList<>();
+
         for (int i = 0; i < files.length; i++)
         {
             archivo = files[i];
-            if(archivo.isFile() && archivo.getName().endsWith(".json") && !archivo.getName().startsWith("Temp")){
+            if(archivo.isFile() && archivo.getName().endsWith(".json")){
                 Log.d("Files", "FileName:" + archivo.getName());
-                if(checkDate(archivo.lastModified())){
+                String[] elementos= archivo.getName().split("\\|");
+                Log.d("generateFile","Elemento[1]:"+elementos[1]);
+                if(checkDate(elementos[1])){
                     RecorridoGuardar rec = loadFileToRec(archivo);
                     recorridos.add(rec);
 
@@ -154,22 +168,125 @@ public class SendMailActivity extends AppCompatActivity {
             }
 
         }
+        if(recorridos.size()>0){
+            return saveJourney(filename);
+        }
+        android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
+        alert.setTitle("No se encontraron archivos para ese dia.");
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+            }
+        });
+        alert.show();
+        return false;
+
 
     }
-    public boolean checkDate(long lastModified){
-        Date fechaModificacion = new Date(lastModified);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
-        Date strDate;
+    public boolean saveJourney(String fileName){
+
+
+        String path = Constants.pathJornadas + fileName;
+
+
+        Log.d("saveJourney", "Size: "+ path);
+
+        File file = new File(path);
+        if(file.exists()){
+            android.app.AlertDialog.Builder alert = new android.app.AlertDialog.Builder(this);
+            alert.setTitle("Esa jornada ya fue generada");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+        }
+
+        // Create geometry
+
+        // Create feature with geometry
+        FeatureCollection features = new FeatureCollection();
+
+        for (RecorridoGuardar rec: recorridos){
+            for (GeoPoint geo:rec.getGeoPoints()){
+                Point point = new Point(geo.getLatitude(),geo.getLongitude());
+                features.addFeature(new Feature(point));
+            }
+
+        }
+        for (RecorridoGuardar rec: recorridos){
+            LineString lineString = new LineString();
+            for (Polyline linea :rec.getLines()){
+                GeoPoint p1 = linea.getPoints().get(0);
+                GeoPoint p2 = linea.getPoints().get(1);
+                lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude()));
+                lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude()));
+            }
+            features.addFeature(new Feature(lineString));
+
+        }
+
         try{
-            strDate = sdf.parse(daySelected+"/"+monthSelected+"/"+yearSelected);
+            JSONObject geoJSON = features.toJSON();
+            Permissions.verifyStoragePermissions(this);
+
+
+
+            boolean created = file.createNewFile();
+            Log.d("saveJourney", "Se Creo: "+ created);
+            if(file.exists()){
+                OutputStream fOut = new FileOutputStream(file);
+                //OutputStreamWriter osw = new OutputStreamWriter(fOut);
+                //osw.write(geoJSON.toString());
+                fOut.write(geoJSON.toString().getBytes());
+                System.out.println(geoJSON.toString());
+                //osw.flush();
+                //osw.close();
+                Toast.makeText(getApplicationContext(), "Jornada generada", Toast.LENGTH_LONG).show();
+                return true;
+            }else{
+                Toast.makeText(getApplicationContext(), "No se pudo crear la jornada", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }catch(Exception e){
+            System.out.println(e);
+            Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+        return false;
+    }
+
+
+
+
+
+
+    public boolean checkDate(String lastModified){
+        Date fechaModificacion = new Date(lastModified);
+
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy");
+        SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MMM-yy");
+        Date strDate;
+        Date fechaM;
+        try{
+            Log.d("checkDate","FechaCalendario:"+daySelected+"-"+monthSelected+"-"+yearSelected);
+            strDate = sdf.parse(daySelected+"-"+monthSelected+"-"+yearSelected);
+            fechaM = sdf1.parse(lastModified);
+            Log.d("checkDate","FechaModified:"+fechaModificacion.getDay()+"/"+fechaModificacion.getMonth()+"/"+fechaModificacion.getYear());
+
+            Log.d("checkDate","fechaM:"+fechaM);
+            Log.d("checkDate","strDate:"+strDate);
+
         }catch(Exception e){
             return false;
         }
 
         Calendar c = Calendar.getInstance();
-        c.setTime(strDate); // Now use map date.
+        c.setTime(strDate);
         Calendar c1 = Calendar.getInstance();
-        c1.setTime(fechaModificacion);
+        c1.setTime(fechaM);
+        Log.d("checkDate","tiempos:"+c.getTimeInMillis()+"-"+c1.getTimeInMillis());
         if(c.getTimeInMillis()==c1.getTimeInMillis()){
             return true;
         }

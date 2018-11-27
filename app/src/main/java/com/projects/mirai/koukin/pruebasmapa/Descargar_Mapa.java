@@ -412,7 +412,11 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
         GeoPoint p1 = new GeoPoint(north,west);
         GeoPoint p2= new GeoPoint(north,east);
         double ancho = DistanceCalculator.calculateDistanceInKM(p1,p2);
-        tv_ancho.setText(df.format(ancho)+" KM");
+        if(ancho > 1.0d){
+            tv_ancho.setText(df.format(ancho)+" KM");
+
+        }else
+            tv_ancho.setText(df.format(ancho*1000)+" MT");
 
 
 
@@ -423,7 +427,10 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
         GeoPoint p3 = new GeoPoint(north,west);
         GeoPoint p4 = new GeoPoint(south,west);
         double alto = DistanceCalculator.calculateDistanceInKM(p3,p4);
-        tv_alto.setText(df.format(alto)+" KM");
+        if(alto >1.0d)
+            tv_alto.setText(df.format(alto)+" KM");
+        else
+            tv_alto.setText(df.format(alto*1000)+" MT");
     }
 
 
