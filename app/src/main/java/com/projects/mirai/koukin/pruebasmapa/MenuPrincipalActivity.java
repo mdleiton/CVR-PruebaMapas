@@ -161,6 +161,9 @@ public class MenuPrincipalActivity extends AppCompatActivity {
             System.out.println(f.mkdirs());
             File f1 = new File(path+File.separator+"Temp"+File.separator);
             f1.mkdirs();
+            File f2 = new File(path+File.separator+"Jornadas"+File.separator);
+            f2.mkdirs();
+
             Toast.makeText(this,"Dependencias Creadas",Toast.LENGTH_SHORT).show();
         }
 
