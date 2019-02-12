@@ -101,7 +101,8 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
 
-                Intent i = new Intent(MenuPrincipalActivity.this,SendMailActivity.class);
+                //Intent i = new Intent(MenuPrincipalActivity.this,SendMailActivity.class);
+                Intent i = new Intent(MenuPrincipalActivity.this,SendMail2Activity.class);
                 startActivity(i);
             }
         });
