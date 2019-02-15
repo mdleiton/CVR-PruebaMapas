@@ -30,7 +30,8 @@
         <activity android:name=".SelectMapActivity" />
         <activity android:name=".SendMailActivity" />
         <activity android:name=".SendMail2Activity" />
-        <activity android:name=".SelectMailActivity"></activity>
+        <activity android:name=".SelectMailActivity" />
+        <activity android:name=".OpenFileActivity"></activity>
     </application>
 
 </manifest>

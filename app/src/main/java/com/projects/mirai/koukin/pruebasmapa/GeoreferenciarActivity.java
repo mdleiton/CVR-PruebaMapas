@@ -629,6 +629,13 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             }
 
+        }else if (requestCode == 1111 && resultCode == RESULT_OK){
+            String result=data.getStringExtra("result");
+            System.out.println("Respuesta del fileManager:"+result);
+            //nUri selectedfile = Uri.parse(Environment.getExternalStorageDirectory() + "/MapasArq/"+result);
+            String path = Environment.getExternalStorageDirectory() + "/MapasArq/"+result;
+            System.out.println("New Path:" + path);
+            loadFile(path);
         }
     }
 
@@ -1077,8 +1084,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     }
 
-
-    @OnClick(R.id.btn_open)
+    //Metodo viejo para telefonos con Android 6.
+    //@OnClick(R.id.btn_open)
     public void openFile(){
         Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
         Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
@@ -1100,6 +1107,30 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
 
     }
+
+    @OnClick(R.id.btn_open)
+    public void openFile2(){
+        Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
+        Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
+        if(numberOfFoadedFiles<5){
+            Intent i = new Intent(this, OpenFileActivity.class);
+            startActivityForResult(i, 1111);
+        }else{
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("No puede abrir mas archivos.");
+            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {
+
+                }
+            });
+            alert.show();
+        }
+    }
+
+
+
+
+
 
 
     @OnClick(R.id.btn_mark)
