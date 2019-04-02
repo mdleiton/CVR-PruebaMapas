@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.android.support:support-vector-drawable-27.1.1">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/c4a5abc75bd5785c0958ac99d703c578/res" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/c4a5abc75bd5785c0958ac99d703c578/jars/classes.jar!/" />
+      <root url="jar:///home/mdleiton/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/d6a34ce05c92d47fed1a95b3359b08db/jars/classes.jar!/" />
+      <root url="file:///home/mdleiton/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-27.1.1.aar/d6a34ce05c92d47fed1a95b3359b08db/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.android.support/support-vector-drawable/27.1.1/4b29cf2106c95afb3432bb0c4ec5a91e959717b2/support-vector-drawable-27.1.1-sources.jar!/" />
+      <root url="jar:///home/mdleiton/.gradle/caches/modules-2/files-2.1/com.android.support/support-vector-drawable/27.1.1/4b29cf2106c95afb3432bb0c4ec5a91e959717b2/support-vector-drawable-27.1.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
