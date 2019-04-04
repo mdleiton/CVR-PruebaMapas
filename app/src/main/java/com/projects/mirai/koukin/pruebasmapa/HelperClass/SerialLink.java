@@ -16,6 +16,8 @@ import com.swiftnav.sbp.loggers.JSONLogger;
 import com.swiftnav.sbp.logging.MsgLog;
 import com.swiftnav.sbp.navigation.MsgPosLLH;
 
+import org.apache.commons.lang3.ObjectUtils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -25,31 +27,30 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class SerialLink {
-    String TAG = "PiksiCVR";
-    String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
     SBPHandler piksiHandler;
     SBPDriverJ2XX piksiDriver;
     Context context;
-    private SBPHandler handler;
-    private String[] fix_type = new String[8];
     private Queue<Double> lat_queue = new LinkedList<>();
     private Queue<Double> lon_queue = new LinkedList<>();
 
+    private String TAG = "PiksiCVR";
+    private String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (ACTION_USB_PERMISSION.equals(action)) {
-                UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
-                if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
-                    if (device != null) {
-                        System.out.println("algo conectado");
-                        piksiConnected(device);
-                    }
-                } else {
-                    System.out.println("nada conectado sin permiso");
-                    Log.e(TAG, "Permission denied for device " + device);
+        String action = intent.getAction();
+        if (ACTION_USB_PERMISSION.equals(action)) {
+            UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
+            if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
+                if (device != null) {
+                    System.out.println("algo conectado");
+                    piksiConnected(device);
                 }
+            } else {
+                System.out.println("nada conectado sin permiso");
+                Log.e(TAG, "Permission denied for device " + device);
             }
+        }
         }
     };
 
@@ -130,59 +131,67 @@ public class SerialLink {
         piksiHandler.addCallback(MsgLog.TYPE, new SBPCallback() {
             @Override
             public void receiveCallback(SBPMessage msg) {
-                if (piksiHandler == null) {
-                    Log.e(TAG, "No piksi to send to!");
-                    return;
-                }
-                MsgLog msg_ = (MsgLog) msg;
-                System.out.print(msg_.text + ".\n");
-                //piksiHandler.send(msg);
+            if (piksiHandler == null) {
+                Log.e(TAG, "No piksi to send to!");
+                return;
+            }
+            MsgLog msg_ = (MsgLog) msg;
+            System.out.print(msg_.text + ".\n");
+            //piksiHandler.send(msg);
             }
         });
 
         piksiHandler.addCallback(MsgPosLLH.TYPE, new SBPCallback() {
             @Override
             public void receiveCallback(SBPMessage msg) {
-                if (piksiHandler == null) {
-                    Log.e(TAG, "No piksi to send to!");
-                    return;
-                }
-                MsgPosLLH msg__ = (MsgPosLLH) msg;
-                lat_queue.add(msg__.lat);
-                lon_queue.add(msg__.lon);
-                System.out.printf(
-                        ", lat[deg]: %f, lon[deg]: %f, ellipsoid alt[m]: %f, n_sats: %d .\n",
-                        msg__.lat,
-                        msg__.lon,
-                        msg__.height,
-                        msg__.n_sats);
-                //piksiHandler.send(msg);
+            if (piksiHandler == null) {
+                Log.e(TAG, "No piksi to send to!");
+                return;
+            }
+            MsgPosLLH msg_ = (MsgPosLLH) msg;
+            lat_queue.add(msg_.lat);
+            lon_queue.add(msg_.lon);
+            System.out.printf(
+                    "lat[deg]: %f, lon[deg]: %f, ellipsoid alt[m]: %f, n_sats: %d .\n", msg_.lat, msg_.lon, msg_.height, msg_.n_sats);
+            //piksiHandler.send(msg);
             }
         });
     }
 
-    public void start(){
-        piksiHandler.start();
+    public boolean start(){
+        if (piksiDriver != null && piksiHandler != null) {
+            piksiHandler.start();
+            return true;
+        }else{
+            return false;
+        }
     }
     public void destroy() {
+        if (piksiDriver != null) {
+            piksiHandler.stop();
+            piksiDriver.close();
+            piksiDriver = null;
+        }
         context.unregisterReceiver(mUsbReceiver);
         context.unregisterReceiver(mUsbReceiverDisconnect);
     }
 
     public double getLat() {
-        if (!lat_queue.isEmpty()){
-            return lat_queue.poll();
-        }else{
-            return -1;
+        if (piksiDriver != null) {
+            if (!lat_queue.isEmpty()) {
+                return lat_queue.poll();
+            }
         }
+        return -1;
     }
 
     public double getLon() {
-        if (!lon_queue.isEmpty()){
-            return lon_queue.poll();
-        }else{
-            return -1;
+        if (piksiDriver != null) {
+            if (!lon_queue.isEmpty()) {
+                return lon_queue.poll();
+            }
         }
+        return -1;
     }
 
 }

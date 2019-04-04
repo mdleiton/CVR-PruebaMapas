@@ -47,14 +47,11 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         String email = sharedPref.getString("email", "");
         String ftp = sharedPref.getString("ftp","");
         //True es para gps y False para RTK
         Boolean gps = sharedPref.getBoolean("gps",false);
-
 
         txt_email.setText(email);
         txt_ftp.setText(ftp);
@@ -63,10 +60,14 @@ public class ConfigActivity extends AppCompatActivity {
         }else{
             rb_rtk.setChecked(true);
             piksi = new SerialLink(this.getApplicationContext());
-            //que pasa si no me puedo conectar
-            piksi.start();
-            @SuppressLint("HandlerLeak") Handler h = new Handler() {
-                public void handleMessage(Message msg){
+            String data;
+            if(!piksi.start()){
+                data = "Piksi no se encuentra conectado al dispositivo ";
+                System.out.println(data);
+                Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
+            }else{
+                @SuppressLint("HandlerLeak") Handler h = new Handler() {
+                    public void handleMessage(Message msg){
                     while(true){
                         String data = "Nuevo datos del piksi -> lat: " + piksi.getLat() + ", log: "+ piksi.getLon();
                         Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
@@ -76,17 +77,18 @@ public class ConfigActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-
-
-                }
-            };
+                    }
+                };
+            }
         }
     }
 
 
     @Override
     protected void onDestroy() {
-        piksi.destroy();
+        if(piksi != null){
+            piksi.destroy();
+        }
         super.onDestroy();
     }
 
@@ -112,7 +114,6 @@ public class ConfigActivity extends AppCompatActivity {
         alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 ConfigActivity.super.onBackPressed();
-
             }
         });
         alert.show();
