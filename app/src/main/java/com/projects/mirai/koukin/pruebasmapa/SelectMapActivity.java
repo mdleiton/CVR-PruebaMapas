@@ -24,7 +24,6 @@ public class SelectMapActivity extends AppCompatActivity {
     ListView lista;
     public int selectedItem = -1;
     MapArrayAdapter adapter;
-    String[] valores = {"Holanda","España","Ecuador","Francia","USA"};
     ArrayList<SavedMap>mapsRemove;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: com.github.MKergall:osmbonuspack-6.5.2">
     <CLASSES>
-      <root url="jar:///home/mdleiton/.gradle/caches/transforms-1/files-1.1/osmbonuspack-6.5.2.aar/dd9bb3be0547873efa8f16f533ea2ea8/jars/classes.jar!/" />
-      <root url="file:///home/mdleiton/.gradle/caches/transforms-1/files-1.1/osmbonuspack-6.5.2.aar/dd9bb3be0547873efa8f16f533ea2ea8/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/osmbonuspack-6.5.2.aar/e4be5b5124dd7cb5d205864d2c6a63d5/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/osmbonuspack-6.5.2.aar/e4be5b5124dd7cb5d205864d2c6a63d5/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar:///home/mdleiton/.gradle/caches/modules-2/files-2.1/com.github.MKergall/osmbonuspack/6.5.2/c1dbad418cb24c82585b56facc3a2e0bd8586510/osmbonuspack-6.5.2-sources.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.MKergall/osmbonuspack/6.5.2/c1dbad418cb24c82585b56facc3a2e0bd8586510/osmbonuspack-6.5.2-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -47,7 +48,8 @@ public class ConfigActivity extends AppCompatActivity {
             }
         });
 
-        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+
         String email = sharedPref.getString("email", "");
         String ftp = sharedPref.getString("ftp","");
         //True es para gps y False para RTK
@@ -101,7 +103,7 @@ public class ConfigActivity extends AppCompatActivity {
 
         alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(ConfigActivity.this);
 
                 SharedPreferences.Editor editor = sharedPref.edit();
                 editor.putString("email", txt_email.getText().toString());

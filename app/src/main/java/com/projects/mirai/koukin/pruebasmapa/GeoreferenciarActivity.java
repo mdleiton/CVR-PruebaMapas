@@ -8,31 +8,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,6 +66,7 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.SavedMap;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.SerialLink;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,10 +74,7 @@ import org.json.JSONObject;
 import org.osmdroid.api.IMapController;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.events.MapEventsReceiver;
-import org.osmdroid.tileprovider.cachemanager.CacheManager;
-import org.osmdroid.tileprovider.modules.SqliteArchiveTileWriter;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
@@ -100,6 +94,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -116,6 +111,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     private static final String TAG = GeoreferenciarActivity.class.getSimpleName();
 
+    SerialLink piksi;
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -153,7 +149,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private String mLastUpdateTime;
 
     // location updates interval - 10sec
-    private static  long UPDATE_INTERVAL_IN_MILLISECONDS = 15000;
+    private static  long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
 
     // fastest updates interval - 5 sec
     // location updates will be received if another app is requesting the locations
@@ -195,6 +191,18 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private String sesionID;
     private SavedMap mapaCargado;
     private int numberOfFoadedFiles=0;
+
+
+
+    private int gpsMode = 0;
+
+
+
+    //PRUEBAS
+    private double RTK_lat ;
+    private double RTK_lon ;
+
+    public Marker persona;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,11 +246,28 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
 
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        //True es para gps y False para RTK
+        // 1 -> GPS
+        // 0 -> RTK
+        Boolean gps = sharedPref.getBoolean("gps",false);
+        if(gps){
+            gpsMode = 1;
+            Toast.makeText(this,"MODO GPS ACTIVADO",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this,"MODO RTK ACTIVADO",Toast.LENGTH_SHORT).show();
+            gpsMode = 0;
+
+
+        }
 
 
         setupMap();
-
-
+        /*persona = new Marker(map);
+        GeoPoint startPoint = new GeoPoint(lat,lon);
+        persona.setPosition(startPoint);
+        map.getOverlays().add(persona);
+        map.invalidate();*/
     }
 
 
@@ -256,27 +281,38 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         mapController = map.getController();
 
         MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
-        map.getOverlays().add(oMapLocationOverlay);
 
+        if(gpsMode == 0){
+            mapController.setZoom(15.0);
+        }else{
+            map.getOverlays().add(oMapLocationOverlay);
+            oMapLocationOverlay.enableFollowLocation();
+            oMapLocationOverlay.enableMyLocation();
+            oMapLocationOverlay.enableFollowLocation();
+            mapController.setZoom(15.0);
+        }
         MapEventsOverlay mapEventsOverlay = new MapEventsOverlay(this, this);
         map.getOverlays().add(0, mapEventsOverlay);
 
 
         if(mapaCargado!=null){
-            if(mapaCargado.getName().equals("Mapa General")){
-                mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
-                oMapLocationOverlay.enableFollowLocation();
-            }else{
-                mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
-            }
-            mapController.setZoom(mapaCargado.getZoomlvl());
-            oMapLocationOverlay.enableMyLocation();
 
-        }else{
+            mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
+            mapController.setZoom(mapaCargado.getZoomlvl());
+            //oMapLocationOverlay.enableMyLocation();
+
+        }
+        /*Comentado porque ahora solo se activara si esta en GPS
+        else{
             oMapLocationOverlay.enableFollowLocation();
             oMapLocationOverlay.enableMyLocation();
             oMapLocationOverlay.enableFollowLocation();
             mapController.setZoom(15.0);
+        }*/
+        if(gpsMode == 0){
+            oMapLocationOverlay.disableFollowLocation();
+            oMapLocationOverlay.disableMyLocation();
+            oMapLocationOverlay.disableFollowLocation();
         }
 
 
@@ -438,7 +474,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * Check whether location settings are satisfied and then
      * location updates will be requested
      */
-    private void startLocationUpdates() {
+    private void startLocationUpdatesGPS() {
         mSettingsClient
                 .checkLocationSettings(mLocationSettingsRequest)
                 .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
@@ -486,6 +522,62 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 });
     }
 
+    private void startLocationUpdatesRTK() {
+
+
+        try{
+            piksi = new SerialLink(this.getApplicationContext());
+            String data;
+            if(!piksi.start()){
+                data = "Piksi no se encuentra conectado al dispositivo ";
+                System.out.println(data);
+                Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
+            }else{
+                @SuppressLint("HandlerLeak") Handler h = new Handler() {
+                    public void handleMessage(Message msg){
+                        while(true){
+                            //Se solicita la latitud y longitud al RTK
+                            double lat = piksi.getLat();
+                            double lon = piksi.getLon();
+
+                            //Se muestra los datos del piksi en pantalla
+                            String data = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
+                            Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
+
+                            //Se actualiza la persona y las ubicaciones.
+                            GeoPoint startPoint = new GeoPoint(lat,lon);
+                            map.getOverlays().remove(persona);
+                            persona = new Marker(map);
+                            persona.setPosition(startPoint);
+                            //map.invalidate();
+                            persona.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
+                            //persona.setPosition(new GeoPoint(lat,lon));
+                            persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                            map.getOverlays().add(persona);
+                            map.invalidate();
+
+                            //Se actualiza el texto inferior
+                            Deg2UTM transform = new Deg2UTM(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
+                            txtLocationResult.setText(
+                                    "Ubicacion: " + transform.toString()
+                            );
+                            //Se genera la espera entre peticiones
+                            try {
+                                TimeUnit.SECONDS.sleep(UPDATE_INTERVAL_IN_MILLISECONDS/1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Fallo durante inicio de piksi", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
 
     @OnClick(R.id.btn_start_location_updates)
     public void startLocationButtonClick() {
@@ -493,35 +585,45 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
         follow_on = !follow_on;
         mapController.setZoom(18.0);
-        if(follow_on){
-            Dexter.withActivity(this)
-                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                    .withListener(new PermissionListener() {
-                        @Override
-                        public void onPermissionGranted(PermissionGrantedResponse response) {
-                            mRequestingLocationUpdates = true;
-                            startLocationUpdates();
-                        }
-
-                        @Override
-                        public void onPermissionDenied(PermissionDeniedResponse response) {
-                            if (response.isPermanentlyDenied()) {
-                                // open device settings when the permission is
-                                // denied permanently
-                                openSettings();
+        if(gpsMode == 1){
+            if(follow_on){
+                Dexter.withActivity(this)
+                        .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        .withListener(new PermissionListener() {
+                            @Override
+                            public void onPermissionGranted(PermissionGrantedResponse response) {
+                                mRequestingLocationUpdates = true;
+                                startLocationUpdatesGPS();
                             }
-                        }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).check();
+                            @Override
+                            public void onPermissionDenied(PermissionDeniedResponse response) {
+                                if (response.isPermanentlyDenied()) {
+                                    // open device settings when the permission is
+                                    // denied permanently
+                                    openSettings();
+                                }
+                            }
+
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                                token.continuePermissionRequest();
+                            }
+                        }).check();
+            }else{
+                mRequestingLocationUpdates = false;
+                stopLocationUpdates();
+                btnStartUpdates.setImageResource(R.drawable.playbutton);
+            }
         }else{
-            mRequestingLocationUpdates = false;
-            stopLocationUpdates();
-            btnStartUpdates.setImageResource(R.drawable.playbutton);
+            if(follow_on){
+                startLocationUpdatesRTK();
+            }else{
+                mRequestingLocationUpdates = false;
+                btnStartUpdates.setImageResource(R.drawable.playbutton);
+            }
         }
+
 
 
     }
@@ -1019,7 +1121,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         // Resuming location updates depending on button state and
         // allowed permissions
         if (mRequestingLocationUpdates && checkPermissions()) {
-            startLocationUpdates();
+            startLocationUpdatesGPS();
         }
 
         updateLocationUI();
