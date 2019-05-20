@@ -88,6 +88,7 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLOutput;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -543,7 +544,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                             //Se muestra los datos del piksi en pantalla
                             String data = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
                             Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
-
+                            System.out.println(data);
                             //Se actualiza la persona y las ubicaciones.
                             GeoPoint startPoint = new GeoPoint(lat,lon);
                             map.getOverlays().remove(persona);
@@ -925,7 +926,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             });
             alert.show();
         }
-
+        if (gpsMode == 0){
+            piksi.destroy();
+        }
 
     }
 

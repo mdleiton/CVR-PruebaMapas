@@ -61,8 +61,9 @@ public class ConfigActivity extends AppCompatActivity {
             rb_gps.setChecked(true);
         }else{
             rb_rtk.setChecked(true);
-            piksi = new SerialLink(this.getApplicationContext());
+            /*piksi = new SerialLink(this.getApplicationContext());
             String data;
+
             if(!piksi.start()){
                 data = "Piksi no se encuentra conectado al dispositivo ";
                 System.out.println(data);
@@ -81,7 +82,7 @@ public class ConfigActivity extends AppCompatActivity {
                     }
                     }
                 };
-            }
+            }*/
         }
     }
 
