@@ -193,6 +193,5 @@ public class SerialLink {
         }
         return -1;
     }
-
 }
 

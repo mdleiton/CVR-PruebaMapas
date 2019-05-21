@@ -534,43 +534,40 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 System.out.println(data);
                 Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
             }else{
-                @SuppressLint("HandlerLeak") Handler h = new Handler() {
-                    public void handleMessage(Message msg){
-                        while(true){
-                            //Se solicita la latitud y longitud al RTK
-                            double lat = piksi.getLat();
-                            double lon = piksi.getLon();
 
-                            //Se muestra los datos del piksi en pantalla
-                            String data = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
-                            Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
-                            System.out.println(data);
-                            //Se actualiza la persona y las ubicaciones.
-                            GeoPoint startPoint = new GeoPoint(lat,lon);
-                            map.getOverlays().remove(persona);
-                            persona = new Marker(map);
-                            persona.setPosition(startPoint);
-                            //map.invalidate();
-                            persona.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
-                            //persona.setPosition(new GeoPoint(lat,lon));
-                            persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                            map.getOverlays().add(persona);
-                            map.invalidate();
+                for(int i=0;i<4;i++){
+                    //Se solicita la latitud y longitud al RTK
+                    double lat = piksi.getLat();
+                    double lon = piksi.getLon();
 
-                            //Se actualiza el texto inferior
-                            Deg2UTM transform = new Deg2UTM(mCurrentLocation.getLatitude(),mCurrentLocation.getLongitude());
-                            txtLocationResult.setText(
-                                    "Ubicacion: " + transform.toString()
-                            );
-                            //Se genera la espera entre peticiones
-                            try {
-                                TimeUnit.SECONDS.sleep(UPDATE_INTERVAL_IN_MILLISECONDS/1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
+                    //Se muestra los datos del piksi en pantalla
+                    String data_1 = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
+                    Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
+                    System.out.println(data_1);
+                    //Se actualiza la persona y las ubicaciones.
+                    GeoPoint startPoint = new GeoPoint(lat,lon);
+                    map.getOverlays().remove(persona);
+                    persona = new Marker(map);
+                    persona.setPosition(startPoint);
+                    //map.invalidate();
+                    persona.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
+                    //persona.setPosition(new GeoPoint(lat,lon));
+                    persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(persona);
+                    map.invalidate();
+
+                    //Se actualiza el texto inferior
+                    Deg2UTM transform = new Deg2UTM(lat,lon);
+                    txtLocationResult.setText(
+                            "Ubicacion: " + transform.toString()
+                    );
+                    //Se genera la espera entre peticiones
+                    try {
+                        TimeUnit.SECONDS.sleep(UPDATE_INTERVAL_IN_MILLISECONDS/1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                };
+                }
             }
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Fallo durante inicio de piksi", Toast.LENGTH_LONG).show();
