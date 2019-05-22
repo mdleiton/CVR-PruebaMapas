@@ -65,7 +65,7 @@ public class HiloRTK implements Runnable {
                 persona.setPosition(startPoint);
                 //map.invalidate();
                 persona.setIcon(ContextCompat.getDrawable(context, R.drawable.usericon));
-                //persona.setPosition(new GeoPoint(lat,lon));
+                //markerPersonaRTK.setPosition(new GeoPoint(lat,lon));
                 persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 map.getOverlays().add(persona);
                 //map.invalidate();
