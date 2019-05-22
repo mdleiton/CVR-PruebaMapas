@@ -7,18 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba366fc9-e585-41e9-8da6-685403631665" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____media_mdleiton_Respaldo_repositorios_CVR_REPOS_CVR_PruebaMapas_app_src_main_libs_j2xx_jar_unspecified_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____media_mdleiton_Respaldo_repositorios_CVR_REPOS_CVR_PruebaMapas_app_src_main_libs_sbp_jar_unspecified_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" />
-      <change beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -47,18 +36,18 @@
       <file leaf-file-name="GeoreferenciarActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="869">
-              <caret line="1429" column="25" lean-forward="false" selection-start-line="1429" selection-start-column="25" selection-end-line="1429" selection-end-column="25" />
+            <state relative-caret-position="-4967">
+              <caret line="1062" column="0" lean-forward="true" selection-start-line="1062" selection-start-column="0" selection-end-line="1062" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#51876#51877#0" expanded="true" />
-                <element signature="e#51904#51905#0" expanded="true" />
-                <element signature="e#52389#52605#0" expanded="true" />
-                <element signature="e#52604#52605#0" expanded="true" />
-                <element signature="e#55272#56184#0" expanded="true" />
-                <element signature="e#56183#56184#0" expanded="true" />
-                <element signature="e#56233#56460#0" expanded="true" />
-                <element signature="e#56459#56460#0" expanded="true" />
+                <element signature="e#51948#51949#0" expanded="true" />
+                <element signature="e#51976#51977#0" expanded="true" />
+                <element signature="e#52461#52677#0" expanded="true" />
+                <element signature="e#52676#52677#0" expanded="true" />
+                <element signature="e#55344#56256#0" expanded="true" />
+                <element signature="e#56255#56256#0" expanded="true" />
+                <element signature="e#56305#56532#0" expanded="true" />
+                <element signature="e#56531#56532#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -111,7 +100,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>0.0</find>
       <find>btnstart</find>
       <find>mCurr</find>
       <find>mCurre</find>
@@ -141,6 +129,7 @@
       <find>updateMOde</find>
       <find>startLocationButtonClick();</find>
       <find>updatemode</find>
+      <find>updateUI_R</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -2586,14 +2575,14 @@
           <caret line="930" column="9" lean-forward="false" selection-start-line="930" selection-start-column="9" selection-end-line="930" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#51876#51877#0" expanded="true" />
-            <element signature="e#51904#51905#0" expanded="true" />
-            <element signature="e#52389#52605#0" expanded="true" />
-            <element signature="e#52604#52605#0" expanded="true" />
-            <element signature="e#55272#56184#0" expanded="true" />
-            <element signature="e#56183#56184#0" expanded="true" />
-            <element signature="e#56233#56460#0" expanded="true" />
-            <element signature="e#56459#56460#0" expanded="true" />
+            <element signature="e#51948#51949#0" expanded="true" />
+            <element signature="e#51976#51977#0" expanded="true" />
+            <element signature="e#52461#52677#0" expanded="true" />
+            <element signature="e#52676#52677#0" expanded="true" />
+            <element signature="e#55344#56256#0" expanded="true" />
+            <element signature="e#56255#56256#0" expanded="true" />
+            <element signature="e#56305#56532#0" expanded="true" />
+            <element signature="e#56531#56532#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2671,14 +2660,14 @@
           <caret line="284" column="18" lean-forward="false" selection-start-line="284" selection-start-column="11" selection-end-line="284" selection-end-column="18" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#51876#51877#0" expanded="true" />
-            <element signature="e#51904#51905#0" expanded="true" />
-            <element signature="e#52389#52605#0" expanded="true" />
-            <element signature="e#52604#52605#0" expanded="true" />
-            <element signature="e#55272#56184#0" expanded="true" />
-            <element signature="e#56183#56184#0" expanded="true" />
-            <element signature="e#56233#56460#0" expanded="true" />
-            <element signature="e#56459#56460#0" expanded="true" />
+            <element signature="e#51948#51949#0" expanded="true" />
+            <element signature="e#51976#51977#0" expanded="true" />
+            <element signature="e#52461#52677#0" expanded="true" />
+            <element signature="e#52676#52677#0" expanded="true" />
+            <element signature="e#55344#56256#0" expanded="true" />
+            <element signature="e#56255#56256#0" expanded="true" />
+            <element signature="e#56305#56532#0" expanded="true" />
+            <element signature="e#56531#56532#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2754,14 +2743,14 @@
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#51876#51877#0" expanded="true" />
-            <element signature="e#51904#51905#0" expanded="true" />
-            <element signature="e#52389#52605#0" expanded="true" />
-            <element signature="e#52604#52605#0" expanded="true" />
-            <element signature="e#55272#56184#0" expanded="true" />
-            <element signature="e#56183#56184#0" expanded="true" />
-            <element signature="e#56233#56460#0" expanded="true" />
-            <element signature="e#56459#56460#0" expanded="true" />
+            <element signature="e#51948#51949#0" expanded="true" />
+            <element signature="e#51976#51977#0" expanded="true" />
+            <element signature="e#52461#52677#0" expanded="true" />
+            <element signature="e#52676#52677#0" expanded="true" />
+            <element signature="e#55344#56256#0" expanded="true" />
+            <element signature="e#56255#56256#0" expanded="true" />
+            <element signature="e#56305#56532#0" expanded="true" />
+            <element signature="e#56531#56532#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2932,18 +2921,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="869">
-          <caret line="1429" column="25" lean-forward="false" selection-start-line="1429" selection-start-column="25" selection-end-line="1429" selection-end-column="25" />
+        <state relative-caret-position="-4967">
+          <caret line="1062" column="0" lean-forward="true" selection-start-line="1062" selection-start-column="0" selection-end-line="1062" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#51876#51877#0" expanded="true" />
-            <element signature="e#51904#51905#0" expanded="true" />
-            <element signature="e#52389#52605#0" expanded="true" />
-            <element signature="e#52604#52605#0" expanded="true" />
-            <element signature="e#55272#56184#0" expanded="true" />
-            <element signature="e#56183#56184#0" expanded="true" />
-            <element signature="e#56233#56460#0" expanded="true" />
-            <element signature="e#56459#56460#0" expanded="true" />
+            <element signature="e#51948#51949#0" expanded="true" />
+            <element signature="e#51976#51977#0" expanded="true" />
+            <element signature="e#52461#52677#0" expanded="true" />
+            <element signature="e#52676#52677#0" expanded="true" />
+            <element signature="e#55344#56256#0" expanded="true" />
+            <element signature="e#56255#56256#0" expanded="true" />
+            <element signature="e#56305#56532#0" expanded="true" />
+            <element signature="e#56531#56532#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1052,17 +1052,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         String data_1 = "Nuevo datos del piksi -> lat: " + lastKnowlatitudeRTK + ", log: "+ lastKnowLongitudeRTK;
         //Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
         System.out.println(data_1);
-        //Se actualiza la markerPersonaRTK y las ubicaciones.
+        //Se encuentra el punto donde se encuentra actualmente
         GeoPoint startPoint = new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK);
-        map.getOverlays().remove(markerPersonaRTK);
-        markerPersonaRTK = new Marker(map);
-        markerPersonaRTK.setPosition(startPoint);
-        //map.invalidate();
-        markerPersonaRTK.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
-        //markerPersonaRTK.setPosition(new GeoPoint(lat,lon));
-        markerPersonaRTK.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        map.getOverlays().add(markerPersonaRTK);
-        map.invalidate();
 
         //Se actualiza el texto inferior
         Deg2UTM transform = new Deg2UTM(lastKnowlatitudeRTK,lastKnowLongitudeRTK);
@@ -1123,6 +1114,17 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 }
             }
         }
+
+        //Se actualiza la markerPersonaRTK y las ubicaciones.
+                map.getOverlays().remove(markerPersonaRTK);
+        markerPersonaRTK = new Marker(map);
+        markerPersonaRTK.setPosition(startPoint);
+        //map.invalidate();
+        markerPersonaRTK.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
+        //markerPersonaRTK.setPosition(new GeoPoint(lat,lon));
+        markerPersonaRTK.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(markerPersonaRTK);
+        map.invalidate();
 
 
     }
