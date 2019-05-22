@@ -64,6 +64,7 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.HiloRTK;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.SavedMap;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.SerialLink;
@@ -113,6 +114,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private static final String TAG = GeoreferenciarActivity.class.getSimpleName();
 
     SerialLink piksi;
+
+    HiloRTK hiloRTK;
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -526,8 +529,31 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private void startLocationUpdatesRTK() {
 
 
-        try{
-            piksi = new SerialLink(this.getApplicationContext());
+        try {
+
+            hiloRTK = new HiloRTK("Hilo RTK",
+                    this.getApplicationContext(),
+                    UPDATE_INTERVAL_IN_MILLISECONDS,
+                    map,
+                    txtLocationResult);
+
+            String data;
+            if (!hiloRTK.isPiksiON()) {
+                data = "Piksi no se encuentra conectado al dispositivo ";
+                System.out.println(data);
+                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+                hiloRTK.stop();
+            } else {
+                mRequestingLocationUpdates = true;
+                toggleButtons();
+            }
+        }catch (Exception e){
+            System.out.println("Caught:" + e);
+        }
+
+
+
+            /*piksi = new SerialLink(this.getApplicationContext());
             String data;
             if(!piksi.start()){
                 data = "Piksi no se encuentra conectado al dispositivo ";
@@ -571,7 +597,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }
         }catch (Exception e){
             Toast.makeText(getApplicationContext(),"Fallo durante inicio de piksi", Toast.LENGTH_LONG).show();
-        }
+        }*/
     }
 
 
@@ -924,7 +950,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.show();
         }
         if (gpsMode == 0){
-            piksi.destroy();
+            if(hiloRTK!=null){
+                hiloRTK.stop();
+            }
         }
 
     }

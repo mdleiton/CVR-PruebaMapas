@@ -53,12 +53,71 @@ public class ExampleUnitTest {
 
         //System.out.println((AVERAGE_RADIUS_OF_EARTH_MT * c));
     }
+
+
+    public class MyThread implements Runnable {
+        // to stop the thread
+        private boolean exit;
+
+        private String name;
+        Thread t;
+
+        MyThread(String threadname)
+        {
+            name = threadname;
+            t = new Thread(this, name);
+            System.out.println("New thread: " + t);
+            exit = false;
+            t.start(); // Starting the thread
+        }
+
+        // execution of thread starts from run() method
+        public void run()
+        {
+            int i = 0;
+            while (!exit) {
+                System.out.println(name + ": " + i);
+                i++;
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {
+                    System.out.println("Caught:" + e);
+                }
+            }
+            System.out.println(name + " Stopped.");
+        }
+
+        // for stopping the thread
+        public void stop()
+        {
+            exit = true;
+        }
+    }
+
+
+
+
+
     @Test
     public void main(){
-        Deg2UTM prueba = new Deg2UTM(-0.149334,-78.407120);
+        /*Deg2UTM prueba = new Deg2UTM(-0.149334,-78.407120);
         System.out.println(prueba);
         UTM2Deg prueba1 = new UTM2Deg(prueba.toString());
         System.out.println(prueba1);
-        System.out.println(prueba1.getGeoPoint());
+        System.out.println(prueba1.getGeoPoint());*/
+
+
+        MyThread hilo = new MyThread("Hilo1");
+        try{
+            Thread.sleep(20000);
+        }catch (InterruptedException e){
+            System.out.println("Caught:" + e);
+        }
+        hilo.stop();
+        System.out.println("Exiting the main Thread");
+
+
+
     }
 }
