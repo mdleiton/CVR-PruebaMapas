@@ -629,9 +629,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }else{
             if(follow_on){
                 startLocationUpdatesRTK();
+                mRequestingLocationUpdates = true;
             }else{
                 mRequestingLocationUpdates = false;
                 btnStartUpdates.setImageResource(R.drawable.playbutton);
+                stopHandlerRTK();
             }
         }
 
@@ -662,9 +664,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                         }
                     });
                     alert.show();
-
-
-
                 }else if(which ==1){
 
                     Toast.makeText(GeoreferenciarActivity.this, "Distancia ha sido elegido", Toast.LENGTH_LONG).show();
@@ -753,7 +752,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
-    public void updateMode( int valor){
+    public void updateMode(int valor){
 
         follow_on=!follow_on;
         if(mode==0){
@@ -769,7 +768,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
             btn_config.animate().alpha(1).setDuration(600);
             btn_config.setImageResource(imagenesTiempo[valor]);
-            startLocationButtonClick();
+
+
 
 
         }else if(mode ==1){
@@ -783,41 +783,21 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
             btn_config.animate().alpha(1).setDuration(600);
             btn_config.setImageResource(imagenesDistancia[valor]);
-            startLocationButtonClick();
             System.out.println(UPDATE_INTERVAL_IN_MILLISECONDS);
             System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
 
         }
 
 
-
-
-
-
-
-        /*alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            distancia = Double.parseDouble(input.getText().toString());
-                            UPDATE_INTERVAL_IN_MILLISECONDS=5000;
-                            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
-                            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-                            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-                            mode=which;
-
-                            startLocationButtonClick();
-                        }
-                    });
-                    alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            //Put actions for CANCEL button here, or leave in blank
-                            mode = -1;
-                        }
-                    });
-                    alert.show();*/
-
+        if(gpsMode==1){
+            startLocationButtonClick();
+        }
     }
 
 
+    /**
+     * Metodo guardar(Presionar Guardar). Que permite guardar temporalmente un recorrido.
+     */
     @OnClick(R.id.btn_save)
     public void saveGeoPoints(){
         btn_save.animate().alpha(1).setDuration(300);
@@ -899,6 +879,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     }
 
+    /**
+     * Boton STOP, Prepara para guardar los puntos en un archivo.
+     */
     @OnClick(R.id.btn_stop)
     public void stop(){
         btn_stop.animate().alpha(1).setDuration(300);
@@ -937,13 +920,16 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.show();
         }
         if (gpsMode == 0){
-            if(hiloRTK!=null){
-                hiloRTK.stop();
-            }
+            stopHandlerRTK();
         }
 
     }
 
+    /**
+     * Metodo que guarda el recorrido en total como finalizado.
+     * @param fileName
+     * filename es el nombre con el cual se guardara el recorrido.
+     */
     public void savetravel(String fileName){
 
 
@@ -1017,12 +1003,13 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
-
-
+    /**
+     * Empieza el Handler que controla los tiempos de solicitud del RTK
+     */
     public void startHandlerRTK(){
 
         schedulerRTK = new Handler();
-        delay =UPDATE_INTERVAL_IN_MILLISECONDS; //1 second=1000 milisecond, 15*1000=15seconds
+        //delay =UPDATE_INTERVAL_IN_MILLISECONDS; //1 second=1000 milisecond, 15*1000=15seconds
         if(piksi!=null){
             piksi.destroy();
         }
@@ -1039,63 +1026,23 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     //do something
                     System.out.println("Ejecutando repetidor:");
                     updateUI_RTK();
-                    schedulerRTK.postDelayed(runnable, delay);
+                    schedulerRTK.postDelayed(runnable, UPDATE_INTERVAL_IN_MILLISECONDS);
                 }
-            }, delay);
+            }, UPDATE_INTERVAL_IN_MILLISECONDS);
         }
-
-
-
-
-
-
-        /*piksi = new SerialLink(this.getApplicationContext());
-            String data;
-            if(!piksi.start()){
-                data = "Piksi no se encuentra conectado al dispositivo ";
-                System.out.println(data);
-                Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
-            }else{
-
-                for(int i=0;i<4;i++){
-                    //Se solicita la latitud y longitud al RTK
-                    double lat = piksi.getLat();
-                    double lon = piksi.getLon();
-
-                    //Se muestra los datos del piksi en pantalla
-                    String data_1 = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
-                    Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
-                    System.out.println(data_1);
-                    //Se actualiza la markerPersonaRTK y las ubicaciones.
-                    GeoPoint startPoint = new GeoPoint(lat,lon);
-                    map.getOverlays().remove(markerPersonaRTK);
-                    markerPersonaRTK = new Marker(map);
-                    markerPersonaRTK.setPosition(startPoint);
-                    //map.invalidate();
-                    markerPersonaRTK.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
-                    //markerPersonaRTK.setPosition(new GeoPoint(lat,lon));
-                    markerPersonaRTK.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    map.getOverlays().add(markerPersonaRTK);
-                    map.invalidate();
-
-                    //Se actualiza el texto inferior
-                    Deg2UTM transform = new Deg2UTM(lat,lon);
-                    txtLocationResult.setText(
-                            "Ubicacion: " + transform.toString()
-                    );
-                    //Se genera la espera entre peticiones
-                    try {
-                        TimeUnit.SECONDS.sleep(UPDATE_INTERVAL_IN_MILLISECONDS/1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }catch (Exception e){
-            Toast.makeText(getApplicationContext(),"Fallo durante inicio de piksi", Toast.LENGTH_LONG).show();
-        }*/
     }
 
+    /**
+     * Detiene las tareas del handler para evitar que siga realizando peticiones al RTK
+     */
+    public void stopHandlerRTK(){
+        schedulerRTK.removeCallbacks(runnable);
+
+    }
+
+    /**
+     * Metodo que actualiza la interfaz de usuario con los datos extraidos del RTK
+     */
     public void updateUI_RTK(){
         //Se solicita la latitud y longitud al RTK
         double lastKnowlatitudeRTK = piksi.getLat();
@@ -1181,37 +1128,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    /**
+     * Metodo que sirve para cargar los archivos de recorridos previos.
+     * @param selectedFile
+     * El parametro selectedFIle es el nombre del archivo que se extra del seleccionado por el usuario.
+     */
     private void loadFile(String selectedFile){
 
         String textJson = getStringFromFile(selectedFile);
@@ -1282,7 +1203,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
     }
 
-
+    /**
+     * Metodo que parcea para solo extraer el nombre del archivo de un FILE
+     * @param selectedFile Es la dirrecion completa del SO del archivo.
+     * @return Devuelve el nombre del archivo
+     */
     public String getStringFromFile(String selectedFile){
         //File sdcard = Environment.getExternalStorageDirectory();
 
@@ -1322,54 +1247,80 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         startActivity(intent);
     }
 
-
+    /**
+     * Metodo que se ejecuta cuando vuelve de pausa la aplicacion.
+     */
     @Override
     public void onResume() {
         super.onResume();
         map.onResume();
-        // Resuming location updates depending on button state and
-        // allowed permissions
-        if (mRequestingLocationUpdates && checkPermissions()) {
-            startLocationUpdatesGPS();
-        }
+        if(mRequestingLocationUpdates){
+            if(gpsMode==1){
+                // Resuming location updates depending on button state and
+                // allowed permissions
+                if (checkPermissions()) {
+                    startLocationUpdatesGPS();
+                }
 
-        updateLocationUI_GPS();
+                updateLocationUI_GPS();
+            }else{
+                startHandlerRTK();
+            }
+        }
     }
 
+    /**
+     * Metodo que se ejecuta cuando la actividad entra en pausa.
+     */
+    @Override
+    protected void onPause() {
+        map.onPause();
+        if (mRequestingLocationUpdates) {
+            if(gpsMode==1){
+                // pausing location updates
+                stopLocationUpdates();
+            }else{
+                stopHandlerRTK();
+            }
 
+        }
+        super.onPause();
+    }
+
+    /**
+     * Metodo que revisa los permisos para acceder al gps
+     * @return Devuelve un booleano que indica si tiene o no los permisos.
+     */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        map.onPause();
-        if (mRequestingLocationUpdates) {
-            // pausing location updates
-            stopLocationUpdates();
-
-        }
-    }
-
-
+    /**
+     * Metodo que se ejecuta al mapa ser presionado una sola vez.
+     * @param p -> Es el parametreo que contiene las coordenadas de donde fue presionado.
+     * @return
+     */
     @Override
     public boolean singleTapConfirmedHelper(GeoPoint p) {
         System.out.println(map.getZoomLevelDouble());
         return false;
     }
 
-
+    /**
+     * Metodo que se ejecuta al mantener presionado el mapa.
+     * @param p -> Es el parametreo que contiene las coordenadas de donde fue presionado.
+     * @return
+     */
     @Override
     public boolean longPressHelper(GeoPoint p) {
         return false;
     }
 
-
+    /**
+     * Metodo que se ejecuta al presionar el boton de BACK
+     */
     @Override
     public void onBackPressed() {
         //super.onBackPressed();
@@ -1439,11 +1390,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
-
-
-
-
-
+    /**
+     * Metodo que sirve para marcar el punto exacto donde esta parado, informando que encontro.
+     */
     @OnClick(R.id.btn_mark)
     public void setMark(){
         if(mRequestingLocationUpdates){
@@ -1479,11 +1428,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 }
             });
             alert.show();
-
-
-
-
-
         }else{
             Toast.makeText(this,"Necesita estar en play.",Toast.LENGTH_LONG).show();
         }
