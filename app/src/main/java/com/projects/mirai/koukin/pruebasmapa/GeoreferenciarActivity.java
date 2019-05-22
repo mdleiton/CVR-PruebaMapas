@@ -1126,7 +1126,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
         //Se muestra los datos del piksi en pantalla
         String data_1 = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
-        Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
         System.out.println(data_1);
         //Se actualiza la persona y las ubicaciones.
         GeoPoint startPoint = new GeoPoint(lat,lon);

@@ -30,8 +30,8 @@ public class SerialLink {
     SBPHandler piksiHandler;
     SBPDriverJ2XX piksiDriver;
     Context context;
-    private Queue<Double> lat_queue = new LinkedList<>();
-    private Queue<Double> lon_queue = new LinkedList<>();
+    private double lat;
+    private double log;
 
     private String TAG = "PiksiCVR";
     private String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
@@ -149,11 +149,8 @@ public class SerialLink {
                 return;
             }
             MsgPosLLH msg_ = (MsgPosLLH) msg;
-            lat_queue.add(msg_.lat);
-            lon_queue.add(msg_.lon);
-            System.out.printf(
-                    "lat[deg]: %f, lon[deg]: %f, ellipsoid alt[m]: %f, n_sats: %d .\n", msg_.lat, msg_.lon, msg_.height, msg_.n_sats);
-            //piksiHandler.send(msg);
+            lat = msg_.lat;
+            log = msg_.lon;
             }
         });
     }
@@ -178,18 +175,15 @@ public class SerialLink {
 
     public double getLat() {
         if (piksiDriver != null) {
-            if (!lat_queue.isEmpty()) {
-                return lat_queue.poll();
-            }
+            return lat;
+
         }
         return -1;
     }
 
     public double getLon() {
         if (piksiDriver != null) {
-            if (!lon_queue.isEmpty()) {
-                return lon_queue.poll();
-            }
+            return log;
         }
         return -1;
     }
