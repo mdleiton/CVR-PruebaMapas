@@ -117,6 +117,12 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     HiloRTK hiloRTK;
 
+
+    Runnable runnable;
+    long delay;
+    Handler schedulerRTK;
+
+
     @BindView(R.id.location_result)
     TextView txtLocationResult;
 
@@ -220,6 +226,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
         sesionID =date ;
+
+
+
 
 
 
@@ -527,8 +536,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
     private void startLocationUpdatesRTK() {
-
-
+        startHandlerRTK();
+        /*
         try {
 
             hiloRTK = new HiloRTK("Hilo RTK",
@@ -549,7 +558,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }
         }catch (Exception e){
             System.out.println("Caught:" + e);
-        }
+        }*/
 
 
 
@@ -608,8 +617,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         // Requesting ACCESS_FINE_LOCATION using Dexter library
 
         follow_on = !follow_on;
-        mapController.setZoom(18.0);
+
         if(gpsMode == 1){
+            mapController.setZoom(18.0);
             if(follow_on){
                 Dexter.withActivity(this)
                         .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -1028,6 +1038,144 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
         btn_save.setEnabled(true);
     }
+
+
+
+
+    public void startHandlerRTK(){
+
+        schedulerRTK = new Handler();
+        delay =UPDATE_INTERVAL_IN_MILLISECONDS; //1 second=1000 milisecond, 15*1000=15seconds
+        if(piksi!=null){
+            piksi.destroy();
+        }
+        piksi = new SerialLink(this.getApplicationContext());
+        String data;
+        if(!piksi.start()) {
+            data = "Piksi no se encuentra conectado al dispositivo ";
+            System.out.println(data);
+            Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+        }else{
+
+            schedulerRTK.postDelayed( runnable = new Runnable() {
+                public void run() {
+                    //do something
+                    System.out.println("Ejecutando repetidor:");
+                    updateUI();
+                    schedulerRTK.postDelayed(runnable, delay);
+                }
+            }, delay);
+        }
+
+
+
+
+
+
+        /*piksi = new SerialLink(this.getApplicationContext());
+            String data;
+            if(!piksi.start()){
+                data = "Piksi no se encuentra conectado al dispositivo ";
+                System.out.println(data);
+                Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
+            }else{
+
+                for(int i=0;i<4;i++){
+                    //Se solicita la latitud y longitud al RTK
+                    double lat = piksi.getLat();
+                    double lon = piksi.getLon();
+
+                    //Se muestra los datos del piksi en pantalla
+                    String data_1 = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
+                    Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
+                    System.out.println(data_1);
+                    //Se actualiza la persona y las ubicaciones.
+                    GeoPoint startPoint = new GeoPoint(lat,lon);
+                    map.getOverlays().remove(persona);
+                    persona = new Marker(map);
+                    persona.setPosition(startPoint);
+                    //map.invalidate();
+                    persona.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
+                    //persona.setPosition(new GeoPoint(lat,lon));
+                    persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    map.getOverlays().add(persona);
+                    map.invalidate();
+
+                    //Se actualiza el texto inferior
+                    Deg2UTM transform = new Deg2UTM(lat,lon);
+                    txtLocationResult.setText(
+                            "Ubicacion: " + transform.toString()
+                    );
+                    //Se genera la espera entre peticiones
+                    try {
+                        TimeUnit.SECONDS.sleep(UPDATE_INTERVAL_IN_MILLISECONDS/1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }catch (Exception e){
+            Toast.makeText(getApplicationContext(),"Fallo durante inicio de piksi", Toast.LENGTH_LONG).show();
+        }*/
+    }
+
+    public void updateUI(){
+        //Se solicita la latitud y longitud al RTK
+        double lat = piksi.getLat();
+        double lon = piksi.getLon();
+
+        //Se muestra los datos del piksi en pantalla
+        String data_1 = "Nuevo datos del piksi -> lat: " + lat + ", log: "+ lon;
+        Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
+        System.out.println(data_1);
+        //Se actualiza la persona y las ubicaciones.
+        GeoPoint startPoint = new GeoPoint(lat,lon);
+        map.getOverlays().remove(persona);
+        persona = new Marker(map);
+        persona.setPosition(startPoint);
+        //map.invalidate();
+        persona.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
+        //persona.setPosition(new GeoPoint(lat,lon));
+        persona.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(persona);
+        map.invalidate();
+
+        //Se actualiza el texto inferior
+        Deg2UTM transform = new Deg2UTM(lat,lon);
+        txtLocationResult.setText(
+                "Ubicacion: " + transform.toString()
+        );
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

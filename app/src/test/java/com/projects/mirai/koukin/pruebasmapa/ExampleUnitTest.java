@@ -108,6 +108,8 @@ public class ExampleUnitTest {
         System.out.println(prueba1.getGeoPoint());*/
 
 
+
+        /*
         MyThread hilo = new MyThread("Hilo1");
         try{
             Thread.sleep(20000);
@@ -116,6 +118,8 @@ public class ExampleUnitTest {
         }
         hilo.stop();
         System.out.println("Exiting the main Thread");
+        */
+
 
 
 
