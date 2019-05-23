@@ -32,9 +32,24 @@ public class SerialLink {
     Context context;
     private double lat;
     private double log;
+    public int h_accuracy;
+    public int v_accuracy;
+    public String type;
+    private String[] fix_type_a = new String[8];
 
     private String TAG = "PiksiCVR";
     private String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+
+    private void populate_fix_type() {
+        fix_type_a[0] = "No fix";
+        fix_type_a[1] = "SPP";
+        fix_type_a[2] = "DGPS";
+        fix_type_a[3] = "float";
+        fix_type_a[4] = "fixed";
+        fix_type_a[5] = "DR";
+        fix_type_a[6] = "SBAS";
+        fix_type_a[7] = "UNKNOWN";
+    }
 
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -74,6 +89,7 @@ public class SerialLink {
     };
 
     public SerialLink(Context context) {
+        populate_fix_type();
         this.context = context;
         detect_piksi();
     }
@@ -144,13 +160,20 @@ public class SerialLink {
         piksiHandler.addCallback(MsgPosLLH.TYPE, new SBPCallback() {
             @Override
             public void receiveCallback(SBPMessage msg) {
-            if (piksiHandler == null) {
-                Log.e(TAG, "No piksi to send to!");
-                return;
-            }
-            MsgPosLLH msg_ = (MsgPosLLH) msg;
-            lat = msg_.lat;
-            log = msg_.lon;
+                if (piksiHandler == null) {
+                    Log.e(TAG, "No piksi to send to!");
+                    return;
+                }
+
+                MsgPosLLH msg_ = (MsgPosLLH) msg;
+                int fix_type = msg_.flags & 0x7;
+                type = fix_type_a[fix_type];
+                if (fix_type != 0) {
+                    lat = msg_.lat;
+                    log = msg_.lon;
+                    h_accuracy = msg_.h_accuracy;
+                    v_accuracy = msg_.v_accuracy;
+                }
             }
         });
     }
