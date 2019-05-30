@@ -36,7 +36,7 @@ public class SerialLink {
     public int v_accuracy;
     public String type;
     private String[] fix_type_a = new String[8];
-
+    public boolean isConnected;
     private String TAG = "PiksiCVR";
     private String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
@@ -81,6 +81,7 @@ public class SerialLink {
                     piksiHandler.stop();
                     piksiDriver.close();
                     piksiDriver = null;
+                    isConnected = false;
                     System.out.println("Piksi not connected!");
                 }
             }
@@ -89,9 +90,11 @@ public class SerialLink {
     };
 
     public SerialLink(Context context) {
+        isConnected = false;
         populate_fix_type();
         this.context = context;
         detect_piksi();
+
     }
 
     private void detect_piksi() {
@@ -125,6 +128,7 @@ public class SerialLink {
         try {
             System.out.println("intento serial");
             piksiDriver = new SBPDriverJ2XX(context, usbdev);
+            isConnected = true;
         } catch (IOException e) {
             Log.d(TAG, e.toString());
             e.printStackTrace();
