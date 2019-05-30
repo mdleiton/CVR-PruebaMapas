@@ -1061,6 +1061,17 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 "Ubicacion: " + transform.toString()
         );
 
+
+        /**
+         * Pruebas
+         */
+
+        txtUpdatedOn.setText(
+                "TYPE: " + piksi.type
+        );
+
+
+
         // giving a blink animation on TextView
         txtLocationResult.setAlpha(0);
         txtLocationResult.animate().alpha(1).setDuration(300);
