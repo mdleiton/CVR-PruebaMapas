@@ -850,6 +850,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
         if (gpsMode == 0){
             stopHandlerRTK();
+            stopPiksy();
         }
 
     }
