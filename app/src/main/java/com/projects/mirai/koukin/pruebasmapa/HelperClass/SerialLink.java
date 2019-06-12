@@ -45,7 +45,7 @@ public class SerialLink {
 
     private void populate_fix_type() {
         fix_type_a[0] = "No fix";
-        fix_type_a[1] = "SPP";
+        fix_type_a[1] = "FIXED" ;  //"SPP"
         fix_type_a[2] = "DGPS";
         fix_type_a[3] = "float";
         fix_type_a[4] = "fixed";
@@ -57,7 +57,6 @@ public class SerialLink {
     private final BroadcastReceiver mUsbReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-            System.out.println(action);
         if (ACTION_USB_PERMISSION.equals(action)) {
             UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
             if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
@@ -104,20 +103,17 @@ public class SerialLink {
     private void detect_piksi() {
         UsbManager mUsbManager = (UsbManager) this.context.getSystemService(Context.USB_SERVICE);
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(context, 0, new Intent(ACTION_USB_PERMISSION), 0);
-        /*IntentFilter filter = new IntentFilter(UsbManager.ACTION_USB_ACCESSORY_ATTACHED);
+        IntentFilter filter = new IntentFilter(UsbManager.ACTION_USB_ACCESSORY_ATTACHED);
         context.registerReceiver(mUsbReceiver, filter);
         filter = new IntentFilter(UsbManager.ACTION_USB_DEVICE_DETACHED);
-        context.registerReceiver(mUsbReceiverDisconnect, filter);*/
-
+        context.registerReceiver(mUsbReceiverDisconnect, filter);
         HashMap<String, UsbDevice> deviceList = mUsbManager.getDeviceList();
 
         for (UsbDevice device : deviceList.values()) {
             if ((device.getVendorId() == Utils.PIKSI_VID) && (device.getProductId() == Utils.PIKSI_PID))
                 if (!mUsbManager.hasPermission(device)) {
                     mUsbManager.requestPermission(device, mPermissionIntent);
-                   // System.out.println("sin permiso conectado");
                 } else {
-                    System.out.println("con permisos");
                     piksiConnected(device);
                }
         }
@@ -199,8 +195,8 @@ public class SerialLink {
             piksiDriver.close();
             piksiDriver = null;
         }
-        //context.unregisterReceiver(mUsbReceiver);
-        //context.unregisterReceiver(mUsbReceiverDisconnect);
+        context.unregisterReceiver(mUsbReceiver);
+        context.unregisterReceiver(mUsbReceiverDisconnect);
     }
 
     public double getLat() {

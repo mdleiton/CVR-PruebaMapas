@@ -49,10 +49,15 @@ public class SBPDriverJ2XX implements SBPDriver {
         if (!doneInit)
             doInit();
         byte[] data = new byte[len];
-        synchronized (this) {
-            if (!ftdev.isOpen())
-                throw new IOException("Piksi device is closed!");
-            ftdev.read(data, len, TIMEOUT_READ);
+        try{
+            synchronized (this) {
+                if (!ftdev.isOpen())
+                    throw new IOException("Piksi device is closed!");
+                ftdev.read(data, len, TIMEOUT_READ);
+            }
+            return data;
+        }catch (NullPointerException e){
+
         }
         return data;
     }

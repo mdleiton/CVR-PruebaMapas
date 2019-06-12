@@ -12,19 +12,13 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/javaCompile.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskHistory.bin" />
-      <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/taskJars.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____Users_koukin_Documents_CVR_ARQUEOLOGIA_mdleiton_CVR_PruebaMapas_app_src_main_libs_j2xx_jar_unspecified_jar.xml" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle____local_aars____Users_koukin_Documents_CVR_ARQUEOLOGIA_mdleiton_CVR_PruebaMapas_app_src_main_libs_sbp_jar_unspecified_jar.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java" />
-      <change beforePath="$PROJECT_DIR$/local.properties" afterPath="$PROJECT_DIR$/local.properties" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,18 +44,21 @@
       <file leaf-file-name="SerialLink.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2358">
-              <caret line="43" column="40" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="40" />
+            <state relative-caret-position="162">
+              <caret line="198" column="8" lean-forward="false" selection-start-line="198" selection-start-column="8" selection-end-line="198" selection-end-column="8" />
               <folding>
-                <element signature="e#1763#2512#0" expanded="true" />
-                <element signature="e#2511#2512#0" expanded="true" />
-                <element signature="e#2562#3332#0" expanded="true" />
-                <element signature="e#3331#3332#0" expanded="true" />
-                <element signature="e#5689#6069#0" expanded="true" />
-                <element signature="e#6068#6069#0" expanded="true" />
-                <element signature="e#6122#6763#0" expanded="true" />
-                <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+                <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Utils.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/Utils.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="72">
+              <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -69,9 +66,32 @@
       <file leaf-file-name="GeoreferenciarActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="852" column="24" lean-forward="false" selection-start-line="852" selection-start-column="24" selection-end-line="852" selection-end-column="24" />
-              <folding />
+            <state relative-caret-position="234">
+              <caret line="532" column="25" lean-forward="false" selection-start-line="532" selection-start-column="20" selection-end-line="532" selection-end-column="25" />
+              <folding>
+                <element signature="e#19703#19704#0" expanded="true" />
+                <element signature="e#19736#19737#0" expanded="true" />
+                <element signature="e#22534#24348#0" expanded="true" />
+                <element signature="e#23161#23451#0" expanded="true" />
+                <element signature="e#23450#23451#0" expanded="true" />
+                <element signature="e#23978#24268#0" expanded="true" />
+                <element signature="e#24267#24268#0" expanded="true" />
+                <element signature="e#24347#24348#0" expanded="true" />
+                <element signature="e#32916#33139#0" expanded="true" />
+                <element signature="e#33138#33139#0" expanded="true" />
+                <element signature="e#33188#33508#0" expanded="true" />
+                <element signature="e#33507#33508#0" expanded="true" />
+                <element signature="e#37869#38178#0" expanded="true" />
+                <element signature="e#38177#38178#0" expanded="true" />
+                <element signature="e#50612#50613#0" expanded="true" />
+                <element signature="e#50640#50641#0" expanded="true" />
+                <element signature="e#51125#51437#0" expanded="true" />
+                <element signature="e#51436#51437#0" expanded="true" />
+                <element signature="e#54177#55089#0" expanded="true" />
+                <element signature="e#55088#55089#0" expanded="true" />
+                <element signature="e#55138#55365#0" expanded="true" />
+                <element signature="e#55364#55365#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -79,7 +99,7 @@
       <file leaf-file-name="HiloRTK.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/HiloRTK.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
+            <state relative-caret-position="-198">
               <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
               <folding />
             </state>
@@ -99,8 +119,8 @@
       <file leaf-file-name="SBPDriverJ2XX.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="396">
-              <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+            <state relative-caret-position="712">
+              <caret line="47" column="22" lean-forward="false" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="22" />
               <folding />
             </state>
           </provider>
@@ -109,7 +129,7 @@
       <file leaf-file-name="AndroidManifest.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-72">
+            <state relative-caret-position="-147">
               <caret line="8" column="68" lean-forward="false" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="68" />
               <folding />
             </state>
@@ -2032,6 +2052,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" />
       </list>
@@ -2057,6 +2078,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -2128,16 +2152,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../Android/Sdk" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="3.1.3" />
-    <property name="device.picker.selection" value="10.10.1.135:55555" />
+    <property name="device.picker.selection" value="192.168.0.18:5555" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -2313,15 +2334,16 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32879582" sideWeight="0.5019305" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32879582" sideWeight="0.4980695" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Thumbnails" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32984293" sideWeight="0.4980695" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25758412" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25758412" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2816754" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -2382,14 +2404,7 @@
         <state relative-caret-position="522">
           <caret line="53" column="31" lean-forward="false" selection-start-line="53" selection-start-column="31" selection-end-line="53" selection-end-column="31" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2406,7 +2421,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="13896">
           <caret line="772" column="0" lean-forward="true" selection-start-line="772" selection-start-column="0" selection-end-line="772" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#19703#19704#0" expanded="true" />
+            <element signature="e#19736#19737#0" expanded="true" />
+            <element signature="e#22534#24348#0" expanded="true" />
+            <element signature="e#23161#23451#0" expanded="true" />
+            <element signature="e#23450#23451#0" expanded="true" />
+            <element signature="e#23978#24268#0" expanded="true" />
+            <element signature="e#24267#24268#0" expanded="true" />
+            <element signature="e#24347#24348#0" expanded="true" />
+            <element signature="e#32916#33139#0" expanded="true" />
+            <element signature="e#33138#33139#0" expanded="true" />
+            <element signature="e#33188#33508#0" expanded="true" />
+            <element signature="e#33507#33508#0" expanded="true" />
+            <element signature="e#37869#38178#0" expanded="true" />
+            <element signature="e#38177#38178#0" expanded="true" />
+            <element signature="e#50612#50613#0" expanded="true" />
+            <element signature="e#50640#50641#0" expanded="true" />
+            <element signature="e#51125#51437#0" expanded="true" />
+            <element signature="e#51436#51437#0" expanded="true" />
+            <element signature="e#54177#55089#0" expanded="true" />
+            <element signature="e#55088#55089#0" expanded="true" />
+            <element signature="e#55138#55365#0" expanded="true" />
+            <element signature="e#55364#55365#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2415,14 +2453,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2431,7 +2462,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="12618">
           <caret line="701" column="0" lean-forward="false" selection-start-line="701" selection-start-column="0" selection-end-line="701" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#19703#19704#0" expanded="true" />
+            <element signature="e#19736#19737#0" expanded="true" />
+            <element signature="e#22534#24348#0" expanded="true" />
+            <element signature="e#23161#23451#0" expanded="true" />
+            <element signature="e#23450#23451#0" expanded="true" />
+            <element signature="e#23978#24268#0" expanded="true" />
+            <element signature="e#24267#24268#0" expanded="true" />
+            <element signature="e#24347#24348#0" expanded="true" />
+            <element signature="e#32916#33139#0" expanded="true" />
+            <element signature="e#33138#33139#0" expanded="true" />
+            <element signature="e#33188#33508#0" expanded="true" />
+            <element signature="e#33507#33508#0" expanded="true" />
+            <element signature="e#37869#38178#0" expanded="true" />
+            <element signature="e#38177#38178#0" expanded="true" />
+            <element signature="e#50612#50613#0" expanded="true" />
+            <element signature="e#50640#50641#0" expanded="true" />
+            <element signature="e#51125#51437#0" expanded="true" />
+            <element signature="e#51436#51437#0" expanded="true" />
+            <element signature="e#54177#55089#0" expanded="true" />
+            <element signature="e#55088#55089#0" expanded="true" />
+            <element signature="e#55138#55365#0" expanded="true" />
+            <element signature="e#55364#55365#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2448,14 +2502,7 @@
         <state relative-caret-position="210">
           <caret line="38" column="31" lean-forward="false" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2472,7 +2519,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="10515">
           <caret line="701" column="0" lean-forward="false" selection-start-line="701" selection-start-column="0" selection-end-line="701" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#19703#19704#0" expanded="true" />
+            <element signature="e#19736#19737#0" expanded="true" />
+            <element signature="e#22534#24348#0" expanded="true" />
+            <element signature="e#23161#23451#0" expanded="true" />
+            <element signature="e#23450#23451#0" expanded="true" />
+            <element signature="e#23978#24268#0" expanded="true" />
+            <element signature="e#24267#24268#0" expanded="true" />
+            <element signature="e#24347#24348#0" expanded="true" />
+            <element signature="e#32916#33139#0" expanded="true" />
+            <element signature="e#33138#33139#0" expanded="true" />
+            <element signature="e#33188#33508#0" expanded="true" />
+            <element signature="e#33507#33508#0" expanded="true" />
+            <element signature="e#37869#38178#0" expanded="true" />
+            <element signature="e#38177#38178#0" expanded="true" />
+            <element signature="e#50612#50613#0" expanded="true" />
+            <element signature="e#50640#50641#0" expanded="true" />
+            <element signature="e#51125#51437#0" expanded="true" />
+            <element signature="e#51436#51437#0" expanded="true" />
+            <element signature="e#54177#55089#0" expanded="true" />
+            <element signature="e#55088#55089#0" expanded="true" />
+            <element signature="e#55138#55365#0" expanded="true" />
+            <element signature="e#55364#55365#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2481,14 +2551,7 @@
         <state relative-caret-position="210">
           <caret line="38" column="31" lean-forward="false" selection-start-line="38" selection-start-column="31" selection-end-line="38" selection-end-column="31" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
@@ -2497,23 +2560,29 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="12285">
           <caret line="916" column="30" lean-forward="true" selection-start-line="916" selection-start-column="30" selection-end-line="916" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <element signature="e#19703#19704#0" expanded="true" />
+            <element signature="e#19736#19737#0" expanded="true" />
+            <element signature="e#22534#24348#0" expanded="true" />
+            <element signature="e#23161#23451#0" expanded="true" />
+            <element signature="e#23450#23451#0" expanded="true" />
+            <element signature="e#23978#24268#0" expanded="true" />
+            <element signature="e#24267#24268#0" expanded="true" />
+            <element signature="e#24347#24348#0" expanded="true" />
+            <element signature="e#32916#33139#0" expanded="true" />
+            <element signature="e#33138#33139#0" expanded="true" />
+            <element signature="e#33188#33508#0" expanded="true" />
+            <element signature="e#33507#33508#0" expanded="true" />
+            <element signature="e#37869#38178#0" expanded="true" />
+            <element signature="e#38177#38178#0" expanded="true" />
+            <element signature="e#50612#50613#0" expanded="true" />
+            <element signature="e#50640#50641#0" expanded="true" />
+            <element signature="e#51125#51437#0" expanded="true" />
+            <element signature="e#51436#51437#0" expanded="true" />
+            <element signature="e#54177#55089#0" expanded="true" />
+            <element signature="e#55088#55089#0" expanded="true" />
+            <element signature="e#55138#55365#0" expanded="true" />
+            <element signature="e#55364#55365#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -2523,23 +2592,18 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="396">
-          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -2551,9 +2615,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="72">
+          <caret line="5" column="13" lean-forward="false" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-72">
+        <state relative-caret-position="-147">
           <caret line="8" column="68" lean-forward="false" selection-start-line="8" selection-start-column="54" selection-end-line="8" selection-end-column="68" />
           <folding />
         </state>
@@ -2562,9 +2634,17 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="712">
+          <caret line="47" column="22" lean-forward="false" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/HiloRTK.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
+        <state relative-caret-position="-198">
           <caret line="14" column="13" lean-forward="false" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
           <folding />
         </state>
@@ -2572,26 +2652,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2358">
-          <caret line="43" column="40" lean-forward="false" selection-start-line="43" selection-start-column="19" selection-end-line="43" selection-end-column="40" />
+        <state relative-caret-position="162">
+          <caret line="198" column="8" lean-forward="false" selection-start-line="198" selection-start-column="8" selection-end-line="198" selection-end-column="8" />
           <folding>
-            <element signature="e#1763#2512#0" expanded="true" />
-            <element signature="e#2511#2512#0" expanded="true" />
-            <element signature="e#2562#3332#0" expanded="true" />
-            <element signature="e#3331#3332#0" expanded="true" />
-            <element signature="e#5689#6069#0" expanded="true" />
-            <element signature="e#6068#6069#0" expanded="true" />
-            <element signature="e#6122#6763#0" expanded="true" />
-            <marker date="1560189794852" expanded="true" signature="6739:6753" ph="{...}" />
+            <marker date="1560323550870" expanded="true" signature="6583:6597" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="852" column="24" lean-forward="false" selection-start-line="852" selection-start-column="24" selection-end-line="852" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="234">
+          <caret line="532" column="25" lean-forward="false" selection-start-line="532" selection-start-column="20" selection-end-line="532" selection-end-column="25" />
+          <folding>
+            <element signature="e#19703#19704#0" expanded="true" />
+            <element signature="e#19736#19737#0" expanded="true" />
+            <element signature="e#22534#24348#0" expanded="true" />
+            <element signature="e#23161#23451#0" expanded="true" />
+            <element signature="e#23450#23451#0" expanded="true" />
+            <element signature="e#23978#24268#0" expanded="true" />
+            <element signature="e#24267#24268#0" expanded="true" />
+            <element signature="e#24347#24348#0" expanded="true" />
+            <element signature="e#32916#33139#0" expanded="true" />
+            <element signature="e#33138#33139#0" expanded="true" />
+            <element signature="e#33188#33508#0" expanded="true" />
+            <element signature="e#33507#33508#0" expanded="true" />
+            <element signature="e#37869#38178#0" expanded="true" />
+            <element signature="e#38177#38178#0" expanded="true" />
+            <element signature="e#50612#50613#0" expanded="true" />
+            <element signature="e#50640#50641#0" expanded="true" />
+            <element signature="e#51125#51437#0" expanded="true" />
+            <element signature="e#51436#51437#0" expanded="true" />
+            <element signature="e#54177#55089#0" expanded="true" />
+            <element signature="e#55088#55089#0" expanded="true" />
+            <element signature="e#55138#55365#0" expanded="true" />
+            <element signature="e#55364#55365#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
