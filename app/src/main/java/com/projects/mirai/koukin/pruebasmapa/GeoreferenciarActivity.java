@@ -79,6 +79,7 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
+import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -99,9 +100,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-//import android.widget.Button;
-//import org.osmdroid.views.overlay.compass.CompassOverlay;
-
 /**
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
  */
@@ -113,8 +111,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     SerialLink piksi;
     HiloRTK hiloRTK;
     Runnable runnable;
-    long delay;
     Handler schedulerRTK;
+    public Marker markerPersonaRTK;
+    public Polygon p;
 
     @BindView(R.id.location_result)
     TextView txtLocationResult;
@@ -150,6 +149,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     // location last updated time
     private String mLastUpdateTimeGPS;
+    long delay;
 
     // location updates interval - 10sec
     private static  long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
@@ -170,7 +170,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private Location mCurrentLocationGPS;
 
     // boolean flag to toggle the ui
-    private Boolean mRequestingLocationUpdates;
+    private Boolean mRequestingLocationUpdates = false;
 
     //Valida en que si es -1 no ha eligido ningun modulo.
     // mode = 0 significa tiempo
@@ -178,23 +178,22 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private int mode = 1;
     //Distancia que se debe dezplazar para hacer otro punto.
     private double distancia = 1;
-    private GeoPoint lastPoint = null;
-
     //follow_on = true -> actualizar puntos en mapa
-    //follow_on = false ->  actualizar puntos en mapaz
+    //follow_on = false ->  actualizar puntos en mapas
     private boolean follow_on = false;
-
+    private int gpsMode = 0;
+    private GeoPoint lastPoint = null;
     ArrayList<Marker> marcadores;
     ArrayList<Polyline> lineas;
-
 
     private String sesionID;
     private SavedMap mapaCargado;
     private int numberOfFoadedFiles=0;
 
-    private int gpsMode = 0;
-    //
-    public Marker markerPersonaRTK;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,11 +203,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         marcadores = new ArrayList<>();
         lineas = new ArrayList<>();
 
-
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
-        String date = df.format(Calendar.getInstance().getTime());
-        sesionID =date ;
-
+        sesionID = df.format(Calendar.getInstance().getTime());
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));
@@ -221,30 +217,25 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         setContentView(R.layout.activity_mapa_georeferenciar);
         ButterKnife.bind(this);
 
-        // initialize the necessary libraries
-        init();
-        // restore the values from saved instance state
-        restoreValuesFromBundle(savedInstanceState);
-
-        Bundle extras = getIntent().getExtras();
-        //Si me envian un archivo a cargar , hago esto:
-        if (extras != null) {
-            String maptoParse = extras.getString("selectedMap");
-            mapaCargado = new SavedMap(maptoParse);
-        }
-
         //Recupero los datos guardados.
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        //True es para gps y False para RTK
-        // 1 -> GPS
-        // 0 -> RTK
-        Boolean gps = sharedPref.getBoolean("gps",false);
-        if(gps){
+        //gps = True es para gps y False para RTK
+        // gpsMode = 1 -> GPS
+        // gpsMode = 0 -> RTK
+        if(sharedPref.getBoolean("gps",false)){
             gpsMode = 1;
+            init();                                                 // initialize the necessary libraries
+            restoreValuesFromBundle(savedInstanceState);            // restore the values from saved instance state
             Toast.makeText(this,"MODO GPS ACTIVADO",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this,"MODO RTK ACTIVADO",Toast.LENGTH_SHORT).show();
             gpsMode = 0;
+        }
+
+        Bundle extras = getIntent().getExtras();                //Si me envian un archivo a cargar , hago esto:
+        if (extras != null) {
+            String maptoParse = extras.getString("selectedMap");
+            mapaCargado = new SavedMap(maptoParse);
         }
         setupMap();
     }
@@ -263,13 +254,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 // location is received
                 mCurrentLocationGPS = locationResult.getLastLocation();
                 mLastUpdateTimeGPS = DateFormat.getTimeInstance().format(new Date());
-
                 updateLocationUI_GPS();
             }
         };
-
         mRequestingLocationUpdates = false;
-
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
@@ -291,15 +279,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         map.setMultiTouchControls(true);
         mapController = map.getController();
 
-        MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
-
-        if(gpsMode == 0){
-            //Do something if RTK
-            oMapLocationOverlay.disableFollowLocation();
-            oMapLocationOverlay.disableMyLocation();
-            oMapLocationOverlay.disableFollowLocation();
-        }else{
-            //Do something if GPS
+        if(gpsMode == 1){                   //Do something if GPS
+            MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
             map.getOverlays().add(oMapLocationOverlay);
             oMapLocationOverlay.enableFollowLocation();
             oMapLocationOverlay.enableMyLocation();
@@ -313,15 +294,12 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             mapController.setCenter(new GeoPoint(mapaCargado.getcLatitude(), mapaCargado.getcLongitude()));
             mapController.setZoom(mapaCargado.getZoomlvl());
             //oMapLocationOverlay.enableMyLocation();
-
         }
         // Compass
         /*CompassOverlay compassOverlay = new CompassOverlay(this, map);
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);*/
     }
-
-
 
     /**
      * Restoring values from saved instance state
@@ -347,19 +325,15 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
     /**
-     * Update the UI displaying the location data
-     * and toggling the buttons GPS
+     * Update the UI displaying the location data and toggling the buttons GPS
      */
     private void updateLocationUI_GPS() {
+        // falta revisar donde setea al hombrecito
         if (mCurrentLocationGPS != null) {
-
             Deg2UTM transform = new Deg2UTM(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
-            txtLocationResult.setText(
-                    "Ubicacion: " + transform.toString()
-            );
+            txtLocationResult.setText("Ubicación: " + transform.toString());
             if(mode==0){
                 GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
-
                 Marker startMarker = new Marker(map);
                 //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
                 startMarker.setPosition(startPoint);
@@ -410,9 +384,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             // giving a blink animation on TextView
             txtLocationResult.setAlpha(0);
             txtLocationResult.animate().alpha(1).setDuration(300);
-
-            // location last updated time
-            txtUpdatedOn.setText("Ultima Actualizacion: " + mLastUpdateTimeGPS);
+            txtUpdatedOn.setText("Última Actualización: " + mLastUpdateTimeGPS);  //// location last updated time
         }
         toggleButtons();
     }
@@ -478,7 +450,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
                                 Toast.makeText(GeoreferenciarActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                         }
-
                         updateLocationUI_GPS();
                     }
                 });
@@ -568,7 +539,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     });
                     alert.show();
                 }else if(which ==1){
-
                     Toast.makeText(GeoreferenciarActivity.this, "Distancia ha sido elegido", Toast.LENGTH_LONG).show();
                     AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
                     alert.setTitle("Elija la distancia a trabajar:");
@@ -581,9 +551,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                         }
                     });
                     alert.show();
-
                 }
-
             }
         });
         builder.show();
@@ -658,39 +626,35 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     public void updateMode(int valor){
 
         follow_on=!follow_on;
-        if(mode==0){
-            int[] tiempos = {5,15,30,60};
-            int[] imagenesTiempo = {R.drawable.seg5,R.drawable.seg15,R.drawable.seg30,R.drawable.min1};
-            long segundos=tiempos[valor]*1000;
-            UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
-            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
-            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-            mode=0;
-            System.out.println(UPDATE_INTERVAL_IN_MILLISECONDS);
-            System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-            btn_config.animate().alpha(1).setDuration(600);
-            btn_config.setImageResource(imagenesTiempo[valor]);
-
-        }else if(mode ==1){
-            int[] distancias = {1,2,5,10,15,30};
-            int[] imagenesDistancia = {R.drawable.mts1,R.drawable.mts2,R.drawable.mts5,R.drawable.mts10,R.drawable.mts15,R.drawable.mts30};
-
-            distancia = distancias[valor];
-            UPDATE_INTERVAL_IN_MILLISECONDS=5000;
-            FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
-            mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-            mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-            btn_config.animate().alpha(1).setDuration(600);
-            btn_config.setImageResource(imagenesDistancia[valor]);
-            System.out.println(UPDATE_INTERVAL_IN_MILLISECONDS);
-            System.out.println(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-
-        }
-
-
         if(gpsMode==1){
+            if(mode==0){
+                int[] tiempos = {5,15,30,60};
+                int[] imagenesTiempo = {R.drawable.seg5,R.drawable.seg15,R.drawable.seg30,R.drawable.min1};
+                long segundos=tiempos[valor]*1000;
+                UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
+                FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
+                mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+                mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+                btn_config.animate().alpha(1).setDuration(600);
+                btn_config.setImageResource(imagenesTiempo[valor]);
+
+            }else if(mode ==1){
+                int[] distancias = {1,2,5,10,15,30};
+                int[] imagenesDistancia = {R.drawable.mts1,R.drawable.mts2,R.drawable.mts5,R.drawable.mts10,R.drawable.mts15,R.drawable.mts30};
+
+                distancia = distancias[valor];
+                UPDATE_INTERVAL_IN_MILLISECONDS=5000;
+                FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
+                mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+                mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
+                btn_config.animate().alpha(1).setDuration(600);
+                btn_config.setImageResource(imagenesDistancia[valor]);
+
+            }
             startLocationButtonClick();
+        }else{
+            //implementar para piksi
+            Toast.makeText(getApplicationContext(), "Falta implementar", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -729,11 +693,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 JSONObject geoJSON = features.toJSON();
                 Permissions.verifyStoragePermissions(this);
 
-
                 String path;
-
                 path = Environment.getExternalStorageDirectory() + File.separator +"MapasArq"+File.separator + "Temp"+File.separator+sesionID +".json";
-
 
                 //String path = "samplefile1.json";
 
@@ -755,28 +716,21 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     Toast.makeText(getApplicationContext(), "No se pudo crear el archivo", Toast.LENGTH_LONG).show();
                 }
 
-
                 Toast.makeText(getApplicationContext(), "Puntos Guardados", Toast.LENGTH_LONG).show();
             }catch(Exception e){
                 System.out.println(e);
                 Toast.makeText(getBaseContext(), e.getMessage(), Toast.LENGTH_LONG).show();
             }
             btn_save.setEnabled(true);
-
-
-
-
         }else{
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("No tiene ningun punto que guardar.");
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-
                 }
             });
             alert.show();
         }
-
     }
 
     /**
@@ -907,7 +861,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * Empieza el Handler que controla los tiempos de solicitud del RTK
      */
     public void startHandlerRTK(){
-
         schedulerRTK = new Handler();
         //delay =UPDATE_INTERVAL_IN_MILLISECONDS; //1 second=1000 milisecond, 15*1000=15seconds
         if(piksi==null){
@@ -919,17 +872,19 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
         String data;
         if(!piksi.start()) {
-            data = "Piksi no se encuentra conectado al dispositivo ";
-            System.out.println(data);
-            Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
-            mRequestingLocationUpdates=false;
+
+            if(!piksi.start()){
+                data = "Piksi no se encuentra conectado al dispositivo ";
+                System.out.println(data);
+                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
+                mRequestingLocationUpdates = false;
+            }
         }else{
+            mRequestingLocationUpdates = true;
             Toast.makeText(this,"Estado: actualizando mapa",Toast.LENGTH_SHORT).show();
             toggleButtons();
             schedulerRTK.postDelayed( runnable = new Runnable() {
                 public void run() {
-                    //do something
-                    System.out.println("Ejecutando repetidor:");
                     updateUI_RTK();
                     schedulerRTK.postDelayed(runnable, UPDATE_INTERVAL_IN_MILLISECONDS);
                 }
@@ -942,60 +897,44 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      */
     public void stopHandlerRTK(){
         schedulerRTK.removeCallbacks(runnable);
-
     }
 
 
     public void stopPiksy(){
         piksi.destroy();
-        piksi=null;
+        piksi = null;
     }
 
     /**
      * Metodo que actualiza la interfaz de usuario con los datos extraidos del RTK
      */
     public void updateUI_RTK(){
-
         if(!piksi.isConnected){
             Toast.makeText(this, "Piksi se ha desconectado", Toast.LENGTH_SHORT).show();
             mRequestingLocationUpdates = false;
             follow_on=false;
             btnStartUpdates.setImageResource(R.drawable.playbutton);
             stopHandlerRTK();
-
         }else{
             //Se solicita la latitud y longitud al RTK
             double lastKnowlatitudeRTK = piksi.getLat();
             double lastKnowLongitudeRTK = piksi.getLon();
-
-            //Se muestra los datos del piksi en pantalla
-            String data_1 = "Nuevo datos del piksi -> lat: " + lastKnowlatitudeRTK + ", log: "+ lastKnowLongitudeRTK;
-            //Toast.makeText(getApplicationContext(),data_1, Toast.LENGTH_LONG).show();
-            System.out.println(data_1);
+            txtUpdatedOn.setText(
+                    "Última Actualización:"+DateFormat.getTimeInstance().format(new Date())+" |" + piksi.type  + "|" + String.valueOf(piksi.height));
+            if(lastKnowlatitudeRTK > 91 || lastKnowlatitudeRTK < -91){
+                return ;
+            }
             //Se encuentra el punto donde se encuentra actualmente
             GeoPoint startPoint = new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK);
-
             //Se actualiza el texto inferior
             Deg2UTM transform = new Deg2UTM(lastKnowlatitudeRTK,lastKnowLongitudeRTK);
-            txtLocationResult.setText(
-                    "Ubicacion: " + transform.toString()
-            );
-
-
-            /**
-             * Pruebas
-             */
-
-            txtUpdatedOn.setText(
-                    "Ultima Actualizacion:"+DateFormat.getTimeInstance().format(new Date())+" TYPE: " + piksi.type
-            );
-
-
+            txtLocationResult.setText("Ubicación: " + transform.toString());
 
             // giving a blink animation on TextView
             txtLocationResult.setAlpha(0);
             txtLocationResult.animate().alpha(1).setDuration(300);
-
+            String data_1 = "Nuevo datos del piksi -> lat: " + lastKnowlatitudeRTK + ", log: "+ lastKnowLongitudeRTK;
+            System.out.println(data_1);
 
             if(mode==0){
                 Marker startMarker = new Marker(map);
@@ -1013,7 +952,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     line.setPoints(geoPoints);
                     lineas.add(line);
                     map.getOverlayManager().add(line);
-
                 }
             }else if(mode==1){
                 if(marcadores.size()==0){
@@ -1049,19 +987,18 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             //Se actualiza la markerPersonaRTK y las ubicaciones.
             map.getOverlays().remove(markerPersonaRTK);
             markerPersonaRTK = new Marker(map);
-            markerPersonaRTK.setPosition(startPoint);
-            //map.invalidate();
             markerPersonaRTK.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
-            //markerPersonaRTK.setPosition(new GeoPoint(lat,lon));
+            markerPersonaRTK.setPosition(new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK));
             markerPersonaRTK.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             map.getOverlays().add(markerPersonaRTK);
+            List<GeoPoint> circle = Polygon.pointsAsCircle(new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK), 10);
+            map.getOverlayManager().remove(p);
+            p = new Polygon(map);
+            p.setPoints(circle);
+            p.setTitle("h: " + String.valueOf(piksi.h_accuracy) + " v: " + String.valueOf(piksi.v_accuracy));
+            map.getOverlayManager().add(p);
             map.invalidate();
-
         }
-
-
-
-
     }
 
 
@@ -1071,7 +1008,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * El parametro selectedFIle es el nombre del archivo que se extra del seleccionado por el usuario.
      */
     private void loadFile(String selectedFile){
-
         String textJson = getStringFromFile(selectedFile);
         GeoJSONObject geoJSON;
         try{
@@ -1175,10 +1111,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     private void openSettings() {
         Intent intent = new Intent();
-        intent.setAction(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package",
-                BuildConfig.APPLICATION_ID, null);
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
         intent.setData(uri);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -1198,7 +1132,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 if (checkPermissions()) {
                     startLocationUpdatesGPS();
                 }
-
                 updateLocationUI_GPS();
             }else{
                 startHandlerRTK();
@@ -1219,7 +1152,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }else{
                 stopHandlerRTK();
             }
-
         }
         super.onPause();
     }
@@ -1229,8 +1161,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * @return Devuelve un booleano que indica si tiene o no los permisos.
      */
     private boolean checkPermissions() {
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
+        int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -1284,7 +1215,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             if(piksi!=null){
                 stopPiksy();
             }
-
             super.onBackPressed();
         }
 
@@ -1368,7 +1298,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     //Put actions for CANCEL button here, or leave in blank
-
                 }
             });
             alert.show();
