@@ -225,7 +225,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         if(sharedPref.getBoolean("gps",false)){
             gpsMode = 1;
             init();                                                 // initialize the necessary libraries
-            restoreValuesFromBundle(savedInstanceState);            // restore the values from saved instance state
             Toast.makeText(this,"MODO GPS ACTIVADO",Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(this,"MODO RTK ACTIVADO",Toast.LENGTH_SHORT).show();
@@ -237,7 +236,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             String maptoParse = extras.getString("selectedMap");
             mapaCargado = new SavedMap(maptoParse);
         }
+
         setupMap();
+        if(gpsMode == 1){
+            restoreValuesFromBundle(savedInstanceState);            // restore the values from saved instance state
+        }
     }
 
     /**
@@ -319,7 +322,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }
         }
         if(mode == 1){
-            updateLocationUI_GPS();
+           updateLocationUI_GPS();
         }
     }
 
@@ -557,7 +560,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         builder.show();
     }
 
-
     public void stopLocationUpdates() {
         // Removing location updates
         mFusedLocationClient
@@ -609,9 +611,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     }
                 });
                 alert.show();
-
             }
-
         }else if (requestCode == 1111 && resultCode == RESULT_OK){
             String result=data.getStringExtra("result");
             System.out.println("Respuesta del fileManager:"+result);
@@ -624,7 +624,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
 
     public void updateMode(int valor){
-
         follow_on=!follow_on;
         if(gpsMode==1){
             if(mode==0){
@@ -751,6 +750,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     savetravel(input.getText().toString()+"|"+sesionID);
+                    if (gpsMode == 0){
+                        stopHandlerRTK();
+                        stopPiksy();
+                    }
                 }
             });
             alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -761,7 +764,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 }
             });
             alert.show();
-
         }else{
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
             alert.setTitle("No tiene ningun punto que guardar.");
@@ -772,11 +774,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             });
             alert.show();
         }
-        if (gpsMode == 0){
-            stopHandlerRTK();
-            stopPiksy();
-        }
-
     }
 
     /**
@@ -785,11 +782,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * filename es el nombre con el cual se guardara el recorrido.
      */
     public void savetravel(String fileName){
-
-
         String path = Environment.getExternalStorageDirectory() + File.separator + "MapasArq" + File.separator + fileName +".json";
-
-
         System.out.println(path);
 
         File file = new File(path);
@@ -920,7 +913,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             double lastKnowlatitudeRTK = piksi.getLat();
             double lastKnowLongitudeRTK = piksi.getLon();
             txtUpdatedOn.setText(
-                    "Última Actualización:"+DateFormat.getTimeInstance().format(new Date())+" |" + piksi.type  + "|" + String.valueOf(piksi.height));
+                    "Última Actualización:"+DateFormat.getTimeInstance().format(new Date())+" |" + piksi.type  + "|" + String.valueOf(piksi.height + "m"));
             if(lastKnowlatitudeRTK > 91 || lastKnowlatitudeRTK < -91){
                 return ;
             }
@@ -995,7 +988,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             map.getOverlayManager().remove(p);
             p = new Polygon(map);
             p.setPoints(circle);
-            p.setTitle("h: " + String.valueOf(piksi.h_accuracy) + " v: " + String.valueOf(piksi.v_accuracy));
+            p.setTitle("h: " + String.valueOf(piksi.h_accuracy) + "mm v: " + String.valueOf(piksi.v_accuracy) + "");
             map.getOverlayManager().add(p);
             map.invalidate();
         }
@@ -1044,15 +1037,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                         linea.setPoints(geoPoints);
                         if(numberOfFoadedFiles>0){
                             linea.setColor(colors[numberOfFoadedFiles-1]);
-
                         }
-
                         lineas.add(linea);
                         map.getOverlayManager().add(linea);
-
                     }
                 }
-
             }
             String elementos[] = selectedFile.split("/");
             String fileName = elementos[elementos.length-1];
@@ -1065,7 +1054,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 }
             });
             alert.show();
-
             map.invalidate();
         }catch(JSONException e){
             Toast.makeText(getBaseContext(), "No se pudo Parsear el json", Toast.LENGTH_LONG).show();
@@ -1102,12 +1090,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             br.close();
         }
         catch (IOException e) {
-            //You'll need to add proper error handling here
             System.out.println("Error Lectura:"+e.toString());
         }
         return text.toString();
     }
-
 
     private void openSettings() {
         Intent intent = new Intent();
@@ -1127,8 +1113,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         map.onResume();
         if(mRequestingLocationUpdates){
             if(gpsMode==1){
-                // Resuming location updates depending on button state and
-                // allowed permissions
+                // Resuming location updates depending on button state and allowed permissions
                 if (checkPermissions()) {
                     startLocationUpdatesGPS();
                 }
@@ -1191,7 +1176,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      */
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
         if(marcadores.size() >0){
             AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
             alert.setTitle("Seguro que desea Salir?");
@@ -1199,10 +1183,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    GeoreferenciarActivity.super.onBackPressed();
                     if(piksi!=null){
                         stopPiksy();
                     }
+                    GeoreferenciarActivity.super.onBackPressed();
                 }
             });
             alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -1217,7 +1201,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }
             super.onBackPressed();
         }
-
     }
 
     //Metodo viejo para telefonos con Android 6.
@@ -1229,11 +1212,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             Intent intent = new Intent()
                     .setType("*/*")
                     .setAction(Intent.ACTION_GET_CONTENT);
-
             startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
         }else{
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("No puede abrir mas archivos.");
+            alert.setTitle("No puede abrir más archivos.");
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
@@ -1241,7 +1223,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             });
             alert.show();
         }
-
     }
 
     @OnClick(R.id.btn_open)
@@ -1263,7 +1244,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
     }
 
-
     /**
      * Metodo que sirve para marcar el punto exacto donde esta parado, informando que encontro.
      */
@@ -1271,19 +1251,25 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     public void setMark(){
         if(mRequestingLocationUpdates){
             LinearLayout view = (LinearLayout) View.inflate(this,R.layout.spinner_list,null);
-
             final Spinner staticSpinner = (Spinner) view.findViewById(R.id.spinner) ;
             final EditText numeroProcedencia = (EditText) view.findViewById(R.id.input_numeroP);
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Indique que encontro:");
-
-            //alert.setView(staticSpinner);
+            alert.setTitle("Indique que encontró:");
             alert.setView(view);
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    System.out.println(staticSpinner.getSelectedItem().toString());
+                    GeoPoint punto;
+                    if(gpsMode == 1){
+                        punto = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                    }else{
+                        if(piksi!=null){
 
-                    GeoPoint punto = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                            punto = new GeoPoint(markerPersonaRTK.getPosition().getLatitude(), markerPersonaRTK.getPosition().getLongitude());
+                        }else{
+                            Toast.makeText(GeoreferenciarActivity.this,"Piksi no se encuentra conectado.",Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
                     Marker marker = new Marker(map);
                     marker.setPosition(punto);
                     marker.setTitle(staticSpinner.getSelectedItem().toString());
@@ -1292,7 +1278,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     marker.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.marker));
                     map.getOverlays().add(marker);
                     marcadores.add(marker);
-
                 }
             });
             alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -1302,8 +1287,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             });
             alert.show();
         }else{
+            // porqué?
             Toast.makeText(this,"Necesita estar en play.",Toast.LENGTH_LONG).show();
         }
-
     }
 }

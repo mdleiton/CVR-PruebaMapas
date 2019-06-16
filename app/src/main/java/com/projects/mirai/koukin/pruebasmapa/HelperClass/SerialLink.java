@@ -147,12 +147,13 @@ public class SerialLink {
                 MsgPosLLH msg_ = (MsgPosLLH) msg;
                 int fix_type = msg_.flags & 0x7;
                 type = fix_type_a[fix_type];
+                h_accuracy = msg_.h_accuracy;
+                v_accuracy = msg_.v_accuracy;
+                height = msg_.height;
                 if (fix_type == 1) {
                     lat = msg_.lat;
                     log = msg_.lon;
-                    h_accuracy = msg_.h_accuracy;
-                    v_accuracy = msg_.v_accuracy;
-                    height = msg_.height;
+
                 }
             }
         });
