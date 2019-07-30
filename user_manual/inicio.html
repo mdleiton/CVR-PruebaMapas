@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Inicio &#8212; documentación de Archaeology - 1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="next" title="App" href="app.html" />
+    <link rel="prev" title="Welcome to Archaeology’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="inicio">
+<h1>Inicio<a class="headerlink" href="#inicio" title="Enlazar permanentemente con este título">¶</a></h1>
+<a class="reference internal image-reference" href="_images/iTunesArtwork&#64;1x.png"><img alt="alternate text" class="align-right" src="_images/iTunesArtwork&#64;1x.png" style="width: 100.0px; height: 100.0px;" /></a>
+<p>Archaeology es una aplicación dirigida a arqueólogos, como apoyo en sus actividades de expedición</p>
+<p>Esta aplicación te permite guardar los recorridos de un arqueólogo. Te permite generar archivos GeoJson en los cuales estarán guardados los puntos en el mapa sobre cuales has recorrido en una expedición.</p>
+<div class="section" id="funcionalidades">
+<h2>Funcionalidades:<a class="headerlink" href="#funcionalidades" title="Enlazar permanentemente con este título">¶</a></h2>
+<ul class="simple">
+<li><p>Registrar en tiempo real y con alta exactitud el recorrido generado</p></li>
+<li><p>Marcar los hallazgos que se realizaron y almacenarlos como hitos en un mapa</p></li>
+<li><p>Seleccionar entre GPS y RTK para guardar el recorrido</p></li>
+<li><p>Enviar por correo los registros de los recorridos por medio de tu cuenta de Gmail</p></li>
+<li><p>Seleccionar y guardar zonas geográficas en mapas</p></li>
+<li><p>Definir los modos dde registrar el recorrido (por tiempo o por distancia)</p></li>
+</ul>
+</div>
+<div class="section" id="que-datos-se-capturan">
+<h2>Qué datos se capturan<a class="headerlink" href="#que-datos-se-capturan" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Archaelogy captura datos geolocalizados de latitud, longitud y altura (ISO 6709), en conjunto con datos sobre los hitos encontrados.</p>
+</div>
+<div class="section" id="hitos">
+<h2>Hitos<a class="headerlink" href="#hitos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Los tipos de hitos para marcar son:</p>
+<ul class="simple">
+<li><p>Tiesto no Diagnóstico</p></li>
+<li><p>Tiesto Diagnóstico</p></li>
+<li><p>Ítica</p></li>
+<li><p>Hueso</p></li>
+<li><p>Hueso Animal</p></li>
+<li><p>Hueso Humano</p></li>
+<li><p>Hollo de poste</p></li>
+<li><p>Metal</p></li>
+</ul>
+<p>En este se puede marcar el número de procedencia de cada hito</p>
+<p>Un hito corresponde a una marca donde se hizo un hallazgo</p>
+<a class="reference internal image-reference" href="_images/hito.jpeg"><img alt="alternate text" class="align-center" src="_images/hito.jpeg" style="width: 300.0px; height: 400.0px;" /></a>
+</div>
+<div class="section" id="modo-de-uso">
+<h2>Modo de uso<a class="headerlink" href="#modo-de-uso" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Archaeology presenta dos modos para captura de datos, uno es por RTK (por medio de la conexión a un dispositivo piksi) y el otro por GPS (del dispositivo)</p>
+<ul class="simple">
+<li><p>Modo GPS</p></li>
+</ul>
+<p>En este modo se utiliza el receptor GPS del dispositivo móvil, que se conecta con al menos tres satélites que estén cerca. Cabe recalcar que con solo tres satélites conectados se puede triangular posición respecto longitud y latitud, pero con un cuarto se puede definir la elevación.</p>
+<p>En general los dispositivos móviles también usan otra fuente de datos para poder triangular su ubicación, llamada A-GPS (Assited Global Positioning System).</p>
+<p>La exactitud del GPS del dispositivo móvil varia cerca de 50 metros.</p>
+<p>Por defecto Archaeology usa el Modo de GPS.</p>
+<ul class="simple">
+<li><p>Modo RTK</p></li>
+</ul>
+<p>En este modo por medio de una conexión serial se debe comunicar al dispositivo móvil con un piksi (de aquí en adelante llamado Rover), a su vez se debe tener otro piksi que actúe como base en el punto de la expedición.</p>
+<p>La forma como buscan los datos de geolocalización es distinta, usa la técnica de cinemática en tiempo real (<em>RTK</em>), para determinar la ubicación de forma precisa.</p>
+<p>La exactitud conseguida por el modo RTK es de centímetros.</p>
+</div>
+<div class="section" id="desarrolladores">
+<h2>Desarrolladores<a class="headerlink" href="#desarrolladores" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Para encontrar la documentación de Archaeology diríjase a su repositorio en Github: <a class="reference external" href="https://github.com/mdleiton/CVR-PruebaMapas">Archaeology</a>.</p>
+<p>«<em>En la siguiente sección podrá ver más sobre lo que puede hacer con Archaeology</em>»</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Archaeology</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">     Inicio</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#funcionalidades">Funcionalidades:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#que-datos-se-capturan">Qué datos se capturan</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hitos">Hitos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modo-de-uso">Modo de uso</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#desarrolladores">Desarrolladores</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="app.html">     App Móvil</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="capítulo anterior">Welcome to Archaeology’s documentation!</a></li>
+      <li>Next: <a href="app.html" title="próximo capítulo">App</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Luis Basantes, Mauricio Leiton, Manuel Lecaro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/inicio.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

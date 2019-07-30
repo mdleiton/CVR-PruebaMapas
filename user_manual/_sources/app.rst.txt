@@ -1,0 +1,125 @@
+App
+===
+
+Descargar Mapa
+++++++++++++++
+
+Esta opción permite seleccionar una región geográfica, descargarla para poder usarla en el registro de pasos en una expedición
+
+.. image:: _static/Descargarmapa.png
+	:width: 600px
+	:height: 800px
+	:scale: 50 %
+	:alt: alternate text
+	:align: center
+
+Puedes acercarte o alejarte por medio de los botones o tocando la pantalla, una vez seleccionada el área, presionar el botón de descarga.
+
+.. image:: _static/down.png
+	:alt: alternate text
+
+Acto seguido se almacenará un archivo geojson
+
+Cargar Archivo de Puntos
+++++++++++++++++++++++++
+
+Puedes almacenar archivos del tipo geojson que representen expediciones y poder visualizarlas
+
+.. image:: _static/cargar.png
+	:width: 600px
+	:height: 800px
+	:scale: 50 %
+	:alt: alternate text
+	:align: center
+
+Los archivos que se cargan al mapa son de formato .json
+
+
+Georefenciar
+++++++++++++
+
+Esta opción permite la captura de la trayectoria durante la expedición, el cuál por defecto está en distancia de 1mt para la toma de marcas
+
+.. image:: _static/time.png
+	:alt: alternate text
+
+Dando clic acto seguido aparecerán las opciones de captura de datos
+
++ Modos de captura de datos
+
+La captura de datos se realiza por tiempo y por distancia
+
+
+.. figure:: _static/options.png
+	:width: 600px
+	:height: 800px
+	:scale: 50 %
+	:alt: alternate text
+	:align: center
+	
+	Selección entre tipos de marcado
+
+
+Al tomar cada una de las opciones aparecerán los rangos a escoger disponibles
+
+.. list-table:: 
+
+	* - .. figure:: _static/distselect.png
+		:width: 600px
+		:height: 800px
+		:scale: 50 %
+	
+		Selección por distancias	
+	
+	* - .. figure:: _static/timeselect.png
+		:width: 600px
+		:height: 800px
+		:scale: 50 %
+
+		Selección por tiempo
+
+
+Ajustes
++++++++
+
+En esta opción puede seleccionar el tipo de Geolocalización a usar: RTK (conectándo a piksi) o GPS
+
+.. figure:: _static/adjustements.png
+	:width: 600px
+	:height: 800px
+	:scale: 50 %
+	:alt: alternate text
+	:align: center
+	
+	Ajustes
+
+
+Enviar
+++++++
+
+Aquí se pueden enviar archivos de puntos (la ruta en un archivo .json) de la jornada por el correo electrónico disponible en el dispositivo (de preferencia Gmail).
+
+
+.. list-table:: 
+
+	* - .. figure:: _static/mail1.png
+		:width: 600px
+		:height: 800px
+		:scale: 50 %	
+	
+	* - .. figure:: _static/mail2.png
+		:width: 600px
+		:height: 800px
+		:scale: 50 %
+
+	* - .. figure:: _static/mail3.png
+		:width: 600px
+		:height: 800px
+		:scale: 50 %
+
+
+
+
+
+
+
