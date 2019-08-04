@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>App &#8212; documentación de Archaeology - 1</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script type="text/javascript" src="_static/translations.js"></script>
+    <link rel="index" title="Índice" href="genindex.html" />
+    <link rel="search" title="Búsqueda" href="search.html" />
+    <link rel="prev" title="Inicio" href="inicio.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="app">
+<h1>App<a class="headerlink" href="#app" title="Enlazar permanentemente con este título">¶</a></h1>
+<div class="section" id="descargar-mapa">
+<h2>Descargar Mapa<a class="headerlink" href="#descargar-mapa" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Esta opción permite seleccionar una región geográfica, descargarla para poder usarla en el registro de pasos en una expedición</p>
+<a class="reference internal image-reference" href="_images/Descargarmapa.png"><img alt="alternate text" class="align-center" src="_images/Descargarmapa.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p>Puedes acercarte o alejarte por medio de los botones o tocando la pantalla, una vez seleccionada el área, presionar el botón de descarga.</p>
+<img alt="alternate text" src="_images/down.png" />
+<p>Acto seguido se almacenará un archivo geojson</p>
+</div>
+<div class="section" id="cargar-archivo-de-puntos">
+<h2>Cargar Archivo de Puntos<a class="headerlink" href="#cargar-archivo-de-puntos" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Puedes almacenar archivos del tipo geojson que representen expediciones y poder visualizarlas</p>
+<a class="reference internal image-reference" href="_images/cargar.png"><img alt="alternate text" class="align-center" src="_images/cargar.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p>Los archivos que se cargan al mapa son de formato .json</p>
+</div>
+<div class="section" id="georefenciar">
+<h2>Georefenciar<a class="headerlink" href="#georefenciar" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Esta opción permite la captura de la trayectoria durante la expedición, el cuál por defecto está en distancia de 1mt para la toma de marcas</p>
+<img alt="alternate text" src="_images/time.png" />
+<p>Dando clic acto seguido aparecerán las opciones de captura de datos</p>
+<ul class="simple">
+<li><p>Modos de captura de datos</p></li>
+</ul>
+<p>La captura de datos se realiza por tiempo y por distancia</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="_images/options.png"><img alt="alternate text" src="_images/options.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p class="caption"><span class="caption-text">Selección entre tipos de marcado</span><a class="headerlink" href="#id1" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+<p>Al tomar cada una de las opciones aparecerán los rangos a escoger disponibles</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><div class="figure align-center" id="id2">
+<a class="reference internal image-reference" href="_images/distselect.png"><img alt="_images/distselect.png" src="_images/distselect.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p class="caption"><span class="caption-text">Selección por distancias</span><a class="headerlink" href="#id2" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="figure align-center" id="id3">
+<a class="reference internal image-reference" href="_images/timeselect.png"><img alt="_images/timeselect.png" src="_images/timeselect.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p class="caption"><span class="caption-text">Selección por tiempo</span><a class="headerlink" href="#id3" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ajustes">
+<h2>Ajustes<a class="headerlink" href="#ajustes" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>En esta opción puede seleccionar el tipo de Geolocalización a usar: RTK (conectándo a piksi) o GPS</p>
+<div class="figure align-center" id="id4">
+<a class="reference internal image-reference" href="_images/adjustements.png"><img alt="alternate text" src="_images/adjustements.png" style="width: 300.0px; height: 400.0px;" /></a>
+<p class="caption"><span class="caption-text">Ajustes</span><a class="headerlink" href="#id4" title="Enlace permanente a esta imagen">¶</a></p>
+</div>
+</div>
+<div class="section" id="enviar">
+<h2>Enviar<a class="headerlink" href="#enviar" title="Enlazar permanentemente con este título">¶</a></h2>
+<p>Aquí se pueden enviar archivos de puntos (la ruta en un archivo .json) de la jornada por el correo electrónico disponible en el dispositivo (de preferencia Gmail).</p>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 100%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mail1.png"><img alt="_images/mail1.png" src="_images/mail1.png" style="width: 300.0px; height: 400.0px;" /></a>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mail2.png"><img alt="_images/mail2.png" src="_images/mail2.png" style="width: 300.0px; height: 400.0px;" /></a>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><div class="figure align-center">
+<a class="reference internal image-reference" href="_images/mail3.png"><img alt="_images/mail3.png" src="_images/mail3.png" style="width: 300.0px; height: 400.0px;" /></a>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Archaeology</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navegación</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="inicio.html">     Inicio</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">     App Móvil</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#descargar-mapa">Descargar Mapa</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cargar-archivo-de-puntos">Cargar Archivo de Puntos</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#georefenciar">Georefenciar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ajustes">Ajustes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#enviar">Enviar</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="inicio.html" title="capítulo anterior">Inicio</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Búsqueda rápida</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Ir a" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Luis Basantes, Mauricio Leiton, Manuel Lecaro.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/app.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
