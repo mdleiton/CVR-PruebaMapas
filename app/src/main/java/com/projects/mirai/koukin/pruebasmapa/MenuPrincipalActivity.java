@@ -17,11 +17,26 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.MyHelperSql;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 
 import java.io.File;
+import java.util.ArrayList;
+
+/**
+ *  Actividad usada para mostrar el menu principal y recorrer por las demas actividades de la aplicaion
+ *
+ * @author luibasantes, mleiton
+ * @version 2019.07.30
+ * @since 1.0
+ */
 
 public class MenuPrincipalActivity extends AppCompatActivity {
 
+
     private ImageButton btn_descargar_mapa, btn_cargar_puntos, btn_georeferenciar, btn_config, btn_enviar;
+
     private String path;
+
+    private int OLD_FILE_ACTIVITY = 1234;
+
+    private int FILE_ACTIVITY = 123;
 
 
     @Override
@@ -52,7 +67,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
             public void onClick(View v) {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
-                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
+                //Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
                 Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
                 startActivity(i);
             }
@@ -108,52 +123,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-
-
-
-        //DEPRECATED
-        /*
-        btn_descargar_mapa.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
-                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent i = new Intent(MenuPrincipalActivity.this, MapaActivity.class);
-                startActivity(i);
-            }
-        });
-
-        btn_config.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Intent i = new Intent(MenuPrincipalActivity.this, ConfigActivity.class);
-                startActivity(i);
-            }
-        });
-
-        btn_enviar.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View v) {
-                Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
-                Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
-                Intent i = new Intent(MenuPrincipalActivity.this, Descargar_Mapa.class);
-                startActivity(i);
-
-                AlertDialog.Builder alert = new AlertDialog.Builder(MenuPrincipalActivity.this);
-                alert.setTitle("Funcion en Desarrollo");
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                });
-                alert.show();
-        }
-    });*/
-
         File f = new File(path);
         System.out.println("Existe:"+f.exists());
         System.out.println("Es Directorio:"+f.isDirectory());
@@ -171,48 +140,50 @@ public class MenuPrincipalActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Metodo que llama una actividad dependiendo del código de request que se recibe
+     * de parte de los Intents
+     * @param requestCode   el código de request, en este método es devuelto para subir archivos
+     *                      se los encuentra en GeoreferenciarActivity
+     * @param data          contiene el archivo que se quiere almacenar
+     */
+    private void onRequestedCodes(int requestCode, Intent data){
+
+        Uri selectedfile = data.getData(); //The uri with the location of the file
+        String path = FileUtils.getPath(this, selectedfile);
+
+        String err_msg = "Debe elegir un archivo GeoJson";
+
+        if(requestCode == FILE_ACTIVITY){
+            err_msg = "Debe elegir un archivo con extension .json";
+        }
+
+        if(requestCode == FILE_ACTIVITY || requestCode == OLD_FILE_ACTIVITY){
+
+            if(path.endsWith(".json") || path.endsWith("C.json") || path.endsWith("P.json")){
+                Intent intent = new Intent(getBaseContext(), MapaActivity.class);
+                intent.putExtra("selectedFile", path);
+                startActivity(intent);
+            }else{
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle(err_msg);
+                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                });
+                alert.show();
+            }
+
+        }
+
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 123 && resultCode == RESULT_OK) {
-            Uri selectedfile = data.getData(); //The uri with the location of the file
-            String path = FileUtils.getPath(this, selectedfile);
-            System.out.println("New Path:" + path);
 
-            if (path.endsWith(".json")) {
-                Intent intent = new Intent(getBaseContext(), MapaActivity.class);
-                intent.putExtra("selectedFile", path);
-                startActivity(intent);
-            } else {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("Debe elegir un archivo con extension .json");
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-
-                    }
-                });
-                alert.show();
-            }
-        } else if (requestCode == 1234 && resultCode == RESULT_OK) {
-            Uri selectedfile = data.getData(); //The uri with the location of the file
-            String path = FileUtils.getPath(this, selectedfile);
-            System.out.println("New Path:" + path);
-
-            if (path.endsWith("C.json") || path.endsWith("P.json")) {
-                Intent intent = new Intent(getBaseContext(), MapaActivity.class);
-                intent.putExtra("selectedFile", path);
-                startActivity(intent);
-            } else {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setTitle("Debe elegir un archivo GeoJson");
-                alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                    }
-                });
-                alert.show();
-
-            }
-
+        if(resultCode == RESULT_OK){
+            onRequestedCodes(requestCode,data);
         }
 
     }

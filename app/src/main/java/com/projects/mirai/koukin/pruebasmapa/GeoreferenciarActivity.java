@@ -110,7 +110,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private static final String TAG = GeoreferenciarActivity.class.getSimpleName();
 
     SerialLink piksi;
-    HiloRTK hiloRTK;
     Runnable runnable;
     Handler schedulerRTK;
     public Marker markerPersonaRTK;
@@ -334,7 +333,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             Deg2UTM transform = new Deg2UTM(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
             txtLocationResult.setText("Ubicación: " + transform.toString());
             if(mode==0){
-                GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
                 Marker startMarker = new Marker(map);
                 //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
                 startMarker.setPosition(startPoint);
@@ -353,7 +352,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 }
             }else if(mode==1){
                 if(marcadores.size()==0){
-                    GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                    GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(),mCurrentLocationGPS.getAltitude());
                     Marker startMarker = new Marker(map);
                     //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
                     startMarker.setPosition(startPoint);
@@ -363,7 +362,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     mapController.setCenter(startPoint);
                 }else{
                     GeoPoint startPoint = marcadores.get(marcadores.size()-1).getPosition();
-                    GeoPoint newPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                    GeoPoint newPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
                     double distance = DistanceCalculator.calculateDistanceInMeters(startPoint,newPoint);
                     if(distance >= distancia){
                         Marker startMarker = new Marker(map);
@@ -670,7 +669,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             for (Marker marker:marcadores){
                 GeoPoint punto = marker.getPosition();
-                Point point = new Point(punto.getLatitude(),punto.getLongitude());
+                Point point = new Point(punto.getLatitude(),punto.getLongitude(), punto.getAltitude());
 
                 features.addFeature(new Feature(point));
             }
@@ -680,8 +679,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             for (Polyline linea :lineas){
                 GeoPoint p1 = linea.getPoints().get(0);
                 GeoPoint p2 = linea.getPoints().get(1);
-                posiciones.add(new Position(p1.getLatitude(),p1.getLongitude()));
-                posiciones.add(new Position(p2.getLatitude(),p2.getLongitude()));
+                posiciones.add(new Position(p1.getLatitude(),p1.getLongitude(), p1.getAltitude()));
+                posiciones.add(new Position(p2.getLatitude(),p2.getLongitude(), p2.getAltitude()));
             }
             lineString.setPositions(posiciones);
             features.addFeature(new Feature(lineString));
@@ -701,12 +700,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
                 if(file.exists()){
                     OutputStream fOut = new FileOutputStream(file);
-                    //OutputStreamWriter osw = new OutputStreamWriter(fOut);
-                    //osw.write(geoJSON.toString());
                     fOut.write(geoJSON.toString().getBytes());
                     System.out.println(geoJSON.toString());
-                    //osw.flush();
-                    //osw.close();
                     Toast.makeText(getApplicationContext(), "Puntos Guardados", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(getApplicationContext(), "No se pudo crear el archivo", Toast.LENGTH_LONG).show();
@@ -803,7 +798,23 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         for (Marker marker:marcadores){
             GeoPoint punto = marker.getPosition();
             Point point = new Point(punto.getLatitude(),punto.getLongitude());
-            features.addFeature(new Feature(point));
+            point.describeContents();
+            Feature mark = new Feature(point);
+            if(marker.getTitle()!=null){
+                JSONObject jhito = new JSONObject();
+                try {
+                    jhito.put("title", marker.getTitle());
+                    jhito.put("subdescription", marker.getSubDescription());
+
+                } catch (JSONException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+
+                mark.setProperties(jhito);
+            }
+
+            features.addFeature(mark);
         }
 
         LineString lineString = new LineString();
@@ -817,6 +828,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         features.addFeature(new Feature(lineString));
         try{
             JSONObject geoJSON = features.toJSON();
+            System.out.println("File: "+geoJSON);
             Permissions.verifyStoragePermissions(this);
 
 
@@ -885,9 +897,13 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * Detiene las tareas del handler para evitar que siga realizando peticiones al RTK
      */
     public void stopHandlerRTK(){
-        schedulerRTK.removeCallbacks(runnable);
-    }
+        if(piksi == null){
+            Toast.makeText(this, "Conecte primero al piksi", Toast.LENGTH_SHORT).show();
+        }else{
+            schedulerRTK.removeCallbacks(runnable);
+        }
 
+    }
 
     public void stopPiksy(){
         piksi.destroy();
@@ -908,6 +924,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             //Se solicita la latitud y longitud al RTK
             double lastKnowlatitudeRTK = piksi.getLat();
             double lastKnowLongitudeRTK = piksi.getLon();
+            double lastKnowAltitudeRTK = piksi.getLat();
             String type = piksi.type;
             double height = piksi.height;
             txtUpdatedOn.setText(
@@ -939,7 +956,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     geoPoints.add(startPoint);
                     Polyline line = new Polyline();
                     line.setPoints(geoPoints);
-                    line.setColor(R.color.colorBlue);
+                    line.setColor(R.color.colorGreen);
                     lineas.add(line);
                     map.getOverlayManager().add(line);
                 }
@@ -1007,15 +1024,22 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             System.out.println("Probando:"+Json.getJSONArray("features"));
             JSONArray features = Json.getJSONArray("features");
             for(int i=0;i< features.length();i++){
+                JSONObject hito = features.getJSONObject(i);
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
                 System.out.println("Elemento"+i+":"+elemento);
-
+                System.out.println("hito"+i+":"+hito);
                 if(elemento.get("type").equals("Point")){
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
                     Marker startMarker = new Marker(map);
                     //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
                     startMarker.setPosition(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)));
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    if(!hito.isNull("properties")){
+                        JSONObject propiedades = hito.getJSONObject("properties");
+                        startMarker.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.marker));
+                        startMarker.setTitle(propiedades.getString("title"));
+                        startMarker.setSubDescription(propiedades.getString("subdescription"));
+                    }
                     map.getOverlays().add(startMarker);
                     marcadores.add(startMarker);
                 }else if(elemento.get("type").equals("LineString")){
@@ -1054,7 +1078,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             map.invalidate();
         }catch(JSONException e){
             Toast.makeText(getBaseContext(), "No se pudo Parsear el json", Toast.LENGTH_LONG).show();
-            System.out.println(e.toString());
+            e.printStackTrace();
         }catch(Exception ex){
             Toast.makeText(getBaseContext(), "Existe un problema con su json", Toast.LENGTH_LONG).show();
             System.out.println(ex.toString());
@@ -1062,7 +1086,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
     /**
-     * Metodo que parcea para solo extraer el nombre del archivo de un FILE
+     * Metodo que parsea para solo extraer el nombre del archivo de un FILE
      * @param selectedFile Es la dirrecion completa del SO del archivo.
      * @return Devuelve el nombre del archivo
      */
@@ -1202,6 +1226,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     //Metodo viejo para telefonos con Android 6.
     //@OnClick(R.id.btn_open)
+
+    /**
+     *  Metodo antiguo para dispositivos con Android 6
+     */
     public void openFile(){
         Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
         Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
@@ -1257,7 +1285,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 public void onClick(DialogInterface dialog, int whichButton) {
                     GeoPoint punto;
                     if(gpsMode == 1){
-                        punto = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+                        punto = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
                     }else{
                         if(piksi!=null){
 

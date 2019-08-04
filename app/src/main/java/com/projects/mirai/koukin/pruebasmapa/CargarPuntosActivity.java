@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 //import android.widget.Button;
@@ -43,6 +44,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -278,7 +280,8 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
         if (mCurrentLocation != null) {
             txtLocationResult.setText(
                     "Lat: " + mCurrentLocation.getLatitude() + ", " +
-                            "Lng: " + mCurrentLocation.getLongitude()
+                            "Lng: " + mCurrentLocation.getLongitude()+ ", "+
+                            "Alt: " + mCurrentLocation.getAltitude()
             );
             //mapController.setZoom(18.0);
             // giving a blink animation on TextView
@@ -433,6 +436,7 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
             System.out.println("Probando:"+Json.getJSONArray("features"));
             JSONArray features = Json.getJSONArray("features");
             for(int i=0;i< features.length();i++){
+                JSONObject hito = features.getJSONObject(i);
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
                 System.out.println("Elemento"+i+":"+elemento);
 
@@ -442,8 +446,15 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
                     //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
                     startMarker.setPosition(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)));
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                    if(!hito.isNull("properties")){
+                        JSONObject propiedades = hito.getJSONObject("properties");
+                        startMarker.setIcon(ContextCompat.getDrawable(CargarPuntosActivity.this,R.drawable.marker));
+                        startMarker.setTitle(propiedades.getString("title"));
+                        startMarker.setSubDescription(propiedades.getString("subdescription"));
+                    }
                     map.getOverlays().add(startMarker);
                     marcadores.add(startMarker);
+
                 }
 
             }
@@ -469,10 +480,6 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
         }
     }
     public String getStringFromFile(String selectedFile){
-        //File sdcard = Environment.getExternalStorageDirectory();
-
-        //Get the text file
-        //File file = new File(sdcard,"file.txt");
         System.out.println("Path:"+selectedFile);
         File file = new File(selectedFile);
         //Read text from file

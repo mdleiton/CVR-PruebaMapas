@@ -22,6 +22,7 @@ import com.cocoahero.android.geojson.GeoJSONObject;
 import com.cocoahero.android.geojson.LineString;
 import com.cocoahero.android.geojson.Point;
 import com.cocoahero.android.geojson.Position;
+import com.google.gson.JsonObject;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Constants;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.RecorridoGuardar;
@@ -209,9 +210,18 @@ public class SendMailActivity extends AppCompatActivity {
         FeatureCollection features = new FeatureCollection();
 
         for (RecorridoGuardar rec: recorridos){
-            for (GeoPoint geo:rec.getGeoPoints()){
-                Point point = new Point(geo.getLatitude(),geo.getLongitude());
-                features.addFeature(new Feature(point));
+            for (JSONObject geoh:rec.getHito()){
+                try{
+                    GeoPoint geo = (GeoPoint) geoh.get("hito");
+                    Point point = new Point(geo.getLatitude(),geo.getLongitude());
+                    Feature feat = new Feature(point);
+                    if(geoh.get("properties")!=null){
+                        feat.setProperties(geoh.getJSONObject("properties"));
+                    }
+                    features.addFeature(feat);
+                }catch(JSONException e){
+                    e.printStackTrace();
+                }
             }
 
         }
@@ -229,6 +239,7 @@ public class SendMailActivity extends AppCompatActivity {
 
         try{
             JSONObject geoJSON = features.toJSON();
+            System.out.println(geoJSON);
             Permissions.verifyStoragePermissions(this);
 
 
@@ -303,12 +314,17 @@ public class SendMailActivity extends AppCompatActivity {
             System.out.println("Probando:"+Json.getJSONArray("features"));
             JSONArray features = Json.getJSONArray("features");
             for(int i=0;i< features.length();i++){
+                JSONObject hito = features.getJSONObject(i);
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
                 System.out.println("Elemento"+i+":"+elemento);
 
                 if(elemento.get("type").equals("Point")){
+                    JSONObject properties = new JSONObject();
+                    if(!hito.isNull("properties")){
+                        properties = hito.getJSONObject("properties");
+                    }
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
-                    rec.addPoint(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)));
+                    rec.addHito(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)),properties);
                 }else if(elemento.get("type").equals("LineString")){
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
                     //int colors[] = {R.color.colorRed,R.color.colorBlue,R.color.colorGreen,R.color.colorYellow};

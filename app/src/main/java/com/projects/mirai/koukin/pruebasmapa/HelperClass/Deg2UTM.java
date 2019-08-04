@@ -57,6 +57,10 @@ public class Deg2UTM
         Northing=Math.round(Northing*100)*0.01;
     }
 
+    public  Deg2UTM(double Lat,double Lon, double Alt) {
+        new Deg2UTM(Lat, Lon);
+    }
+
     @Override
     public String toString() {
         return  Zone +" "+ Letter +" "+ Easting +" "+ Northing ;

@@ -97,7 +97,6 @@ public class ConfigActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
 
         AlertDialog.Builder alert = new AlertDialog.Builder(ConfigActivity.this);
         alert.setTitle("Desea Guardar las Configuraciones?");

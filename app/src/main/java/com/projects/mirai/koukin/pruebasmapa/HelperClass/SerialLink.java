@@ -190,5 +190,12 @@ public class SerialLink {
         }
         return 182;
     }
+
+    public double getElevation(){
+        if(piksiDriver != null){
+            return height;
+        }
+        return height;
+    }
 }
 
