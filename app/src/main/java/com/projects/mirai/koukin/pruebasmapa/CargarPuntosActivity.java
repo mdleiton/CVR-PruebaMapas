@@ -144,10 +144,6 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
     private String sesionID;
 
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,10 +157,6 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
         sesionID = "GeoJson"+date ;
-
-
-
-
 
         Context ctx = getApplicationContext();
         Configuration.getInstance().load(ctx, PreferenceManager.getDefaultSharedPreferences(ctx));

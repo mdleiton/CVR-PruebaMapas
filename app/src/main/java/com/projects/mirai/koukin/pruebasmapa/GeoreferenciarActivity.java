@@ -397,6 +397,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         outState.putString("last_updated_on", mLastUpdateTimeGPS);
     }
 
+    /**
+     * Metodo que cambia la imagen del boton de guardar registros
+     */
     private void toggleButtons() {
         if (mRequestingLocationUpdates) {
             btnStartUpdates.setImageResource(R.drawable.pause);
@@ -455,6 +458,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 });
     }
 
+    /**
+     * Método que inicia las llamadas a los hilos de los piksis para el modo RTK
+     */
     private void startLocationUpdatesRTK() {
         startHandlerRTK();
     }
@@ -555,6 +561,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         builder.show();
     }
 
+    /**
+     * Método que muestra un mensaje cuando las actualizacion de ubicación se dejan de tomar
+     */
     public void stopLocationUpdates() {
         // Removing location updates
         mFusedLocationClient
@@ -618,6 +627,11 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
+    /**
+     * Metodo paa actualizar el modo en el que se toman los datos geográficos, en segundos o por
+     * por distancia
+     * @param valor el número de la opcion escogida
+     */
     public void updateMode(int valor){
 
         follow_on=!follow_on;
@@ -837,8 +851,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             if(file.exists()){
                 OutputStream fOut = new FileOutputStream(file);
-                //OutputStreamWriter osw = new OutputStreamWriter(fOut);
-                //osw.write(geoJSON.toString());
                 fOut.write(geoJSON.toString().getBytes());
                 System.out.println(geoJSON.toString());
                 //osw.flush();
@@ -897,11 +909,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * Detiene las tareas del handler para evitar que siga realizando peticiones al RTK
      */
     public void stopHandlerRTK(){
-        if(piksi == null){
-            Toast.makeText(this, "Conecte primero al piksi", Toast.LENGTH_SHORT).show();
-        }else{
+
             schedulerRTK.removeCallbacks(runnable);
-        }
+
 
     }
 
@@ -1091,10 +1101,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      * @return Devuelve el nombre del archivo
      */
     public String getStringFromFile(String selectedFile){
-        //File sdcard = Environment.getExternalStorageDirectory();
-
-        //Get the text file
-        //File file = new File(sdcard,"file.txt");
         System.out.println("Path:"+selectedFile);
         File file = new File(selectedFile);
         //Read text from file
