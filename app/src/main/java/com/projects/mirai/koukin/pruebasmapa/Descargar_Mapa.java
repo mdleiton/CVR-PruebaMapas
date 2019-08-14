@@ -88,6 +88,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Actividad que permite descargar los tiles de una zona geográfica rodeada por medio de un BBOx
+ * llevándote de vuelta al menú
+ * @author mauricio, manuel, luis
+ * @version 1.0
+ */
 public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekBarChangeListener, View.OnClickListener, TextWatcher{
 
     private static final String TAG = Descargar_Mapa.class.getSimpleName();
@@ -132,12 +138,8 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     private Boolean mRequestingLocationUpdates;
 
 
-
-
     SqliteArchiveTileWriter writer=null;
     AlertDialog downloadPrompt=null;
-
-
 
     Button btnCache,executeJob;
     SeekBar zoom_min;
@@ -145,7 +147,6 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     EditText cache_north, cache_south, cache_east,cache_west, cache_output,mapName;
     TextView cache_estimate,tv_tamanioMB;
     CacheManager mgr=null;
-    AlertDialog alertDialog=null;
 
     protected static final int DEFAULT_INACTIVITY_DELAY_IN_MILLISECS = 200;
 
@@ -182,11 +183,13 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
 
     }
 
+    /**
+     * Método que permite setear el mapa en la activity al entrar
+     */
     private void setupMap(){
 
 
         map.setTileSource(TileSourceFactory.MAPNIK);
-        //map.setBuiltInZoomControls(true);
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         mapController = map.getController();
@@ -222,12 +225,12 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);*/
 
-
-
-
     }
 
 
+    /**
+     * Método que se llama al inicio de la actividad e inicia la llamada de las librerías necesarias
+     */
     private void init() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -239,7 +242,6 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
                 // location is received
                 mCurrentLocation = locationResult.getLastLocation();
                 mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-
 
             }
         };
@@ -287,9 +289,9 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     }
 
     /**
-     * Starting location updates
-     * Check whether location settings are satisfied and then
-     * location updates will be requested
+     * Método que inicia la actualización de la toma de puntos
+     * verifica que la ubicación está satisfecha y entonces
+     * las actualizaciones de la ubicación serán requeridas
      */
     private void startLocationUpdates() {
         mSettingsClient
@@ -338,6 +340,9 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     }
 
 
+    /**
+     * Método que detiene las actualizaciones de posicionamiento en caso de estar abiertas
+     */
     public void stopLocationUpdates() {
         // Removing location updates
         mFusedLocationClient
@@ -363,6 +368,10 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
 
     }
 
+    /**
+     * Método que revisa que los permisos se han otorgado
+     * @return boolean correspondiente al nivel de permiso concedido
+     */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
@@ -396,6 +405,9 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     }
 
 
+    /**
+     * Método que actúa al acercar la imagen
+     */
     public void updateDistance(){
         DecimalFormat df = new DecimalFormat(".##");
         BoundingBox bb = map.getBoundingBox();
@@ -418,12 +430,6 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
         }else
             tv_ancho.setText(df.format(ancho*1000)+" MT");
 
-
-
-
-
-
-
         GeoPoint p3 = new GeoPoint(north,west);
         GeoPoint p4 = new GeoPoint(south,west);
         double alto = DistanceCalculator.calculateDistanceInKM(p3,p4);
@@ -434,11 +440,10 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     }
 
 
-
-
-
-
-
+    /**
+     * Método que se llama para descargar los tiles necesarios para tener el mapa
+     * @param startJob boolean determina si se empieza el trabajo de descarga del mapa
+     */
     private void updateEstimate(boolean startJob) {
         try {
             if (cache_east != null &&
@@ -453,7 +458,6 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
                 double e = Double.parseDouble(cache_east.getText().toString());
                 double w = Double.parseDouble(cache_west.getText().toString());
                 if (startJob) {
-                    //String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + cache_output.getText().toString();
                     String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + mapName.getText().toString();
                     writer=new SqliteArchiveTileWriter(outputName);
                     mgr = new CacheManager(map, writer);
@@ -476,7 +480,6 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
                     tamanio = tamanio /1000;
                     tv_tamanioMB.setText(tamanio + " MB");
                 }
-
 
                 if (startJob)
                 {
@@ -537,62 +540,8 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
     }
 
 
-
-
-
     @OnClick(R.id.btn_descargar)
     public void downloadJobAlert() {
-        /*try{
-            AlertDialog.Builder builder = new AlertDialog.Builder(MapaActivity.this);
-
-            String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "ProbandoDowload".toString();
-            writer=new SqliteArchiveTileWriter(outputName);
-            CacheManager mgr = new CacheManager(map, writer);
-
-            int zoommin = 15;
-            int zoommax = 20;
-            BoundingBox bb= map.getBoundingBox();
-            int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-            mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
-
-                @Override
-                public void onTaskComplete() {
-                    Toast.makeText(MapaActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void onTaskFailed(int errors) {
-                    Toast.makeText(MapaActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void downloadStarted() {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void setPossibleTilesInArea(int total) {
-                    //NOOP since we are using the build in UI
-                }
-            });
-
-            downloadPrompt=builder.create();
-            downloadPrompt.show();
-
-
-
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), "¡Something Happen!", Toast.LENGTH_SHORT).show();
-        }*/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(Descargar_Mapa.this);
 
@@ -720,11 +669,9 @@ public class Descargar_Mapa extends AppCompatActivity implements SeekBar.OnSeekB
 
     }
 
-
-
-
-
-
+    /**
+     * Método que salva los tiles en una base de datos
+     */
     public void saveMapInDb(){
         IGeoPoint centro = map.getMapCenter();
         long id = myHelperDB.insertMapInDb(mSqliteDB,mapName.getText().toString(),centro.getLatitude(),centro.getLongitude(),map.getZoomLevelDouble());

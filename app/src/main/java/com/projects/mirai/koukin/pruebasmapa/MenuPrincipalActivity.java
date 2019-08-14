@@ -20,15 +20,14 @@ import java.io.File;
 import java.util.ArrayList;
 
 /**
- *  Actividad usada para mostrar el menu principal y recorrer por las demas actividades de la aplicaion
- *
+ *  Actividad usada para mostrar el menu principal y recorrer por las demas actividades de la
+ *  aplicación
  * @author luibasantes, mleiton
- * @version 2019.07.30
+ * @version 1.0
  * @since 1.0
  */
 
 public class MenuPrincipalActivity extends AppCompatActivity {
-
 
     private ImageButton btn_descargar_mapa, btn_cargar_puntos, btn_georeferenciar, btn_config, btn_enviar;
 
@@ -86,7 +85,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                         .setAction(Intent.ACTION_GET_CONTENT);
                 intent.setDataAndType(uri,"*/*");
 
-                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 123);
+                startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), FILE_ACTIVITY);
             }
         });
 
@@ -116,7 +115,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
                 Permissions.verifyLocationPermission(MenuPrincipalActivity.this);
                 Permissions.verifyStoragePermissions(MenuPrincipalActivity.this);
 
-                //Intent i = new Intent(MenuPrincipalActivity.this,SendMailActivity.class);
                 Intent i = new Intent(MenuPrincipalActivity.this,SendMail2Activity.class);
                 startActivity(i);
             }
@@ -124,10 +122,10 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
 
         File f = new File(path);
-        System.out.println("Existe:"+f.exists());
-        System.out.println("Es Directorio:"+f.isDirectory());
+        //System.out.println("Existe:"+f.exists());
+        //System.out.println("Es Directorio:"+f.isDirectory());
         if(!(f.exists() && f.isDirectory())){
-            System.out.println(f.mkdirs());
+            //System.out.println(f.mkdirs());
             File f1 = new File(path+File.separator+"Temp"+File.separator);
             f1.mkdirs();
             File f2 = new File(path+File.separator+"Jornadas"+File.separator);
@@ -135,7 +133,6 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
             Toast.makeText(this,"Dependencias Creadas",Toast.LENGTH_SHORT).show();
         }
-
 
     }
 

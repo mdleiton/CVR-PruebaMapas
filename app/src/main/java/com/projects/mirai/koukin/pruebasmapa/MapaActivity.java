@@ -100,6 +100,10 @@ import java.util.List;
 
 /**
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ * Actividad que permite descargar los tiles de una zona geográfica rodeada por medio de un BBOx
+ * llevándote de vuelta al menú
+ * @author mauricio, manuel, luis
+ * @version 1.0
  */
 
 public class MapaActivity extends AppCompatActivity implements MapEventsReceiver,SeekBar.OnSeekBarChangeListener, View.OnClickListener, TextWatcher {
@@ -170,11 +174,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     AlertDialog downloadPrompt=null;
     private String sesionID;
 
-
-
-
-
-
     Button btnCache,executeJob;
     SeekBar zoom_min;
     SeekBar zoom_max;
@@ -182,9 +181,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     TextView cache_estimate;
     CacheManager mgr=null;
     AlertDialog alertDialog=null;
-
-
-
 
 
     @Override
@@ -199,9 +195,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         DateFormat df = new SimpleDateFormat("d-MMM-yyyy|HH_mm");
         String date = df.format(Calendar.getInstance().getTime());
         sesionID = "GeoJson"+date ;
-
-
-
 
 
         Context ctx = getApplicationContext();
@@ -232,11 +225,12 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     }
 
 
+    /**
+     * Método que
+     */
     private void setupMap(){
 
-
         map.setTileSource(TileSourceFactory.MAPNIK);
-        //map.setBuiltInZoomControls(true);
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         mapController = map.getController();
@@ -259,9 +253,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         /*CompassOverlay compassOverlay = new CompassOverlay(this, map);
         compassOverlay.enableCompass();
         map.getOverlays().add(compassOverlay);*/
-
-
-
 
     }
 
@@ -349,8 +340,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     map.getOverlayManager().add(line);
 
                 }
-
-
 
             }else if(mode==1){
                 if(marcadores.size()==0){
@@ -504,8 +493,9 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
         }
 
-
     }
+
+
     @OnClick(R.id.btn_config)
     public void changeMode(){
         String[] colors = {"Tiempo", "Distancia", "Manual"};
@@ -569,9 +559,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                     });
                     alert.show();
 
-
-
-
                 }else{
                     Toast.makeText(MapaActivity.this, "Manual ha sido elegido", Toast.LENGTH_LONG).show();
                     mode = 2;
@@ -588,8 +575,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         mRequestingLocationUpdates = false;
         stopLocationUpdates();
     }*/
-
-
 
 
     public void stopLocationUpdates() {
@@ -840,25 +825,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
             Marker startMarker = new Marker(map);
             startMarker.setPosition(p);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            /*startMarker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
-                @Override
-                public boolean onMarkerClick(final Marker marker, MapView mapView) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(MapaActivity.this);
-                    alert.setTitle("¿Desea eliminar el marcador?");
-                    alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            marcadores.remove(marker);
-                            map.getOverlays().remove(marker);
-                        }
-                    });
-                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-
-                        }
-                    });
-                    return false;
-                }
-            });*/
             map.getOverlays().add(startMarker);
             marcadores.add(startMarker);
         }
@@ -891,11 +857,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     }
 
 
-
-
-
-
-
     //DESCARGA DE MAPA
     @Override
     public void onClick(View v) {
@@ -908,6 +869,8 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
         }
     }
+
+
     private void updateEstimate(boolean startJob) {
         try {
             if (cache_east != null &&

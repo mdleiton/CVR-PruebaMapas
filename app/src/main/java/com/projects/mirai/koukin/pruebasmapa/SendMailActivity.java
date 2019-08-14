@@ -50,8 +50,8 @@ public class SendMailActivity extends AppCompatActivity {
     Button btn_enviar;
     AutoCompleteTextView email_auto;
     CalendarView calendarView;
-    private int daySelected,monthSelected,yearSelected;
-    SimpleDateFormat dayFormat,monthFormat,yearFormat;
+    private int daySelected,monthSelected,yearSelected, hourSelected, minuteSelected;
+    SimpleDateFormat dayFormat,monthFormat,yearFormat, hourFormat, minuteFormat;
     ArrayList <RecorridoGuardar> recorridos;
 
     @Override
@@ -69,13 +69,16 @@ public class SendMailActivity extends AppCompatActivity {
         dayFormat = new SimpleDateFormat("dd");
         monthFormat = new SimpleDateFormat("MM");
         yearFormat = new SimpleDateFormat("yyyy");
+        hourFormat = new SimpleDateFormat("HH");
+        minuteFormat = new SimpleDateFormat("mm");
 
 
         daySelected=Integer.parseInt(dayFormat.format(calendarView.getDate()));
 
         monthSelected=Integer.parseInt(monthFormat.format(calendarView.getDate()));
         yearSelected=Integer.parseInt(yearFormat.format(calendarView.getDate()));
-
+        minuteSelected=Integer.parseInt(minuteFormat.format(calendarView.getDate()));
+        hourSelected=Integer.parseInt(hourFormat.format(calendarView.getDate()));
 
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
 
@@ -92,8 +95,8 @@ public class SendMailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(validateFields()){
-                    String filename="Jornada_"+daySelected+"-"+monthSelected+"-"+yearSelected+".json";
-
+                    String filename="Jornada_"+daySelected+"-"+monthSelected+"-"+yearSelected+"-"+minuteSelected+"-"+hourSelected+".json";
+                    System.out.println(filename);
 
                     if(generateFile(filename)){
 
@@ -144,6 +147,11 @@ public class SendMailActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Metodo que genera un archivo de la jornada de un dia
+     * @param filename
+     * @return
+     */
     public boolean generateFile(String filename){
         String path = Constants.pathMapaArq;
         Log.d("Files", "Path: " + path);
@@ -157,7 +165,7 @@ public class SendMailActivity extends AppCompatActivity {
             archivo = files[i];
             if(archivo.isFile() && archivo.getName().endsWith(".json")){
                 Log.d("Files", "FileName:" + archivo.getName());
-                String[] elementos= archivo.getName().split("\\|");
+                String[] elementos = archivo.getName().split("\\|");
                 Log.d("generateFile","Elemento[1]:"+elementos[1]);
                 if(checkDate(elementos[1])){
                     RecorridoGuardar rec = loadFileToRec(archivo);
@@ -215,7 +223,7 @@ public class SendMailActivity extends AppCompatActivity {
                     GeoPoint geo = (GeoPoint) geoh.get("hito");
                     Point point = new Point(geo.getLatitude(),geo.getLongitude());
                     Feature feat = new Feature(point);
-                    if(geoh.get("properties")!=null){
+                    if(!geoh.isNull("properties")){
                         feat.setProperties(geoh.getJSONObject("properties"));
                     }
                     features.addFeature(feat);
@@ -250,8 +258,8 @@ public class SendMailActivity extends AppCompatActivity {
                 OutputStream fOut = new FileOutputStream(file);
                 //OutputStreamWriter osw = new OutputStreamWriter(fOut);
                 //osw.write(geoJSON.toString());
+                System.out.println("GEOjSON : "+geoJSON.toString());
                 fOut.write(geoJSON.toString().getBytes());
-                System.out.println(geoJSON.toString());
                 //osw.flush();
                 //osw.close();
                 Toast.makeText(getApplicationContext(), "Jornada generada", Toast.LENGTH_LONG).show();
@@ -266,10 +274,6 @@ public class SendMailActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
-
-
 
 
     public boolean checkDate(String lastModified){
@@ -304,6 +308,7 @@ public class SendMailActivity extends AppCompatActivity {
 
         return false;
     }
+
     private RecorridoGuardar loadFileToRec(File arch){
         GeoJSONObject geoJSON;
         String textJson = getStringFromFile(arch);
@@ -317,7 +322,6 @@ public class SendMailActivity extends AppCompatActivity {
                 JSONObject hito = features.getJSONObject(i);
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
                 System.out.println("Elemento"+i+":"+elemento);
-
                 if(elemento.get("type").equals("Point")){
                     JSONObject properties = new JSONObject();
                     if(!hito.isNull("properties")){

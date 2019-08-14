@@ -60,6 +60,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.CopyOfScaleBarOverlay;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
@@ -80,6 +81,7 @@ import org.osmdroid.views.overlay.MapEventsOverlay;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.compass.CompassOverlay;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.BufferedReader;
@@ -103,6 +105,10 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ * Actividad que permite descargar marcar las rutas durante las expediciones y maneja el guardado de
+ * puntos, y carga por segundos y distancia
+ * @author mauricio, manuel, luis
+ * @version 1.0
  */
 
 public class GeoreferenciarActivity extends AppCompatActivity implements MapEventsReceiver{
@@ -146,7 +152,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     // location last updated time
     private String mLastUpdateTimeGPS;
-    long delay;
 
     // location updates interval - 10sec
     private static  long UPDATE_INTERVAL_IN_MILLISECONDS = 5000;
@@ -169,9 +174,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     // boolean flag to toggle the ui
     private Boolean mRequestingLocationUpdates = false;
 
-    //Valida en que si es -1 no ha eligido ningun modulo.
-    // mode = 0 significa tiempo
-    // mode = 1 significa distancia
     private int mode = 1;
     //Distancia que se debe dezplazar para hacer otro punto.
     private double distancia = 1;
@@ -278,6 +280,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         map.setBuiltInZoomControls(false);
         map.setMultiTouchControls(true);
         mapController = map.getController();
+        map.getOverlays().add(new CopyOfScaleBarOverlay(this));
 
         if(gpsMode == 1){                   //Do something if GPS
             MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
@@ -296,9 +299,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             //oMapLocationOverlay.enableMyLocation();
         }
         // Compass
-        /*CompassOverlay compassOverlay = new CompassOverlay(this, map);
+        CompassOverlay compassOverlay = new CompassOverlay(this, map);
         compassOverlay.enableCompass();
-        map.getOverlays().add(compassOverlay);*/
+        map.getOverlays().add(compassOverlay);
     }
 
     /**
@@ -844,7 +847,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             JSONObject geoJSON = features.toJSON();
             System.out.println("File: "+geoJSON);
             Permissions.verifyStoragePermissions(this);
-
 
 
             file.createNewFile();

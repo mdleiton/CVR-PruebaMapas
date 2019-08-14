@@ -26,13 +26,14 @@ public class RecorridoGuardar {
         this.lineColor = lineColor;
         this.idNumber = idNumber;
         this.sesionId = sesionId;
-        this.hito = new ArrayList<>();
+        this.hito = new ArrayList<JSONObject>();
     }
 
     public RecorridoGuardar(boolean bool) {
         if(bool){
             this.geoPoints = new ArrayList<>();
             this.lines = new ArrayList<>();
+            this.hito = new ArrayList<>();
         }
     }
 
@@ -55,10 +56,11 @@ public class RecorridoGuardar {
             try {
                 hito.put("point",m);
                 hito.put("properties",properties);
+                this.hito.add(hito);
             }catch (JSONException e){
                 e.printStackTrace();
             }
-            this.hito.add(hito);
+
         }
     }
 

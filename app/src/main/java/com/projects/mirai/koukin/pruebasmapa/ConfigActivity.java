@@ -20,7 +20,12 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.SerialLink;
 
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * Actividad que permite definir la configuración de la toma de datos por RTK o GPS
+ * llevándote de vuelta a GeoreferenciarActivity
+ * @author mauricio, manuel, luis
+ * @version 1.0
+ */
 public class ConfigActivity extends AppCompatActivity {
 
     EditText txt_email,txt_ftp;
@@ -61,28 +66,6 @@ public class ConfigActivity extends AppCompatActivity {
             rb_gps.setChecked(true);
         }else{
             rb_rtk.setChecked(true);
-            /*piksi = new SerialLink(this.getApplicationContext());
-            String data;
-
-            if(!piksi.start()){
-                data = "Piksi no se encuentra conectado al dispositivo ";
-                System.out.println(data);
-                Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
-            }else{
-                @SuppressLint("HandlerLeak") Handler h = new Handler() {
-                    public void handleMessage(Message msg){
-                    while(true){
-                        String data = "Nuevo datos del piksi -> lat: " + piksi.getLat() + ", log: "+ piksi.getLon();
-                        Toast.makeText(getApplicationContext(),data, Toast.LENGTH_LONG).show();
-                        try {
-                            TimeUnit.SECONDS.sleep(2);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    }
-                };
-            }*/
         }
     }
 

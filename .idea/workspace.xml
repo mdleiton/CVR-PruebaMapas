@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e254c574-ac9a-41f2-bb76-4142be7dabe8" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/CopyOfScaleBarOverlay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/javaCompile/classAnalysis.bin" afterDir="false" />
@@ -18,10 +19,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/4.4/taskHistory/taskHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/CargarPuntosActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/CargarPuntosActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/Descargar_Mapa.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/Descargar_Mapa.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_descargar__mapa.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_descargar__mapa.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa_georeferenciar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa_georeferenciar.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -46,35 +57,34 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="910" column="33" selection-start-line="910" selection-start-column="33" selection-end-line="910" selection-end-column="33" />
+            <state relative-caret-position="161">
+              <caret line="1091" column="35" selection-start-line="1091" selection-start-column="35" selection-end-line="1091" selection-end-column="35" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="199">
+              <caret line="227" column="45" selection-start-line="227" selection-start-column="45" selection-end-line="227" selection-end-column="45" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#2472#3623#0" expanded="true" />
+                <element signature="e#3622#3623#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/CargarPuntosActivity.java">
+        <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cocoahero.android/geojson/1.0.1/b3fc6ea16b77b4266a474415ca062af0bdd21a5a/geojson-1.0.1-sources.jar!/com/cocoahero/android/geojson/Feature.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="172">
-              <caret line="246" column="7" lean-forward="true" selection-start-line="246" selection-start-column="7" selection-end-line="246" selection-end-column="7" />
+              <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
               <folding>
-                <element signature="e#21673#21674#0" expanded="true" />
-                <element signature="e#21701#21702#0" expanded="true" />
-                <element signature="e#21765#21766#0" expanded="true" />
-                <element signature="e#21793#21794#0" expanded="true" />
+                <element signature="e#1846#1847#0" expanded="true" />
+                <element signature="e#1887#1888#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="86" column="38" lean-forward="true" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -82,59 +92,25 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="393">
-              <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
+            <state relative-caret-position="-86">
+              <caret line="35" column="42" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
               <folding>
-                <element signature="e#2186#2187#0" expanded="true" />
-                <element signature="e#2218#2219#0" expanded="true" />
-                <element signature="e#2281#2282#0" expanded="true" />
-                <element signature="e#2323#2324#0" expanded="true" />
-                <element signature="e#2368#2369#0" expanded="true" />
-                <element signature="e#2396#2397#0" expanded="true" />
-                <element signature="e#2451#2452#0" expanded="true" />
-                <element signature="e#2485#2486#0" expanded="true" />
-                <element signature="e#2518#2519#0" expanded="true" />
-                <element signature="e#2550#2551#0" expanded="true" />
-                <element signature="e#2597#2598#0" expanded="true" />
-                <element signature="e#2639#2640#0" expanded="true" />
-                <element signature="e#2671#2672#0" expanded="true" />
-                <element signature="e#2702#2703#0" expanded="true" />
-                <element signature="e#2747#2748#0" expanded="true" />
-                <element signature="e#2787#2788#0" expanded="true" />
-                <element signature="e#2822#2823#0" expanded="true" />
-                <element signature="e#2853#2854#0" expanded="true" />
-                <element signature="e#2901#2902#0" expanded="true" />
-                <element signature="e#2941#2942#0" expanded="true" />
-                <element signature="e#3055#3056#0" expanded="true" />
-                <element signature="e#3087#3088#0" expanded="true" />
+                <element signature="e#2027#2028#0" expanded="true" />
+                <element signature="e#2093#2094#0" expanded="true" />
+                <element signature="e#2130#2131#0" expanded="true" />
+                <element signature="e#2196#2197#0" expanded="true" />
+                <element signature="e#2276#2277#0" expanded="true" />
+                <element signature="e#2381#2382#0" expanded="true" />
+                <element signature="e#2454#2455#0" expanded="true" />
+                <element signature="e#2543#2544#0" expanded="true" />
+                <element signature="e#2608#2609#0" expanded="true" />
+                <element signature="e#2697#2698#0" expanded="true" />
+                <element signature="e#2760#2761#0" expanded="true" />
+                <element signature="e#2845#2846#0" expanded="true" />
+                <element signature="e#2911#2912#0" expanded="true" />
+                <element signature="e#2999#3000#0" expanded="true" />
+                <element signature="e#3145#3146#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1320">
-              <caret line="104" selection-start-line="104" selection-end-line="104" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1215">
-              <caret line="101" column="49" selection-start-line="101" selection-start-column="49" selection-end-line="101" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -150,23 +126,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>height</find>
-      <find>getL</find>
-      <find>stopLocationUpdates</find>
-      <find>mCurrentLocationGPS</find>
-      <find>requestCode</find>
-      <find>setRe</find>
-      <find>onActivityResult</find>
-      <find>startAc</find>
-      <find>1234</find>
-      <find>startActivityForResult</find>
-      <find>startActi</find>
-      <find>Recorrido</find>
-      <find>save</find>
-      <find>btn_save</find>
-      <find>btn_stop</find>
-      <find>Temp</find>
-      <find>marker</find>
       <find>title</find>
       <find>recorridos</find>
       <find>Elemen</find>
@@ -180,6 +139,23 @@
       <find>stopP</find>
       <find>stopHandlerRTK</find>
       <find>generada</find>
+      <find>checkDate</find>
+      <find>monthSelected</find>
+      <find>Jornada_</find>
+      <find>println</find>
+      <find>saveJourney</find>
+      <find>Feat</find>
+      <find>ya fue</find>
+      <find>Se creo</find>
+      <find>mapv</find>
+      <find>mLocationCallback</find>
+      <find>zoom</find>
+      <find>CopyOfScaleBarOverlay</find>
+      <find>pi</find>
+      <find>stopLocationUpdates</find>
+      <find>paintText</find>
+      <find>tiempo</find>
+      <find>probl</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -190,18 +166,25 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa_georeferenciar.xml" />
         <option value="$PROJECT_DIR$/build.gradle" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/CirclePlottingOverlay.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SerialLink.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/Deg2UTM.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_mapa_georeferenciar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/CargarPuntosActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_descargar__mapa.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/CopyOfScaleBarOverlay.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/Descargar_Mapa.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java" />
       </list>
     </option>
   </component>
@@ -215,7 +198,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -259,16 +241,6 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="pruebasmapa" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="CVR-PruebaMapas" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CVR-PruebaMapas" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="pruebasmapa" type="462c0819:PsiDirectoryNode" />
-              <item name="HelperClass" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -288,11 +260,12 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="android.sdk.path" value="$PROJECT_DIR$/../../../Android/Sdk" />
-    <property name="device.picker.selection" value="5200b3564b5fc500" />
+    <property name="device.picker.selection" value="Pixel_2_API_24" />
     <property name="not.eligible.for.single.variant.sync" value="true" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.project.gradle" />
     <property name="show.do.not.ask.upgrade.gradle.plugin" value="3.1.3" />
@@ -430,7 +403,7 @@
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.06943336" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.112529926" />
       <window_info id="Structure" order="1" weight="0.24980047" />
       <window_info id="Build Variants" order="2" side_tool="true" />
       <window_info id="Capture Tool" order="3" />
@@ -441,19 +414,19 @@
       <window_info id="Resources Explorer" order="8" weight="0.32960895" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49321628" visible="true" weight="0.22638437" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49321628" weight="0.5439739" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32899022" />
-      <window_info anchor="bottom" id="Android Profiler" order="7" />
-      <window_info anchor="bottom" id="Logcat" order="8" weight="0.13029316" />
+      <window_info anchor="bottom" id="Android Profiler" order="7" weight="0.32899022" />
+      <window_info active="true" anchor="bottom" id="Logcat" order="8" sideWeight="0.49561054" visible="true" weight="0.32247558" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.32899022" />
-      <window_info anchor="bottom" id="Build" order="10" sideWeight="0.49481246" weight="0.66775244" />
+      <window_info anchor="bottom" id="Build" order="10" sideWeight="0.49481246" weight="0.43322477" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.5423453" />
-      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.5067837" side_tool="true" weight="0.22638437" />
+      <window_info anchor="bottom" id="Event Log" order="12" sideWeight="0.50438946" side_tool="true" weight="0.72801304" />
       <window_info anchor="bottom" id="Thumbnails" order="13" sideWeight="0.4980695" weight="0.32984293" />
-      <window_info anchor="right" id="Preview" order="0" weight="0.32960895" />
+      <window_info anchor="right" id="Preview" order="0" weight="0.38946527" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
@@ -499,45 +472,6 @@
     </layout-to-restore>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/SBPDriverJ2XX.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="720">
-          <caret line="47" column="22" selection-start-line="47" selection-start-column="18" selection-end-line="47" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/Permissions.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/settings.gradle">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradlew.bat">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/proguard-rules.pro">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/app.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CVR-PruebaMapas.iml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/gradle.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/CirclePlottingOverlay.java" />
-    <entry file="jar://$PROJECT_DIR$/../../../Android/Sdk/platforms/android-27/android.jar!/android/app/Activity.class" />
-    <entry file="file://$PROJECT_DIR$/app/build/generated/source/apt/debug/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity_ViewBinding.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/HiloRTK.java" />
-    <entry file="file://$PROJECT_DIR$/local.properties">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/PruebasMapa.iml">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -559,12 +493,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa.xml">
+      <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
           <caret line="5" column="40" lean-forward="true" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
         </state>
       </provider>
-      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/Utils.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -642,38 +576,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2535">
-          <caret line="186" column="9" selection-start-line="186" selection-start-column="9" selection-end-line="186" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6405">
-          <caret line="523" column="32" selection-start-line="523" selection-start-column="32" selection-end-line="523" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="43" column="13" selection-start-line="43" selection-start-column="13" selection-end-line="43" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/android/location/Location.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="95">
           <caret line="79" column="29" selection-start-line="79" selection-start-column="18" selection-end-line="79" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.osmdroid/osmdroid-android/6.0.2/db4d5531882193c8d76167a2406aaf19b9df6de3/osmdroid-android-6.0.2-sources.jar!/org/osmdroid/util/GeoPoint.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-6">
-          <caret line="52" column="11" selection-start-line="52" selection-start-column="11" selection-end-line="52" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -685,12 +591,12 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider editor-type-id="android-manifest" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="63" lean-forward="true" selection-start-line="6" selection-start-column="63" selection-end-line="6" selection-end-column="63" />
         </state>
       </provider>
-      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cocoahero.android/geojson/1.0.1/b3fc6ea16b77b4266a474415ca062af0bdd21a5a/geojson-1.0.1-sources.jar!/com/cocoahero/android/geojson/GeoJSONObject.java">
       <provider selected="true" editor-type-id="text-editor">
@@ -707,13 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="9" column="33" selection-start-line="9" selection-start-column="25" selection-end-line="9" selection-end-column="33" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/Descargar_Mapa.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="411" column="19" selection-start-line="411" selection-start-column="19" selection-end-line="411" selection-end-column="19" />
         </state>
       </provider>
     </entry>
@@ -735,116 +634,253 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMail2Activity.java">
+    <entry file="file://$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk">
+      <provider selected="true" editor-type-id="apk-viewer" />
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/java/io/File.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="71" column="34" selection-start-line="71" selection-start-column="34" selection-end-line="71" selection-end-column="34" />
+        <state relative-caret-position="144">
+          <caret line="112" column="19" selection-start-line="112" selection-start-column="19" selection-end-line="112" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/android/content/SharedPreferences.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="73">
+          <caret line="308" column="21" selection-start-line="308" selection-start-column="21" selection-end-line="308" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_mapa_georeferenciar.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="22" column="24" selection-start-line="22" selection-start-column="24" selection-end-line="22" selection-end-column="24" />
-        </state>
-      </provider>
       <provider editor-type-id="android-designer2" />
-    </entry>
-    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/org/json/JSONObject.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="82">
-          <caret line="77" column="21" selection-start-line="77" selection-start-column="18" selection-end-line="77" selection-end-column="21" />
-          <folding>
-            <element signature="e#1888#1889#0" expanded="true" />
-            <element signature="e#1939#1940#0" expanded="true" />
-            <element signature="e#1978#1979#0" expanded="true" />
-            <element signature="e#2029#2030#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="120">
+          <caret line="11" column="32" selection-start-line="11" selection-start-column="32" selection-end-line="11" selection-end-column="32" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/outputs/apk/debug/app-debug.apk">
-      <provider selected="true" editor-type-id="apk-viewer" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java">
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.osmdroid/osmdroid-android/6.0.2/db4d5531882193c8d76167a2406aaf19b9df6de3/osmdroid-android-6.0.2-sources.jar!/org/osmdroid/views/overlay/Overlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1320">
-          <caret line="104" selection-start-line="104" selection-end-line="104" />
+        <state relative-caret-position="198">
+          <caret line="138" column="18" selection-start-line="138" selection-start-column="18" selection-end-line="138" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMail2Activity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+        <state relative-caret-position="407">
+          <caret line="45" selection-start-line="45" selection-end-line="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/list_view_item_archivos.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/play-services-location-15.0.1.aar/5c342642dcb3783df708d4dc6eb8acc1/jars/classes.jar!/com/google/android/gms/location/FusedLocationProviderClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="78" column="22" selection-start-line="78" selection-start-column="22" selection-end-line="78" selection-end-column="22" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/ConfigActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="101" column="49" selection-start-line="101" selection-start-column="49" selection-end-line="101" selection-end-column="49" />
+        <state relative-caret-position="150">
+          <caret line="28" column="12" selection-start-line="28" selection-start-column="12" selection-end-line="28" selection-end-column="12" />
+          <folding>
+            <element signature="e#1337#1489#0" expanded="true" />
+            <element signature="e#1488#1489#0" expanded="true" />
+            <element signature="e#3393#4011#0" expanded="true" />
+            <element signature="e#4010#4011#0" expanded="true" />
+            <element signature="e#4052#4244#0" expanded="true" />
+            <element signature="e#4243#4244#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_descargar__mapa.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/android/graphics/Paint.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="910" column="33" selection-start-line="910" selection-start-column="33" selection-end-line="910" selection-end-column="33" />
+        <state relative-caret-position="176">
+          <caret line="148" column="16" selection-start-line="148" selection-start-column="16" selection-end-line="148" selection-end-column="16" />
+          <folding>
+            <element signature="e#3744#3745#0" expanded="true" />
+            <element signature="e#3795#3796#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.osmdroid/osmdroid-android/6.0.2/db4d5531882193c8d76167a2406aaf19b9df6de3/osmdroid-android-6.0.2-sources.jar!/org/osmdroid/views/MapView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="158">
+          <caret line="537" column="28" selection-start-line="537" selection-start-column="24" selection-end-line="537" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.osmdroid/osmdroid-android/6.0.2/db4d5531882193c8d76167a2406aaf19b9df6de3/osmdroid-android-6.0.2-sources.jar!/org/osmdroid/util/GeoPoint.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="168">
+          <caret line="134" column="18" selection-start-line="134" selection-start-column="18" selection-end-line="134" selection-end-column="18" />
+          <folding>
+            <element signature="e#4079#4080#0" expanded="true" />
+            <element signature="e#4107#4108#0" expanded="true" />
+            <element signature="e#10199#10200#0" expanded="true" />
+            <element signature="e#10257#10258#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/android/graphics/Canvas.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="398" column="16" selection-start-line="398" selection-start-column="16" selection-end-line="398" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/CopyOfScaleBarOverlay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/Descargar_Mapa.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="393">
-          <caret line="56" column="30" selection-start-line="56" selection-start-column="30" selection-end-line="56" selection-end-column="30" />
-          <folding>
-            <element signature="e#2186#2187#0" expanded="true" />
-            <element signature="e#2218#2219#0" expanded="true" />
-            <element signature="e#2281#2282#0" expanded="true" />
-            <element signature="e#2323#2324#0" expanded="true" />
-            <element signature="e#2368#2369#0" expanded="true" />
-            <element signature="e#2396#2397#0" expanded="true" />
-            <element signature="e#2451#2452#0" expanded="true" />
-            <element signature="e#2485#2486#0" expanded="true" />
-            <element signature="e#2518#2519#0" expanded="true" />
-            <element signature="e#2550#2551#0" expanded="true" />
-            <element signature="e#2597#2598#0" expanded="true" />
-            <element signature="e#2639#2640#0" expanded="true" />
-            <element signature="e#2671#2672#0" expanded="true" />
-            <element signature="e#2702#2703#0" expanded="true" />
-            <element signature="e#2747#2748#0" expanded="true" />
-            <element signature="e#2787#2788#0" expanded="true" />
-            <element signature="e#2822#2823#0" expanded="true" />
-            <element signature="e#2853#2854#0" expanded="true" />
-            <element signature="e#2901#2902#0" expanded="true" />
-            <element signature="e#2941#2942#0" expanded="true" />
-            <element signature="e#3055#3056#0" expanded="true" />
-            <element signature="e#3087#3088#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="60">
+          <caret line="90" column="3" lean-forward="true" selection-start-line="90" selection-start-column="3" selection-end-line="90" selection-end-column="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_menu_principal.xml">
+      <provider editor-type-id="android-designer2" />
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="6" column="20" selection-start-line="6" selection-start-column="20" selection-end-line="6" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MapaActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="989" column="4" lean-forward="true" selection-start-line="989" selection-start-column="4" selection-end-line="989" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMapActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="85" selection-start-line="85" selection-end-line="85" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_open_file.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/OpenFileActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="92" column="21" selection-start-line="92" selection-start-column="21" selection-end-line="92" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_select_mail.xml">
+      <provider selected="true" editor-type-id="android-designer2" />
+      <provider editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/MenuPrincipalActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="22" selection-start-line="22" selection-end-line="26" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/CargarPuntosActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="172">
-          <caret line="246" column="7" lean-forward="true" selection-start-line="246" selection-start-column="7" selection-end-line="246" selection-end-column="7" />
+        <state relative-caret-position="295">
+          <caret line="430" column="81" selection-start-line="430" selection-start-column="24" selection-end-line="430" selection-end-column="81" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/Android/Sdk/platforms/android-27/android.jar!/org/json/JSONObject.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="73" column="19" selection-start-line="73" selection-start-column="19" selection-end-line="73" selection-end-column="19" />
           <folding>
-            <element signature="e#21673#21674#0" expanded="true" />
-            <element signature="e#21701#21702#0" expanded="true" />
-            <element signature="e#21765#21766#0" expanded="true" />
-            <element signature="e#21793#21794#0" expanded="true" />
+            <element signature="e#1978#1979#0" expanded="true" />
+            <element signature="e#2029#2030#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SendMailActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/GeoreferenciarActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="86" column="38" lean-forward="true" selection-start-line="86" selection-start-column="38" selection-end-line="86" selection-end-column="38" />
+        <state relative-caret-position="161">
+          <caret line="1091" column="35" selection-start-line="1091" selection-start-column="35" selection-end-line="1091" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/HelperClass/RecorridoGuardar.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-86">
+          <caret line="35" column="42" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="42" />
+          <folding>
+            <element signature="e#2027#2028#0" expanded="true" />
+            <element signature="e#2093#2094#0" expanded="true" />
+            <element signature="e#2130#2131#0" expanded="true" />
+            <element signature="e#2196#2197#0" expanded="true" />
+            <element signature="e#2276#2277#0" expanded="true" />
+            <element signature="e#2381#2382#0" expanded="true" />
+            <element signature="e#2454#2455#0" expanded="true" />
+            <element signature="e#2543#2544#0" expanded="true" />
+            <element signature="e#2608#2609#0" expanded="true" />
+            <element signature="e#2697#2698#0" expanded="true" />
+            <element signature="e#2760#2761#0" expanded="true" />
+            <element signature="e#2845#2846#0" expanded="true" />
+            <element signature="e#2911#2912#0" expanded="true" />
+            <element signature="e#2999#3000#0" expanded="true" />
+            <element signature="e#3145#3146#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.cocoahero.android/geojson/1.0.1/b3fc6ea16b77b4266a474415ca062af0bdd21a5a/geojson-1.0.1-sources.jar!/com/cocoahero/android/geojson/Feature.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="172">
+          <caret line="66" column="11" selection-start-line="66" selection-start-column="11" selection-end-line="66" selection-end-column="11" />
+          <folding>
+            <element signature="e#1846#1847#0" expanded="true" />
+            <element signature="e#1887#1888#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/projects/mirai/koukin/pruebasmapa/SelectMailActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="199">
+          <caret line="227" column="45" selection-start-line="227" selection-start-column="45" selection-end-line="227" selection-end-column="45" />
+          <folding>
+            <element signature="e#2472#3623#0" expanded="true" />
+            <element signature="e#3622#3623#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -18,6 +18,13 @@ import com.projects.mirai.koukin.pruebasmapa.HelperClass.JornadasArrayAdapter;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * Activity donde se escogen los archivos para subir al dar clic en la opción subir archivos
+ * en la Activity Georeferenciar
+ * @author mauricio, manuel, luis
+ * @version 1.0
+ */
+
 public class OpenFileActivity extends AppCompatActivity {
 
     ListView lista;
@@ -44,10 +51,6 @@ public class OpenFileActivity extends AppCompatActivity {
         lista.setOnItemClickListener(new OnItemClick());
         lista.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
-
-
-
-
     }
 
     public class OnItemClick implements AdapterView.OnItemClickListener{
@@ -72,14 +75,15 @@ public class OpenFileActivity extends AppCompatActivity {
         Intent returnIntent = new Intent();
         setResult(Activity.RESULT_CANCELED, returnIntent);
         finish();
-        //super.onBackPressed();
+
     }
 
+    /**
+     * Método que encuentra los Archivos en pathMapaArq y adjunta los archivos en
+     * un ArrayList llamado archivos
+     */
     public void encontrarArchivos(){
         archivos = new ArrayList<>();
-
-
-
 
         String path = Constants.pathMapaArq;
         Log.d("Files", "Path: " + path);
@@ -87,7 +91,6 @@ public class OpenFileActivity extends AppCompatActivity {
         File[] files = directory.listFiles();
         Log.d("Files", "Size: "+ files.length);
         File archivo;
-        int contador =1;
 
         for (int i = 0; i < files.length; i++)
         {

@@ -85,6 +85,10 @@ import java.util.Calendar;
 
 /**
  * Reference: https://github.com/googlesamples/android-play-location/tree/master/LocationUpdates
+ * Actividad que permite buscar un archivo de puntos dentro del dispositivo y cargarla en un mapa
+ * llevándote de vuelta a GeoreferenciarActivity
+ * @author mauricio, manuel, luis
+ * @version 1.0
  */
 
 public class CargarPuntosActivity extends AppCompatActivity implements MapEventsReceiver {
@@ -185,7 +189,9 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
 
     }
 
-
+    /**
+     * Método que define el inicio del mapa al cargar la actividad
+     */
     private void setupMap(){
 
 
@@ -210,10 +216,9 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
     }
 
 
-
-
-
-
+    /**
+     * Método que inicia y toma los locationServices y los pone en marcha
+     */
     private void init() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         mSettingsClient = LocationServices.getSettingsClient(this);
@@ -296,6 +301,9 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
 
     }
 
+    /**
+     * Cambia la imagen en la opción de record a pausa
+     */
     private void toggleButtons() {
         if (mRequestingLocationUpdates) {
             btnStartUpdates.setImageResource(R.drawable.pause);
@@ -355,34 +363,10 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
                 });
     }
 
-    public void startLocationButtonClick() {
-        // Requesting ACCESS_FINE_LOCATION using Dexter library
-        Dexter.withActivity(this)
-                .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                .withListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted(PermissionGrantedResponse response) {
-                        mRequestingLocationUpdates = true;
-                        startLocationUpdates();
-                    }
 
-                    @Override
-                    public void onPermissionDenied(PermissionDeniedResponse response) {
-                        if (response.isPermanentlyDenied()) {
-                            // open device settings when the permission is
-                            // denied permanently
-                            openSettings();
-                        }
-                    }
-
-                    @Override
-                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                        token.continuePermissionRequest();
-                    }
-                }).check();
-
-    }
-
+    /**
+     * Método que detiene la captura de puntos y llama a
+     */
     public void stopLocationUpdates() {
         // Removing location updates
         mFusedLocationClient
@@ -417,6 +401,11 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
     }
 
 
+    /**
+     * Método que coloca los puntos en el mapa según los geopoints del archivo GeoJson que se
+     * parsea
+     * @param selectedFile path del archivo
+     */
     private void loadFile(String selectedFile){
 
         String textJson = getStringFromFile(selectedFile);
@@ -471,6 +460,12 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
             System.out.println(ex.toString());
         }
     }
+
+    /**
+     * Método que abre y devuelve un archivo en representación de String
+     * @param selectedFile path del archivo a parsear
+     * @return representación en String del archivo que se ubica en el path
+     */
     public String getStringFromFile(String selectedFile){
         System.out.println("Path:"+selectedFile);
         File file = new File(selectedFile);
@@ -495,17 +490,6 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
     }
 
 
-    private void openSettings() {
-        Intent intent = new Intent();
-        intent.setAction(
-                Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package",
-                BuildConfig.APPLICATION_ID, null);
-        intent.setData(uri);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -519,6 +503,10 @@ public class CargarPuntosActivity extends AppCompatActivity implements MapEvents
         updateLocationUI();
     }
 
+    /**
+     * Método que hace un request de permisos de ACCESS_FINE_LOCATION
+     * @return valor en int que representa el permissionState
+     */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION);
