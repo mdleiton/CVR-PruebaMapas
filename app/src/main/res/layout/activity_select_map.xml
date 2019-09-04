@@ -19,5 +19,37 @@
     <ListView
         android:id="@+id/listview1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="326dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_horizontal"
+            android:text="Sistema de Referencia"
+            android:textSize="24sp" />
+
+        <Switch
+            android:id="@+id/self_ref"
+            android:layout_width="196dp"
+            android:layout_height="54dp"
+            android:layout_margin="10dp"
+            android:text="Propio"
+            android:textColorHighlight="#4CAF50" />
+
+        <Switch
+            android:id="@+id/utm_ref"
+            android:layout_width="196dp"
+            android:layout_height="54dp"
+            android:layout_margin="10dp"
+            android:text="UTM"
+            android:textColorHighlight="#4CAF50" />
+
+    </LinearLayout>
 </LinearLayout>

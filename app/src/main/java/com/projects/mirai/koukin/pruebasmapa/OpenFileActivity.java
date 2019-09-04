@@ -65,7 +65,6 @@ public class OpenFileActivity extends AppCompatActivity {
             returnIntent.putExtra("result",result);
             setResult(Activity.RESULT_OK,returnIntent);
             finish();
-            //loadInsertEmailActivity();
         }
 
     }

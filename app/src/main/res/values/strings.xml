@@ -6,12 +6,14 @@
     <string-array name="brew_array">
         <item>Tiesto no Diagnostico</item>
         <item>Tiesto Diagnostico</item>
-        <item>Itica</item>
+        <item>Lítica</item>
         <item>Hueso</item>
         <item>Hueso Animal</item>
         <item>Hueso Humano</item>
         <item>Hollo de poste</item>
         <item>Metal</item>
+        <item>Otros</item>
     </string-array>
+
 
 </resources>
