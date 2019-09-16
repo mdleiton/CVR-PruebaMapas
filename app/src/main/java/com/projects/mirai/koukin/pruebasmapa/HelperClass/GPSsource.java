@@ -1,15 +1,20 @@
 package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.ApiException;
@@ -34,12 +39,14 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static android.content.Context.LOCATION_SERVICE;
 import static com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils.TAG;
 
 /**
@@ -50,18 +57,50 @@ import static com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils.TAG;
  */
 public class GPSsource extends PositioningSource {
 
-    private FusedLocationProviderClient mFusedLocationClient;
-    private SettingsClient mSettingsClient;
-    private LocationRequest mLocationRequest;
-    private LocationSettingsRequest mLocationSettingsRequest;
-    private LocationCallback mLocationCallback;
-    private Location mCurrentLocationGPS;
-    private Boolean mRequestingLocationUpdates = false;
+    public FusedLocationProviderClient mFusedLocationClient;
+    public SettingsClient mSettingsClient;
+    public LocationRequest mLocationRequest;
+    public LocationSettingsRequest mLocationSettingsRequest;
+    public LocationCallback mLocationCallback;
+    public Location mCurrentLocationGPS;
     private String mLastUpdateTimeGPS;
-
+    public Location actualPosition;
     // fastest updates interval - 5 sec
     // location updates will be received if another app is requesting the locations
     // than your app can handle
+
+    /**
+     * @return
+     */
+    @Override
+    public double returnLatitude() {
+        if (mCurrentLocationGPS == null) {
+            return actualPosition.getLatitude();
+        }
+        return mCurrentLocationGPS.getLatitude();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double returnLongitude() {
+        if (mCurrentLocationGPS == null) {
+            return actualPosition.getLongitude();
+        }
+        return mCurrentLocationGPS.getLongitude();
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public double returnHeight() {
+        if (mCurrentLocationGPS == null) {
+            return actualPosition.getAltitude();
+        }
+        return mCurrentLocationGPS.getAltitude();
+    }
 
     /**
      * Method that inits all the required parameters or permissions necessary to start the
@@ -78,7 +117,7 @@ public class GPSsource extends PositioningSource {
                 super.onLocationResult(locationResult);
                 mCurrentLocationGPS = locationResult.getLastLocation();
                 mLastUpdateTimeGPS = DateFormat.getTimeInstance().format(new Date());
-                updateLocationUI(map ,app, markers, lines, mode);
+                updateLocationUI(map, app, markers, lines, mode, txtLocationResult);
             }
         };
         mRequestingLocationUpdates = false;
@@ -90,6 +129,7 @@ public class GPSsource extends PositioningSource {
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
         builder.addLocationRequest(mLocationRequest);
         mLocationSettingsRequest = builder.build();
+        actualPosition(app);
     }
 
     /**
@@ -107,7 +147,7 @@ public class GPSsource extends PositioningSource {
                         mFusedLocationClient.requestLocationUpdates(mLocationRequest,
                                 mLocationCallback, Looper.myLooper());
 
-                        updateLocationUI(map ,app, markers, lines, mode);
+                        updateLocationUI(map, app, markers, lines, mode);
                     }
                 })
                 .addOnFailureListener(app, new OnFailureListener() {
@@ -134,7 +174,7 @@ public class GPSsource extends PositioningSource {
 
                                 Toast.makeText(app, errorMessage, Toast.LENGTH_LONG).show();
                         }
-                        updateLocationUI(map ,app, markers, lines, mode);
+                        updateLocationUI(map, app, markers, lines, mode);
                     }
                 });
 
@@ -151,26 +191,26 @@ public class GPSsource extends PositioningSource {
      *             requirements are based on distance
      */
     @Override
-    public String updateLocationUI(MapView map,AppCompatActivity app, ArrayList<Marker> markers, ArrayList<Polyline> lines, int mode) {
+    public String updateLocationUI(MapView map, AppCompatActivity app, ArrayList<Marker> markers, ArrayList<Polyline> lines, int mode) {
         IMapController mapController = map.getController();
         if (mCurrentLocationGPS != null) {
             Deg2UTM transform = new Deg2UTM(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
-            if(markers.size()==0){
+            if (markers.size() == 0) {
                 GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
                 Marker startMarker = new Marker(map);
-                Drawable mark = ContextCompat.getDrawable(app.getBaseContext(),R.drawable.usericon);
+                Drawable mark = ContextCompat.getDrawable(app.getBaseContext(), R.drawable.usericon);
                 //Drawable mark = ContextCompat.getDrawable(app, R.drawable.usericon);
-                startMarker.setIcon(scaleImage(mark,0.8f, app));
+                startMarker.setIcon(scaleImage(mark, 0.8f, app));
                 //Marker startMarker = new Marker(map);
                 startMarker.setPosition(startPoint);
                 map.getOverlays().add(startMarker);
                 markers.add(startMarker);
                 mapController.setCenter(startPoint);
             }
-            if(markers.size()>1) {
-                if(mode==0){
+            if (markers.size() > 1) {
+                if (mode == 0) {
                     updateBasedOnDistance(map, markers, lines);
-                }else{
+                } else {
                     mLastUpdateTimeGPS = DateFormat.getTimeInstance().format(new Date());
                     List<GeoPoint> geoPoints = new ArrayList<>();
                     geoPoints.add(markers.get(markers.size() - 2).getPosition());
@@ -185,11 +225,77 @@ public class GPSsource extends PositioningSource {
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                 }
             }
-            if(self_reference)
-            return transformtoString(transform,mCurrentLocationGPS.getAltitude());
-            else return selfReferenceString(base,new GeoPoint(mCurrentLocationGPS.getLatitude(),mCurrentLocationGPS.getLongitude()));
+
+
+            if (!self_reference) {
+
+                return transformtoString(transform, mCurrentLocationGPS.getAltitude());
+            } else {
+                return selfReferenceString(base, new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude()));
+            }
         }
-            return "null";
+        return "null";
+    }
+
+    /**
+     * Method that gets the LocationUpdates and save them like markers on the map
+     *
+     * @param map
+     * @param app
+     * @param markers
+     * @param lines
+     * @param mode
+     * @param txtLocationResult
+     */
+    @Override
+    public String updateLocationUI(MapView map, AppCompatActivity app, ArrayList<Marker> markers, ArrayList<Polyline> lines, int mode, TextView txtLocationResult) {
+        IMapController mapController = map.getController();
+        if (mCurrentLocationGPS != null) {
+            Deg2UTM transform = new Deg2UTM(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
+            if (markers.size() == 0) {
+                GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
+                Marker startMarker = new Marker(map);
+                Drawable mark = ContextCompat.getDrawable(app.getBaseContext(), R.drawable.usericon);
+                //Drawable mark = ContextCompat.getDrawable(app, R.drawable.usericon);
+                startMarker.setIcon(scaleImage(mark, 0.8f, app));
+                //Marker startMarker = new Marker(map);
+                startMarker.setPosition(startPoint);
+                map.getOverlays().add(startMarker);
+                markers.add(startMarker);
+                mapController.setCenter(startPoint);
+            }
+            if (markers.size() > 1) {
+                if (mode == 0) {
+                    updateBasedOnDistance(map, markers, lines);
+                } else {
+                    mLastUpdateTimeGPS = DateFormat.getTimeInstance().format(new Date());
+                    List<GeoPoint> geoPoints = new ArrayList<>();
+                    geoPoints.add(markers.get(markers.size() - 2).getPosition());
+                    GeoPoint newPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
+                    geoPoints.add(newPoint);
+                    Marker startMarker = new Marker(map);
+                    startMarker.setPosition(newPoint);
+                    Polyline line = new Polyline();
+                    line.setPoints(geoPoints);
+                    lines.add(line);
+                    map.getOverlayManager().add(line);
+                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+                }
+            }
+
+            txtLocationResult.setAlpha(0);
+            txtLocationResult.animate().alpha(1).setDuration(300);
+            onFollowon.setText("Última Actualización: " + mLastUpdateTimeGPS);
+            if (!self_reference) {
+                txtLocationResult.setText(transformtoString(transform, mCurrentLocationGPS.getAltitude()));
+                return transformtoString(transform, mCurrentLocationGPS.getAltitude());
+            } else {
+                txtLocationResult.setText(selfReferenceString(base, new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude())));
+                return selfReferenceString(base, new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude()));
+            }
+        }
+        txtLocationResult.setText("None yet");
+        return "null";
     }
 
     /**
@@ -215,6 +321,13 @@ public class GPSsource extends PositioningSource {
                 });
     }
 
+    @Override
+    public void setActualPositiononMap(MapView map) {
+        MyLocationNewOverlay oMapLocationOverlay = new MyLocationNewOverlay(map);
+        map.getController().setCenter(oMapLocationOverlay.getMyLocation());
+        map.getController().setZoom(15.0);
+    }
+
 
     /**
      * Method that returns a string representation of the actual position
@@ -225,7 +338,7 @@ public class GPSsource extends PositioningSource {
      */
     @Override
     public String transformtoString(Deg2UTM utm, double altitude) {
-        return "Location: " + utm.toString()+" H:"+String.valueOf(altitude);
+        return "Location: " + utm.toString() + " H:" + String.valueOf(Math.floor(altitude * 1000) / 1000);
     }
 
     /**
@@ -233,7 +346,7 @@ public class GPSsource extends PositioningSource {
      */
     @Override
     public String lastKnownUpdate() {
-       return "Last update on: " +mLastUpdateTimeGPS;
+        return "Last update on: " + mLastUpdateTimeGPS;
     }
 
     /**
@@ -255,28 +368,108 @@ public class GPSsource extends PositioningSource {
                 mLastUpdateTimeGPS = savedInstanceState.getString("last_updated_on");
             }
         }
+
+    }
+
+    /**
+     * @param outState
+     */
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putBoolean("is_requesting_updates", mRequestingLocationUpdates);
+        outState.putParcelable("last_known_location", mCurrentLocationGPS);
+        outState.putString("last_updated_on", mLastUpdateTimeGPS);
+    }
+
+    /**
+     * @param interval
+     */
+    @Override
+    public void setIntervalOnMillis(long interval) {
+
+    }
+
+    /**
+     * fastest updates interval - 5 sec
+     * location updates will be received if another app is requesting the location
+     * than your app can handle
+     *
+     * @param fastInterval
+     */
+    @Override
+    public void setFastestIntervalOnMillis(long fastInterval) {
+
     }
 
 
-    private void updateBasedOnDistance(MapView map,ArrayList<Marker> markers, ArrayList<Polyline> lines){
+    /**
+     *
+     * @param map
+     * @param markers
+     * @param lines
+     */
+    private void updateBasedOnDistance(MapView map, ArrayList<Marker> markers, ArrayList<Polyline> lines) {
         IMapController mapController = map.getController();
-        GeoPoint startPoint = markers.get(markers.size()-1).getPosition();
+        GeoPoint startPoint = markers.get(markers.size() - 1).getPosition();
         GeoPoint newPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
-        double dist = DistanceCalculator.calculateDistanceInMeters(startPoint,newPoint);
-        if(dist >= distance){
+        double dist = DistanceCalculator.calculateDistanceInMeters(startPoint, newPoint);
+        if (dist >= distance) {
             Marker startMarker = new Marker(map);
             startMarker.setPosition(newPoint);
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
             map.getOverlays().add(startMarker);
             markers.add(startMarker);
             mapController.setCenter(newPoint);
-            List <GeoPoint> geoPoints = new ArrayList<>();
+            List<GeoPoint> geoPoints = new ArrayList<>();
             geoPoints.add(startPoint);
             geoPoints.add(newPoint);
             Polyline line = new Polyline();
             line.setPoints(geoPoints);
             lines.add(line);
             map.getOverlayManager().add(line);
+        }
+    }
+
+    /**
+     *
+     * @param location
+     */
+    public void setmLocationRequest(LocationRequest location) {
+        this.mLocationRequest = location;
+    }
+
+
+    /**
+     *
+     * @return
+     */
+    public LocationRequest getmLocationRequest() {
+        return this.mLocationRequest;
+    }
+
+    private void actualPosition(AppCompatActivity app) {
+
+        LocationManager locationManager = (LocationManager) app.getSystemService(LOCATION_SERVICE);
+        for (String provider : locationManager.getProviders(true)) {
+            if (ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null)
+            {
+                //location.setLatitude(MAP_DEFAULT_LATITUDE);
+                //location.setLongitude(MAP_DEFAULT_LONGITUDE);
+                actualPosition = location;
+                System.out.println(actualPosition.toString());
+                break;
+            }
         }
     }
 

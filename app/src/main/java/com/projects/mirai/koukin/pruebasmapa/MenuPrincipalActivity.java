@@ -157,7 +157,7 @@ public class MenuPrincipalActivity extends AppCompatActivity {
 
         if(requestCode == FILE_ACTIVITY || requestCode == OLD_FILE_ACTIVITY){
 
-            if(path.endsWith(".json") || path.endsWith("C.json") || path.endsWith("P.json")){
+            if(path.endsWith(".json") || path.endsWith("C.json") || path.endsWith("P.json")){//nullpointer
                 Intent intent = new Intent(getBaseContext(), MapaActivity.class);
                 intent.putExtra("selectedFile", path);
                 startActivity(intent);

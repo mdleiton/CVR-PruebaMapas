@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
+import android.widget.Toast;
 
 import com.swiftnav.sbp.SBPMessage;
 import com.swiftnav.sbp.client.SBPCallback;
@@ -50,8 +51,8 @@ public class SerialLink {
             UsbDevice device = intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
             if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                 if (device != null) {
-                    System.out.println("algo conectado");
                     piksiConnected(device);
+                    Toast.makeText(context, device.toString(), Toast.LENGTH_LONG).show();
                 }
             } else {
                 System.out.println("nada conectado sin permiso");
@@ -72,7 +73,6 @@ public class SerialLink {
                     piksiDriver.close();
                     piksiDriver = null;
                     isConnected = false;
-                    System.out.println("Piksi not connected!");
                 }
             }
         }
@@ -197,5 +197,10 @@ public class SerialLink {
         }
         return height;
     }
+
+    public String getType(){
+        return this.type;
+    }
+
 }
 

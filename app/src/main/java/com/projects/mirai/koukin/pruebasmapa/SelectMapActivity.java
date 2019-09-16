@@ -20,10 +20,12 @@ import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.MapArrayAdapter;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.MyHelperSql;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.SavedMap;
+import com.projects.mirai.koukin.pruebasmapa.HelperClass.UTM2Deg;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -165,27 +167,37 @@ public class SelectMapActivity extends AppCompatActivity implements CompoundButt
             final EditText este_ref = (EditText) view.findViewById(R.id.este_ref);
             final EditText lon_ref = (EditText) view.findViewById(R.id.long_ref);
             final EditText lat_ref = (EditText) view.findViewById(R.id.lat_ref);
+            final ToggleButton zone = (ToggleButton) view.findViewById(R.id.zoneToggle);
+            final EditText codeGrid = (EditText) view.findViewById(R.id.codeGrid);
+
             utm_ref.setChecked(false);
-            rangeChecker(lon_ref,-180,180);
-            rangeChecker(lat_ref,-90,90);
+            rangeChecker(lon_ref,160000,994000);
+            rangeChecker(lat_ref,0,99000000);
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Ubíquese en la posición del punto cero");
+            alert.setTitle("Dimensiones del sistema de referencia - Ubíquese en el punto cero");
             alert.setView(view);
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    boolean lonb = checkRange(lon_ref.getText().toString(),-180,180);
-                    boolean latb = checkRange(lat_ref.getText().toString(),-90,90);
+                    //boolean lonb = checkRange(lon_ref.getText().toString(),-180,180);
+                    //boolean latb = checkRange(lat_ref.getText().toString(),-90,90);
 
-                    if(lonb && latb){
+                    String Easting = lon_ref.getText().toString() + " ";
+                    String Northing = lat_ref.getText().toString() + " ";
+                    String Zone = zone.getText().toString()+" ";
+                    String code = codeGrid.getText().toString()+" ";
+                    String utm = code+Zone+Easting+Northing;
+
+                    UTM2Deg latlong = new UTM2Deg(utm);
+                    if(latlong.getGeoPoint()!=null){
                         float norte = Float.valueOf(norte_ref.getText().toString());
                         float este =   Float.valueOf(este_ref.getText().toString());
-                        SharedPreferences.Editor editor = sharedPref.edit();
+                        SharedPreferences.Editor editor = sharedPref.edit();                        //Shared variables to determine wether or not the reference system is utm or based on a distance
                         editor.putFloat("norte",norte);
                         editor.putFloat("este",este);
-                        editor.putBoolean("utm",false);
-                        editor.putFloat("long", Float.valueOf(lon_ref.getText().toString()));
-                        editor.putFloat("lat", Float.valueOf(lat_ref.getText().toString()));
+                        editor.putBoolean("notutm",true);
+                        editor.putFloat("long", Float.valueOf(latlong.getLongitude()+""));
+                        editor.putFloat("lat", Float.valueOf(latlong.getLatitude()+""));
                         editor.commit();
                     }else{
                         Toast.makeText(SelectMapActivity.super.getBaseContext(), "¡Valores de longitud y latitud del punto cero fuera de rango, no se almacenaron!", Toast.LENGTH_SHORT).show();
@@ -200,6 +212,9 @@ public class SelectMapActivity extends AppCompatActivity implements CompoundButt
             alert.show();
         } else if (isChecked && !is_self) {
             self_ref.setChecked(false);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putBoolean("notutm",false);
+            editor.commit();
         }
     }
 
@@ -211,7 +226,7 @@ public class SelectMapActivity extends AppCompatActivity implements CompoundButt
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putFloat("norte",1000f);
         editor.putFloat("este", 1000f);
-        editor.putBoolean("utm", true);
+        editor.putBoolean("notutm", false);
         editor.commit();
     }
 

@@ -78,7 +78,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center_horizontal"
             android:textColor="#F0BC00"
-            android:textSize="18dp" />
+            android:textSize="12sp" />
 
         <TextView
             android:id="@+id/updated_on"

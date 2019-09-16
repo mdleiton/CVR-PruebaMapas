@@ -1,26 +1,20 @@
 package com.projects.mirai.koukin.pruebasmapa;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.ScaleDrawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -28,37 +22,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.cocoahero.android.geojson.Feature;
-import com.cocoahero.android.geojson.FeatureCollection;
-import com.cocoahero.android.geojson.GeoJSON;
-import com.cocoahero.android.geojson.GeoJSONObject;
-import com.cocoahero.android.geojson.LineString;
-import com.cocoahero.android.geojson.Point;
-import com.cocoahero.android.geojson.Position;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.location.LocationSettingsResponse;
-import com.google.android.gms.location.LocationSettingsStatusCodes;
-import com.google.android.gms.location.SettingsClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -67,7 +41,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.CopyOfScaleBarOverlay;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Deg2UTM;
-import com.projects.mirai.koukin.pruebasmapa.HelperClass.DistanceCalculator;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.FileUtils;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.GPSsource;
 import com.projects.mirai.koukin.pruebasmapa.HelperClass.Permissions;
@@ -87,6 +60,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.compass.CompassOverlay;
+import org.osmdroid.views.overlay.infowindow.InfoWindow;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.text.DateFormat;
@@ -100,7 +74,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.projects.mirai.koukin.pruebasmapa.HelperClass.GeoJsonUtils.loadFileGeo;
@@ -119,17 +92,14 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     private static final String TAG = GeoreferenciarActivity.class.getSimpleName();
 
-    SerialLink piksi;
-    Runnable runnable;
-    Handler schedulerRTK;
-    public Marker markerPersonaRTK;
-    public Polygon p;
-
     @BindView(R.id.location_result)
     TextView txtLocationResult;
 
     @BindView(R.id.updated_on)
     TextView txtUpdatedOn;
+
+    @BindView(R.id.textHitoMapa)
+    TextView textHitoMapa;
 
     @BindView(R.id.btn_start_location_updates)
     ImageButton btnStartUpdates;
@@ -152,6 +122,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     @BindView(R.id.btn_config)
     ImageButton btn_config;
 
+    @BindView(R.id.locationMove)
+    ImageButton locationMove;
+
     IMapController mapController;
 
     // location last updated time
@@ -167,17 +140,12 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
     private static final int REQUEST_CHECK_SETTINGS = 100;
 
-    // bunch of location related apis
-    private FusedLocationProviderClient mFusedLocationClient;
-    private SettingsClient mSettingsClient;
-    private LocationRequest mLocationRequest;
-    private LocationSettingsRequest mLocationSettingsRequest;
-    private LocationCallback mLocationCallback;
-    private Location mCurrentLocationGPS;
-
     // boolean flag to toggle the ui
     private Boolean mRequestingLocationUpdates = false;
 
+    /**
+     * Mode for position requests mode->1 == by distance | mode->0 == by time
+     */
     private int mode = 1;
     //Distancia que se debe dezplazar para hacer otro punto.
     private double distancia = 1;
@@ -193,6 +161,10 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     private SavedMap mapaCargado;
     private int numberOfFoadedFiles=0;
 
+    private double referenceNorth;
+    private double referenceEast;
+
+    private boolean own_reference = false;
     private PositioningSource source;
 
     @Override
@@ -231,18 +203,30 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         //gps = True es para gps y False para RTK
         // gpsMode = 1 -> GPS
         // gpsMode = 0 -> RTK
+
+        txtLocationResult.setTextSize(20);
         if(sharedPref.getBoolean("gps",false)){
             gpsMode = 1;
-            init();                                                 // initialize the necessary libraries
+            // initialize the necessary libraries
             source= new GPSsource();
+            source.setUI(txtLocationResult,txtUpdatedOn);
             source.init(map,this,marcadores,lineas,mode);
-
             Toast.makeText(this,"MODO GPS ACTIVADO",Toast.LENGTH_SHORT).show();
         }else{
             source = new PiksiSource();
+            source.setUI(txtLocationResult,txtUpdatedOn);
             source.init(map,this,marcadores,lineas,mode);
             Toast.makeText(this,"MODO RTK ACTIVADO",Toast.LENGTH_SHORT).show();
             gpsMode = 0;
+        }
+        if(sharedPref.getBoolean("notutm",true)){
+            own_reference = true;
+            float longitude = sharedPref.getFloat("long",180);
+            float latitude = sharedPref.getFloat("lat",90);
+            referenceNorth = sharedPref.getFloat("norte",1000);
+            referenceEast = sharedPref.getFloat("este",1000);
+            GeoPoint pos = new GeoPoint(longitude,latitude);
+            source.setSelf_reference(pos,true);
         }
 
         Bundle extras = getIntent().getExtras();                //Si me envian un archivo a cargar , hago esto:
@@ -252,39 +236,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         }
 
         setupMap();
-        if(gpsMode == 1){
-            restoreValuesFromBundle(savedInstanceState);            // restore the values from saved instance state
-        }
+        restoreValuesFromBundle(savedInstanceState);            // restore the values from saved instance state
     }
-
-    /**
-     * Inicializo dependencias y librerias de los servicios de GPS
-     */
-    private void init() {
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        mSettingsClient = LocationServices.getSettingsClient(this);
-
-        mLocationCallback = new LocationCallback() {
-            @Override
-            public void onLocationResult(LocationResult locationResult) {
-                super.onLocationResult(locationResult);
-                // location is received
-                mCurrentLocationGPS = locationResult.getLastLocation();
-                mLastUpdateTimeGPS = DateFormat.getTimeInstance().format(new Date());
-                updateLocationUI_GPS();
-            }
-        };
-        mRequestingLocationUpdates = false;
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
-        builder.addLocationRequest(mLocationRequest);
-        mLocationSettingsRequest = builder.build();
-    }
-
 
     /**
      * Se configura el mapa y todas sus dependencias.
@@ -323,90 +276,41 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
     /**
+     * Function that positions the map on the position of the actual location of the user
+     * @param
+     */
+    @OnClick(R.id.locationMove)
+    public void actualPosition(){
+        GeoPoint position = new GeoPoint(source.returnLatitude(),source.returnLongitude());
+        mapController.setCenter(position);
+        mapController.setZoom(15.0);
+    }
+
+    /**
      * Restoring values from saved instance state
      */
     private void restoreValuesFromBundle(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            if (savedInstanceState.containsKey("is_requesting_updates")) {
-                mRequestingLocationUpdates = savedInstanceState.getBoolean("is_requesting_updates");
-            }
-
-            if (savedInstanceState.containsKey("last_known_location")) {
-                mCurrentLocationGPS = savedInstanceState.getParcelable("last_known_location");
-            }
-
-            if (savedInstanceState.containsKey("last_updated_on")) {
-                mLastUpdateTimeGPS = savedInstanceState.getString("last_updated_on");
-            }
-        }
+        source.restoreValuesFromBundle(savedInstanceState);
         if(mode == 1){
-           updateLocationUI_GPS();
+           updateLocation();
         }
     }
 
-
     /**
-     * Update the UI displaying the location data and toggling the buttons GPS
+     *
      */
-    private void updateLocationUI_GPS() {
-        // falta revisar donde setea al hombrecito
-        if (mCurrentLocationGPS != null) {
-            Deg2UTM transform = new Deg2UTM(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude());
-            txtLocationResult.setText("Ubicación: " + transform.toString()+" Altura:"+mCurrentLocationGPS.getAltitude());
-            if(mode==0){
-                GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
-                Marker startMarker = new Marker(map);
-                Drawable mark = ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon);
-                startMarker.setIcon(scaleImage(mark,0.8f));
-                startMarker.setPosition(startPoint);
-                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(startMarker);
-                marcadores.add(startMarker);
-                mapController.setCenter(startPoint);
-                if(marcadores.size()>1){
-                    List <GeoPoint> geoPoints = new ArrayList<>();
-                    geoPoints.add(marcadores.get(marcadores.size()-2).getPosition());
-                    geoPoints.add(startPoint);
-                    Polyline line = new Polyline();
-                    line.setPoints(geoPoints);
-                    lineas.add(line);
-                    map.getOverlayManager().add(line);
-                }
-            }else if(mode==1){
-                if(marcadores.size()==0){
-                    GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(),mCurrentLocationGPS.getAltitude());
-                    Marker startMarker = new Marker(map);
-                    //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
-                    startMarker.setPosition(startPoint);
-                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    map.getOverlays().add(startMarker);
-                    marcadores.add(startMarker);
-                    mapController.setCenter(startPoint);
-                }else{
-                    GeoPoint startPoint = marcadores.get(marcadores.size()-1).getPosition();
-                    GeoPoint newPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
-                    double distance = DistanceCalculator.calculateDistanceInMeters(startPoint,newPoint);
-                    if(distance >= distancia){
-                        Marker startMarker = new Marker(map);
-                        startMarker.setPosition(newPoint);
-                        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                        map.getOverlays().add(startMarker);
-                        marcadores.add(startMarker);
-                        mapController.setCenter(newPoint);
-                        List <GeoPoint> geoPoints = new ArrayList<>();
-                        geoPoints.add(startPoint);
-                        geoPoints.add(newPoint);
-                        Polyline line = new Polyline();
-                        line.setPoints(geoPoints);
-                        lineas.add(line);
-                        map.getOverlayManager().add(line);
-                    }
-                }
-            }
-            // giving a blink animation on TextView
-            txtLocationResult.setAlpha(0);
-            txtLocationResult.animate().alpha(1).setDuration(300);
-            txtUpdatedOn.setText("Última Actualización: " + mLastUpdateTimeGPS);  //// location last updated time
+    private void updateLocation(){
+        String location = source.updateLocationUI(map,this,marcadores,lineas,mode,txtLocationResult);
+        txtLocationResult.setAlpha(0);
+        txtLocationResult.animate().alpha(1).setDuration(300);
+        txtUpdatedOn.setText("Última Actualización: " + DateFormat.getTimeInstance().format(new Date()));
+        if(manageReferenceSystem()){
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Está saliendo del área del sistema de referencia. ¿Desea Continuar?");
+            alert.setPositiveButton("Continuar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int whichButton) {}
+            });
+            alert.show();
         }
         toggleButtons();
     }
@@ -414,131 +318,54 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putBoolean("is_requesting_updates", mRequestingLocationUpdates);
-        outState.putParcelable("last_known_location", mCurrentLocationGPS);
-        outState.putString("last_updated_on", mLastUpdateTimeGPS);
+        source.onSaveInstanceState(outState);
     }
 
     /**
      * Metodo que cambia la imagen del boton de guardar registros
      */
     private void toggleButtons() {
-        if (mRequestingLocationUpdates) {
+        if (source.getmRequestingLocationUpdates()) {
             btnStartUpdates.setImageResource(R.drawable.pause);
         }
     }
 
-    /**
-     * Starting location updates
-     * Check whether location settings are satisfied and then
-     * location updates will be requested
-     */
-    private void startLocationUpdatesGPS() {
-        mSettingsClient
-                .checkLocationSettings(mLocationSettingsRequest)
-                .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
-                    @SuppressLint("MissingPermission")
-                    @Override
-                    public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
-                        Log.i(TAG, "All location settings are satisfied.");
-
-                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación iniciadas!", Toast.LENGTH_SHORT).show();
-
-                        //noinspection MissingPermission
-                        mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                                mLocationCallback, Looper.myLooper());
-
-                        updateLocationUI_GPS();
-                    }
-                })
-                .addOnFailureListener(this, new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        int statusCode = ((ApiException) e).getStatusCode();
-                        switch (statusCode) {
-                            case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                                Log.i(TAG, "Location settings are not satisfied. Attempting to upgrade " +
-                                        "location settings ");
-                                try {
-                                    // Show the dialog by calling startResolutionForResult(), and check the
-                                    // result in onActivityResult().
-                                    ResolvableApiException rae = (ResolvableApiException) e;
-                                    rae.startResolutionForResult(GeoreferenciarActivity.this, REQUEST_CHECK_SETTINGS);
-                                } catch (IntentSender.SendIntentException sie) {
-                                    Log.i(TAG, "PendingIntent unable to execute request.");
-                                }
-                                break;
-                            case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                                String errorMessage = "Location settings are inadequate, and cannot be " +
-                                        "fixed here. Fix in Settings.";
-                                Log.e(TAG, errorMessage);
-
-                                Toast.makeText(GeoreferenciarActivity.this, errorMessage, Toast.LENGTH_LONG).show();
-                        }
-                        updateLocationUI_GPS();
-                    }
-                });
-    }
-
-    /**
-     * Método que inicia las llamadas a los hilos de los piksis para el modo RTK
-     */
-    private void startLocationUpdatesRTK() {
-        startHandlerRTK();
-    }
 
     @OnClick(R.id.btn_start_location_updates)
-    public void startLocationButtonClick() {
+    public void startLocationButtonClick(){
+        source.setFollow_on(!source.getFollow_on());
         follow_on = !follow_on;
+        Toast.makeText(this,"Estado: actualizando mapa",Toast.LENGTH_SHORT).show();
+        mapController.setZoom(18.0);
+        if(source.getFollow_on()){
+            Dexter.withActivity(this)
+                    .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                    .withListener(new PermissionListener() {
+                        @Override
+                        public void onPermissionGranted(PermissionGrantedResponse response) {
+                            source.setmRequestingLocation(true);
+                            source.startLocationUpdates(map,GeoreferenciarActivity.this,marcadores,lineas,mode);
+                            updateLocation();
+                        }
 
-        if(gpsMode == 1){
-            Toast.makeText(this,"Estado: actualizando mapa",Toast.LENGTH_SHORT).show();
-            mapController.setZoom(18.0);
-            if(follow_on){
-                Dexter.withActivity(this)
-                        .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-                        .withListener(new PermissionListener() {
-                            @Override
-                            public void onPermissionGranted(PermissionGrantedResponse response) {
-                                mRequestingLocationUpdates = true;
-                                startLocationUpdatesGPS();
+                        @Override
+                        public void onPermissionDenied(PermissionDeniedResponse response) {
+                            if (response.isPermanentlyDenied()) {
+                                // open device settings when the permission is denied permanently
+                                openSettings();
                             }
+                        }
 
-                            @Override
-                            public void onPermissionDenied(PermissionDeniedResponse response) {
-                                if (response.isPermanentlyDenied()) {
-                                    // open device settings when the permission is denied permanently
-                                    openSettings();
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-            }else{
-                Toast.makeText(this,"Estado: en modo pausa",Toast.LENGTH_SHORT).show();
-                mRequestingLocationUpdates = false;
-                stopLocationUpdates();
-                btnStartUpdates.setImageResource(R.drawable.playbutton);
-            }
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).check();
         }else{
-            if(follow_on){
-                mRequestingLocationUpdates = true;
-                startLocationUpdatesRTK();
-            }else{
-                if (piksi != null){
-                    if (piksi.isConnected) {
-                        Toast.makeText(this, "Estado: en modo pausa", Toast.LENGTH_SHORT).show();
-                    }
-                } else{
-                    Toast.makeText(this, "Piksi no se encuentra conectado", Toast.LENGTH_SHORT).show();
-                }
-                mRequestingLocationUpdates = false;
-                btnStartUpdates.setImageResource(R.drawable.playbutton);
-                stopHandlerRTK();
-            }
+            Toast.makeText(this,"Estado: en modo pausa",Toast.LENGTH_SHORT).show();
+            source.setmRequestingLocation(false);
+            source.stopLocationUpdates(map,this,marcadores,lineas,mode);
+            btnStartUpdates.setImageResource(R.drawable.playbutton);
         }
     }
 
@@ -550,7 +377,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         builder.setItems(modes, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, final int which) {
-                // the user clicked
                 if(which==0){
                     Toast.makeText(GeoreferenciarActivity.this, "Tiempo ha sido elegido", Toast.LENGTH_LONG).show();
                     AlertDialog.Builder alert = new AlertDialog.Builder(GeoreferenciarActivity.this);
@@ -581,22 +407,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             }
         });
         builder.show();
-    }
-
-    /**
-     * Método que muestra un mensaje cuando las actualizacion de ubicación se dejan de tomar
-     */
-    public void stopLocationUpdates() {
-        // Removing location updates
-        mFusedLocationClient
-                .removeLocationUpdates(mLocationCallback)
-                .addOnCompleteListener(this, new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(getApplicationContext(), "¡Actualizaciones de ubicación detenidas!", Toast.LENGTH_SHORT).show();
-                        toggleButtons();
-                    }
-                });
     }
 
 
@@ -652,7 +462,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      */
     public void updateMode(int valor){
 
-        follow_on=!follow_on;
+        source.setFollow_on(!source.getFollow_on());
         btn_config.animate().alpha(1).setDuration(600);
         if(mode==0){
             int[] tiempos = {5,15,30,60};
@@ -661,10 +471,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
             FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=segundos;
             if(gpsMode==1) {
-                mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-                mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-            }else {
-                //implementar
+                GPSsource gps = (GPSsource) source;
+                gps.getmLocationRequest().setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+                gps.getmLocationRequest().setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
             }
             btn_config.setImageResource(imagenesTiempo[valor]);
         }else if(mode ==1){
@@ -675,10 +484,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             UPDATE_INTERVAL_IN_MILLISECONDS=5000;
             FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS=5000;
             if(gpsMode==1) {
-                mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
-                mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
-            }else{
-                //falta implementar
+                GPSsource gps = (GPSsource) source;
+                gps.getmLocationRequest().setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
+                gps.getmLocationRequest().setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
             }
             btn_config.setImageResource(imagenesDistancia[valor]);
         }
@@ -686,6 +494,13 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
+    private boolean manageReferenceSystem(){
+        if(own_reference){
+            boolean is_source = source.insideBoundaries(new GeoPoint(source.returnLatitude(),source.returnLongitude(),source.returnHeight()),referenceNorth,referenceEast);
+            return is_source;
+        }
+        return false;
+    }
 
     /**
      * Method to save the route on a geojson file
@@ -727,8 +542,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 public void onClick(DialogInterface dialog, int whichButton) {
                     savetravel(input.getText().toString()+"|"+sesionID);
                     if (gpsMode == 0){
-                        stopHandlerRTK();
-                        stopPiksy();
+                        source.stopLocationUpdates(map,GeoreferenciarActivity.this,marcadores,lineas,mode);
+                        PiksiSource piksy = (PiksiSource) source;
+                        piksy.stopPiksy();
                     }
                 }
             });
@@ -758,159 +574,31 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             boolean activity = saveTravel(fileName,marcadores,lineas,this,sesionID);
             if(activity){
                 Toast.makeText(getApplicationContext(), "Puntos Guardados", Toast.LENGTH_LONG).show();
-                Intent i = new Intent(GeoreferenciarActivity.this,MenuPrincipalActivity.class);
-                startActivity(i);
-                finish();
+                final TextView input = new TextView(GeoreferenciarActivity.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setTitle("¿Desea continuar capturando el recorrido o regresar al menú principal? ");
+                alert.setView(input);
+                alert.setPositiveButton("Regresar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        if (gpsMode == 0){
+                            source.stopLocationUpdates(map,GeoreferenciarActivity.this,marcadores,lineas,mode);
+                            PiksiSource piksy = (PiksiSource) source;
+                            piksy.stopPiksy();
+                        }
+                        Intent i = new Intent(GeoreferenciarActivity.this,MenuPrincipalActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                alert.setNegativeButton("Continuar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        btn_save.setEnabled(true);
+                        btn_stop.setEnabled(true);
+                    }
+                });
+                alert.show();
             }
             btn_save.setEnabled(true);
-    }
-
-
-    /**
-     * Empieza el Handler que controla los tiempos de solicitud del RTK
-     */
-    public void startHandlerRTK(){
-        schedulerRTK = new Handler();
-        //delay =UPDATE_INTERVAL_IN_MILLISECONDS; //1 second=1000 milisecond, 15*1000=15seconds
-        if(piksi==null){
-            piksi = new SerialLink(this.getApplicationContext());
-        }
-        if(!piksi.isConnected){
-            piksi.destroy();
-            piksi = new SerialLink(this.getApplicationContext());
-        }
-        String data;
-        if(!piksi.start()) {
-            if(!piksi.start()){
-                data = "Piksi no se encuentra conectado al dispositivo ";
-                System.out.println(data);
-                Toast.makeText(getApplicationContext(), data, Toast.LENGTH_LONG).show();
-                mRequestingLocationUpdates = false;
-            }
-        }else{
-            mRequestingLocationUpdates = true;
-            Toast.makeText(this,"Estado: actualizando mapa",Toast.LENGTH_SHORT).show();
-            toggleButtons();
-            schedulerRTK.postDelayed( runnable = new Runnable() {
-                public void run() {
-                    updateUI_RTK();
-                    schedulerRTK.postDelayed(runnable, UPDATE_INTERVAL_IN_MILLISECONDS);
-                }
-            }, UPDATE_INTERVAL_IN_MILLISECONDS);
-        }
-    }
-
-    /**
-     * Detiene las tareas del handler para evitar que siga realizando peticiones al RTK
-     */
-    public void stopHandlerRTK(){
-
-            schedulerRTK.removeCallbacks(runnable);
-
-
-    }
-
-    public void stopPiksy(){
-        piksi.destroy();
-        piksi = null;
-    }
-
-    /**
-     * Metodo que actualiza la interfaz de usuario con los datos extraidos del RTK
-     */
-    public void updateUI_RTK(){
-        if(!piksi.isConnected){
-            Toast.makeText(this, "Piksi se ha desconectado", Toast.LENGTH_SHORT).show();
-            mRequestingLocationUpdates = false;
-            follow_on=false;
-            btnStartUpdates.setImageResource(R.drawable.playbutton);
-            stopHandlerRTK();
-        }else{
-            //Se solicita la latitud y longitud al RTK
-            double lastKnowlatitudeRTK = piksi.getLat();
-            double lastKnowLongitudeRTK = piksi.getLon();
-            double lastKnowAltitudeRTK = piksi.getLat();
-            String type = piksi.type;
-            double height = piksi.height;
-            txtUpdatedOn.setText(
-                    "Última Actualización:"+DateFormat.getTimeInstance().format(new Date())+" |" + piksi.type  + "|" + String.valueOf(piksi.height + "m"));
-            if(lastKnowlatitudeRTK > 91 || lastKnowlatitudeRTK < -91){
-                return;
-            }
-            //Se encuentra el punto donde se encuentra actualmente
-            GeoPoint startPoint = new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK,height);
-            //Se actualiza el texto inferior
-            Deg2UTM transform = new Deg2UTM(lastKnowlatitudeRTK,lastKnowLongitudeRTK);
-            txtLocationResult.setText("Ubicación: " + transform.toString()+" Altura: "+height);
-
-            // giving a blink animation on TextView
-            txtLocationResult.setAlpha(0);
-            txtLocationResult.animate().alpha(1).setDuration(300);
-
-            if(mode==0){
-                Marker startMarker = new Marker(map);
-                //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
-                startMarker.setPosition(startPoint);
-                startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                map.getOverlays().add(startMarker);
-                marcadores.add(startMarker);
-                mapController.setCenter(startPoint);
-                if(marcadores.size()>1){
-                    List <GeoPoint> geoPoints = new ArrayList<>();
-                    geoPoints.add(marcadores.get(marcadores.size()-2).getPosition());
-                    geoPoints.add(startPoint);
-                    Polyline line = new Polyline();
-                    line.setPoints(geoPoints);
-                    line.setColor(R.color.colorGreen);
-                    lineas.add(line);
-                    map.getOverlayManager().add(line);
-                }
-            }else if(mode==1){
-                if(marcadores.size()==0){
-                    Marker startMarker = new Marker(map);
-                    //startMarker.setIcon(getResources().getDrawable(R.drawable.marker));
-                    startMarker.setPosition(startPoint);
-                    startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                    map.getOverlays().add(startMarker);
-                    marcadores.add(startMarker);
-                    mapController.setCenter(startPoint);
-                }else{
-                    startPoint = marcadores.get(marcadores.size()-1).getPosition();
-                    GeoPoint newPoint = new GeoPoint(lastKnowlatitudeRTK, lastKnowLongitudeRTK,height);
-                    double distance = DistanceCalculator.calculateDistanceInMeters(startPoint,newPoint);
-                    if(distance >= distancia){
-                        Marker startMarker = new Marker(map);
-                        startMarker.setPosition(newPoint);
-                        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-                        map.getOverlays().add(startMarker);
-                        marcadores.add(startMarker);
-                        mapController.setCenter(newPoint);
-                        List <GeoPoint> geoPoints = new ArrayList<>();
-                        geoPoints.add(startPoint);
-                        geoPoints.add(newPoint);
-                        Polyline line = new Polyline();
-                        line.setPoints(geoPoints);
-                        lineas.add(line);
-                        map.getOverlayManager().add(line);
-                    }
-                }
-            }
-
-            //Se actualiza la markerPersonaRTK y las ubicaciones.
-            map.getOverlays().remove(markerPersonaRTK);
-            markerPersonaRTK = new Marker(map);
-            markerPersonaRTK.setIcon(ContextCompat.getDrawable(GeoreferenciarActivity.this,R.drawable.usericon));
-            markerPersonaRTK.setPosition(new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK));
-            markerPersonaRTK.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            map.getOverlays().add(markerPersonaRTK);
-            List<GeoPoint> circle = Polygon.pointsAsCircle(new GeoPoint(lastKnowlatitudeRTK,lastKnowLongitudeRTK), 2);
-            map.getOverlayManager().remove(p);
-            p = new Polygon(map);
-            p.setPoints(circle);
-            p.setTitle("h: " + String.valueOf(piksi.h_accuracy) + "mm v: " + String.valueOf(piksi.v_accuracy) + "");
-            map.getOverlayManager().add(p);
-            map.invalidate();
-        }
     }
 
 
@@ -930,15 +618,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     public void onResume() {
         super.onResume();
         map.onResume();
-        if(mRequestingLocationUpdates){
-            if(gpsMode==1){
-                // Resuming location updates depending on button state and allowed permissions
-                if (checkPermissions()) {
-                    startLocationUpdatesGPS();
-                }
-                updateLocationUI_GPS();
-            }else{
-                startHandlerRTK();
+        if(source.getmRequestingLocationUpdates()){
+            if(checkPermissions()){
+                source.startLocationUpdates(map,this,marcadores,lineas,mode);
             }
         }
     }
@@ -952,9 +634,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
         if (mRequestingLocationUpdates) {
             if(gpsMode==1){
                 // pausing location updates
-                stopLocationUpdates();
+                source.stopLocationUpdates(map,this,marcadores,lineas,mode);
             }else{
-                stopHandlerRTK();
+                //stopHandlerRTK();
             }
         }
         super.onPause();
@@ -1002,9 +684,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
 
             alert.setPositiveButton("Si", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-                    if(piksi!=null){
-                        stopPiksy();
-                    }
+                    source.stopLocationUpdates(map,GeoreferenciarActivity.this,marcadores,lineas,mode);
                     GeoreferenciarActivity.super.onBackPressed();
                 }
             });
@@ -1015,36 +695,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
             });
             alert.show();
         }else{
-            if(piksi!=null){
-                stopPiksy();
-            }
+
             super.onBackPressed();
-        }
-    }
-
-    //Metodo viejo para telefonos con Android 6.
-    //@OnClick(R.id.btn_open)
-
-    /**
-     *  Metodo antiguo para dispositivos con Android 6
-     */
-    public void openFile(){
-        Permissions.verifyLocationPermission(GeoreferenciarActivity.this);
-        Permissions.verifyStoragePermissions(GeoreferenciarActivity.this);
-        if(numberOfFoadedFiles<5){
-            Intent intent = new Intent()
-                    .setType("*/*")
-                    .setAction(Intent.ACTION_GET_CONTENT);
-            startActivityForResult(Intent.createChooser(intent, "Elige un Archivo"), 1234);
-        }else{
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("No puede abrir más archivos.");
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                }
-            });
-            alert.show();
         }
     }
 
@@ -1091,7 +743,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
      */
     @OnClick(R.id.btn_mark)
     public void setMark(){
-        if(mRequestingLocationUpdates){
+        if(source.getmRequestingLocationUpdates()){
             LinearLayout view = (LinearLayout) View.inflate(this,R.layout.spinner_list,null);
             final Spinner staticSpinner = (Spinner) view.findViewById(R.id.spinner) ;
             final EditText numeroProcedencia = (EditText) view.findViewById(R.id.input_numeroP);
@@ -1114,21 +766,12 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     return;
                 }
             });
+
             alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
                     GeoPoint punto;
-                    if (gpsMode == 1) {
-                        punto = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
-                    } else {
-                        if (piksi != null) {
-
-                            punto = new GeoPoint(markerPersonaRTK.getPosition().getLatitude(), markerPersonaRTK.getPosition().getLongitude());
-                        } else {
-                            Toast.makeText(GeoreferenciarActivity.this, "Piksi no se encuentra conectado.", Toast.LENGTH_LONG).show();
-                            return;
-                        }
-                    }
-
+                    punto = new GeoPoint(source.returnLatitude(), source.returnLongitude(), source.returnHeight());
+                    //Toast.makeText(GeoreferenciarActivity.this, "Piksi no se encuentra conectado.", Toast.LENGTH_LONG).show();
                     Marker marker = new Marker(map);
 
                     //On this part you check wether is an stablished discoveriment or another category
@@ -1145,6 +788,26 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                     //mark.setBounds(0, 0, 30, 30);
                     marker.setIcon(scaleImage(mark,1.5f));
                     map.getOverlays().add(marker);
+                    final InfoWindow default_iw = marker.getInfoWindow();
+                    marker.setOnMarkerClickListener(new Marker.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker, MapView mapView) {
+
+                            if (marker.getSubDescription() == null || marker.getSubDescription().equals("")) {
+                                return false;
+
+                            }
+                            marker.setInfoWindow(default_iw);
+                            marker.showInfoWindow();
+                            Deg2UTM utm = new Deg2UTM(marker.getPosition().getLatitude(),marker.getPosition().getLongitude());
+                            textHitoMapa.setText("Position: "+utm.toString());
+                            //textHitoMapa.setText("");
+
+                            return true;
+
+                        }
+                    });
+
                     marcadores.add(marker);
                 }
             }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

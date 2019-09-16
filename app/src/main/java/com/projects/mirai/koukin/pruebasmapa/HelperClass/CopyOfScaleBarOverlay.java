@@ -3,6 +3,7 @@ package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.text.TextPaint;
@@ -56,14 +57,17 @@ public class CopyOfScaleBarOverlay extends Overlay {
         paintText.setARGB(255, 0, 0, 0);
         paintText.setAntiAlias(true);
         paintText.setTextAlign(Paint.Align.CENTER);
+        paintText.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
         paintRectangle = new Paint();
         paintRectangle.setARGB(80, 255, 255, 255);
         paintRectangle.setAntiAlias(true);
+        paintRectangle.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
         paintLine = new Paint();
         paintLine.setARGB(180, 0, 0, 0);
         paintLine.setAntiAlias(true);
+        paintLine.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 
         l0 = new Location("none");
         l1 = new Location("none");
