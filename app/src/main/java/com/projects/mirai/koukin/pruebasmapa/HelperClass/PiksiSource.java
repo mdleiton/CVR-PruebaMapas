@@ -245,7 +245,6 @@ public class PiksiSource extends PositioningSource {
             //Se solicita la latitud y longitud al RTK
             double lastKnowlatitudeRTK = piksi.getLat();
             double lastKnowLongitudeRTK = piksi.getLon();
-            String type = piksi.type;
             double height = piksi.height;
 
             txtLocationResult.setText(
@@ -338,7 +337,9 @@ public class PiksiSource extends PositioningSource {
                 return selfReferenceString(base, new GeoPoint(lastKnowlatitudeRTK, lastKnowLongitudeRTK, height));
             }
         }
-        txtLocationResult.setText("None yet");
+
+        String estado_conex = connectionStatus();
+        txtLocationResult.setText("Esperando... "+ estado_conex);
         return "null";
     }
 
@@ -410,7 +411,7 @@ public class PiksiSource extends PositioningSource {
      */
     @Override
     public void setIntervalOnMillis(long interval) {
-
+        this.UPDATE_INTERVAL_IN_MILLISECONDS = interval;
     }
 
     /**
@@ -422,7 +423,7 @@ public class PiksiSource extends PositioningSource {
      */
     @Override
     public void setFastestIntervalOnMillis(long fastInterval) {
-
+        this.FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = fastInterval;
     }
 
 
@@ -481,12 +482,14 @@ public class PiksiSource extends PositioningSource {
      * So it returns an approximation of time required to have a connection of maximum accuracy
      */
     public String connectionStatus(){
+        if(piksi==null)
+            return "Conexión al 0% tiempo aproximado 15 minutos";
         String type = piksi.getType();
         ArrayList<String> fix_types = new ArrayList<String>(
                 Arrays.asList("FIXED","DGPS","float","fixed","DR","SBAS","UNKNOWN","No fix"));
         int state = fix_types.indexOf(type);
 
-        return "The connection is at "+state/fix_types.size()*100+"%";
+        return "La conexión está al "+state/fix_types.size()*100+"%";
     }
 
 }

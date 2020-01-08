@@ -14,6 +14,7 @@ import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Interface to implement if is needed a location data source
@@ -82,22 +83,22 @@ public abstract class PositioningSource {
     public GeoPoint base;
 
     /**
-     *
+     * The MapView where there are going to be plot the position state
      */
     protected MapView map;
 
     /**
-     *
+     * The app that calls the position source
      */
     protected AppCompatActivity app;
 
     /**
-     *
+     * The set of markers to be placed on the map
      */
     protected ArrayList<Marker> markers;
 
     /**
-     *
+     * The set of lines to be draw on the map and connect the markers
      */
     protected ArrayList<Polyline> lines;
 
@@ -127,19 +128,19 @@ public abstract class PositioningSource {
     }
 
     /**
-     *
+     * Method to get the current latitud
      * @return
      */
     public abstract double returnLatitude();
 
     /**
-     *
+     * Method to get the currennt Longitude
      * @return
      */
     public abstract double returnLongitude();
 
     /**
-     *
+     * Method to get the current Altitude
      * @return
      */
     public abstract double returnHeight();
@@ -311,9 +312,9 @@ public abstract class PositioningSource {
     }
 
     /**
-     *
-     * @param base
-     * @param self_reference
+     * Method to call when you set an own refernce system
+     * @param base the base position of the point
+     * @param self_reference true if there is a self reference system
      */
     public void setSelf_reference(GeoPoint base, boolean self_reference){
         this.base = base;
@@ -321,7 +322,7 @@ public abstract class PositioningSource {
     }
 
     /**
-     *
+     * Method to set the mode if it is by distance or by time
      * @param mode
      * @return
      */
@@ -331,7 +332,7 @@ public abstract class PositioningSource {
     }
 
     /**
-     *
+     * Method to change the distance if the mode to take the geopositioning updates are by distance
      * @param distance
      * @return
      */
@@ -382,6 +383,27 @@ public abstract class PositioningSource {
         double east = DistanceCalculator.calculateDistanceFromEast(rover,base);
         double north = DistanceCalculator.calculateDistanceFromNorth(rover,base);
         if(east>limitNorth||north>limitNorth){ return false; }
+        return true;
+    }
+
+    /**
+     * Method used in order to store the last point where you stayed when stoped the geopositioning
+     * requests
+     * @return true or false
+     */
+    public boolean saveLastPoint(MapView map, AppCompatActivity app, ArrayList<Marker> markers, ArrayList<Polyline> lines){
+        GeoPoint last = new GeoPoint(this.returnLatitude(),this.returnLatitude(),this.returnHeight());
+        List<GeoPoint> geoPoints = new ArrayList<>();
+        geoPoints.add(markers.get(markers.size() - 1).getPosition());
+        geoPoints.add(last);
+        Marker startMarker = new Marker(map);
+        startMarker.setPosition(last);
+        Polyline line = new Polyline();
+        line.setPoints(geoPoints);
+        lines.add(line);
+        map.getOverlayManager().add(line);
+        startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        map.getOverlays().add(startMarker);
         return true;
     }
 

@@ -226,7 +226,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
 
     /**
-     * Método que
+     * Método que crea el mapa
      */
     private void setupMap(){
 
@@ -569,12 +569,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         });
         builder.show();
     }
-    /*
-    @OnClick(R.id.btn_stop_location_updates)
-    public void stopLocationButtonClick() {
-        mRequestingLocationUpdates = false;
-        stopLocationUpdates();
-    }*/
 
 
     public void stopLocationUpdates() {
@@ -590,16 +584,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
                 });
     }
 
-    /*
-    @OnClick(R.id.btn_get_last_location)
-    public void showLastKnownLocation() {
-        if (mCurrentLocation != null) {
-            Toast.makeText(getApplicationContext(), "Lat: " + mCurrentLocation.getLatitude()
-                    + ", Lng: " + mCurrentLocation.getLongitude(), Toast.LENGTH_LONG).show();
-        } else {
-            Toast.makeText(getApplicationContext(), "Last known location is not available!", Toast.LENGTH_SHORT).show();
-        }
-    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -744,10 +728,7 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
         }
     }
     public String getStringFromFile(String selectedFile){
-        //File sdcard = Environment.getExternalStorageDirectory();
 
-        //Get the text file
-        //File file = new File(sdcard,"file.txt");
         System.out.println("Path:"+selectedFile);
         File file = new File(selectedFile);
         //Read text from file
@@ -947,57 +928,6 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
 
     @OnClick(R.id.btn_dowload)
     public void downloadJobAlert() {
-        /*try{
-            AlertDialog.Builder builder = new AlertDialog.Builder(MapaActivity.this);
-
-            String outputName = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "osmdroid" + File.separator + "ProbandoDowload".toString();
-            writer=new SqliteArchiveTileWriter(outputName);
-            CacheManager mgr = new CacheManager(map, writer);
-
-            int zoommin = 15;
-            int zoommax = 20;
-            BoundingBox bb= map.getBoundingBox();
-            int tilecount = mgr.possibleTilesInArea(bb, zoommin, zoommax);
-            mgr.downloadAreaAsync(this.getApplicationContext(), bb, zoommin, zoommax, new CacheManager.CacheManagerCallback() {
-
-                @Override
-                public void onTaskComplete() {
-                    Toast.makeText(MapaActivity.this, "Download complete!", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void onTaskFailed(int errors) {
-                    Toast.makeText(MapaActivity.this, "Download complete with " + errors + " errors", Toast.LENGTH_LONG).show();
-                    if (writer!=null)
-                        writer.onDetach();
-                }
-
-                @Override
-                public void updateProgress(int progress, int currentZoomLevel, int zoomMin, int zoomMax) {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void downloadStarted() {
-                    //NOOP since we are using the build in UI
-                }
-
-                @Override
-                public void setPossibleTilesInArea(int total) {
-                    //NOOP since we are using the build in UI
-                }
-            });
-
-            downloadPrompt=builder.create();
-            downloadPrompt.show();
-
-
-
-        }catch(Exception e){
-            Toast.makeText(getApplicationContext(), "¡Something Happen!", Toast.LENGTH_SHORT).show();
-        }*/
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MapaActivity.this);
 
@@ -1088,10 +1018,5 @@ public class MapaActivity extends AppCompatActivity implements MapEventsReceiver
     public void afterTextChanged(Editable s) {
 
     }
-
-
-
-
-
 
 }

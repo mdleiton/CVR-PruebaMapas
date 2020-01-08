@@ -2,7 +2,6 @@ package com.projects.mirai.koukin.pruebasmapa.HelperClass;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Environment;
 import android.support.v4.content.ContextCompat;
@@ -16,8 +15,6 @@ import com.cocoahero.android.geojson.GeoJSONObject;
 import com.cocoahero.android.geojson.LineString;
 import com.cocoahero.android.geojson.Point;
 import com.cocoahero.android.geojson.Position;
-import com.projects.mirai.koukin.pruebasmapa.GeoreferenciarActivity;
-import com.projects.mirai.koukin.pruebasmapa.MenuPrincipalActivity;
 import com.projects.mirai.koukin.pruebasmapa.R;
 
 import org.json.JSONArray;
@@ -136,7 +133,7 @@ public class GeoJsonUtils {
                 if(elemento.get("type").equals("Point")){
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
                     Marker startMarker = new Marker(map);
-                    startMarker.setPosition(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)));
+                    startMarker.setPosition(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0),coordenadas.getDouble(2)));
                     startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
                     if(!hito.isNull("properties")){
                         JSONObject propiedades = hito.getJSONObject("properties");
@@ -155,8 +152,8 @@ public class GeoJsonUtils {
                         JSONArray punto1 = coordenadas.getJSONArray(j);
                         JSONArray punto2 = coordenadas.getJSONArray(j+1);
                         List <GeoPoint> geoPoints = new ArrayList<>();
-                        GeoPoint p1 = new GeoPoint(punto1.getDouble(1),punto1.getDouble(0));
-                        GeoPoint p2 = new GeoPoint(new GeoPoint(punto2.getDouble(1),punto2.getDouble(0)));
+                        GeoPoint p1 = new GeoPoint(punto1.getDouble(1),punto1.getDouble(0),punto1.getDouble(2));
+                        GeoPoint p2 = new GeoPoint(new GeoPoint(punto2.getDouble(1),punto2.getDouble(0),punto2.getDouble(2)));
                         geoPoints.add(p1);
                         geoPoints.add(p2);
                         linea.setPoints(geoPoints);
@@ -220,7 +217,7 @@ public class GeoJsonUtils {
 
         for (Marker marker:markers){
             GeoPoint punto = marker.getPosition();
-            Point point = new Point(punto.getLatitude(),punto.getLongitude());
+            Point point = new Point(punto.getLatitude(),punto.getLongitude(), punto.getAltitude());
             point.describeContents();
             Feature mark = new Feature(point);
             if(marker.getTitle()!=null){
@@ -244,8 +241,8 @@ public class GeoJsonUtils {
         for (Polyline linea :lines){
             GeoPoint p1 = linea.getPoints().get(0);
             GeoPoint p2 = linea.getPoints().get(1);
-            lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude()));
-            lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude()));
+            lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude(), p1.getAltitude()));
+            lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude(), p1.getAltitude()));
 
         }
         features.addFeature(new Feature(lineString));

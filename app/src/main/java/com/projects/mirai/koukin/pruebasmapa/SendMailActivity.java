@@ -221,7 +221,7 @@ public class SendMailActivity extends AppCompatActivity {
             for (JSONObject geoh:rec.getHito()){
                 try{
                     GeoPoint geo = (GeoPoint) geoh.get("hito");
-                    Point point = new Point(geo.getLatitude(),geo.getLongitude());
+                    Point point = new Point(geo.getLatitude(),geo.getLongitude(), geo.getAltitude());
                     Feature feat = new Feature(point);
                     if(!geoh.isNull("properties")){
                         feat.setProperties(geoh.getJSONObject("properties"));
@@ -238,8 +238,8 @@ public class SendMailActivity extends AppCompatActivity {
             for (Polyline linea :rec.getLines()){
                 GeoPoint p1 = linea.getPoints().get(0);
                 GeoPoint p2 = linea.getPoints().get(1);
-                lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude()));
-                lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude()));
+                lineString.addPosition(new Position(p1.getLatitude(),p1.getLongitude(), p1.getAltitude()));
+                lineString.addPosition(new Position(p2.getLatitude(),p2.getLongitude(), p2.getAltitude()));
             }
             features.addFeature(new Feature(lineString));
 
@@ -321,14 +321,15 @@ public class SendMailActivity extends AppCompatActivity {
             for(int i=0;i< features.length();i++){
                 JSONObject hito = features.getJSONObject(i);
                 JSONObject elemento = features.getJSONObject(i).getJSONObject("geometry");
-                System.out.println("Elemento"+i+":"+elemento);
+
                 if(elemento.get("type").equals("Point")){
                     JSONObject properties = new JSONObject();
                     if(!hito.isNull("properties")){
                         properties = hito.getJSONObject("properties");
                     }
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
-                    rec.addHito(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0)),properties);
+                    rec.addHito(new GeoPoint(coordenadas.getDouble(1),coordenadas.getDouble(0),coordenadas.getDouble(2)),properties);
+
                 }else if(elemento.get("type").equals("LineString")){
                     JSONArray coordenadas = elemento.getJSONArray("coordinates");
                     //int colors[] = {R.color.colorRed,R.color.colorBlue,R.color.colorGreen,R.color.colorYellow};
@@ -338,8 +339,8 @@ public class SendMailActivity extends AppCompatActivity {
                         JSONArray punto1 = coordenadas.getJSONArray(j);
                         JSONArray punto2 = coordenadas.getJSONArray(j+1);
                         List<GeoPoint> geoPoints = new ArrayList<>();
-                        GeoPoint p1 = new GeoPoint(punto1.getDouble(1),punto1.getDouble(0));
-                        GeoPoint p2 = new GeoPoint(new GeoPoint(punto2.getDouble(1),punto2.getDouble(0)));
+                        GeoPoint p1 = new GeoPoint(punto1.getDouble(1),punto1.getDouble(0),punto1.getDouble(2));
+                        GeoPoint p2 = new GeoPoint(new GeoPoint(punto2.getDouble(1),punto2.getDouble(0),punto2.getDouble(2)));
                         geoPoints.add(p1);
                         geoPoints.add(p2);
                         linea.setPoints(geoPoints);

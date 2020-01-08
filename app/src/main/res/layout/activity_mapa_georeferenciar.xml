@@ -60,8 +60,8 @@
 
         <ImageButton
             android:id="@+id/btn_mark"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="42dp"
+            android:layout_height="33dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="@null"
@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:background="@null"
-            app:srcCompat="@drawable/gps2" />
+            app:srcCompat="@drawable/osm_ic_center_map" />
     </LinearLayout>
 
     <LinearLayout

@@ -256,9 +256,7 @@ public class GPSsource extends PositioningSource {
                 GeoPoint startPoint = new GeoPoint(mCurrentLocationGPS.getLatitude(), mCurrentLocationGPS.getLongitude(), mCurrentLocationGPS.getAltitude());
                 Marker startMarker = new Marker(map);
                 Drawable mark = ContextCompat.getDrawable(app.getBaseContext(), R.drawable.usericon);
-                //Drawable mark = ContextCompat.getDrawable(app, R.drawable.usericon);
                 startMarker.setIcon(scaleImage(mark, 0.8f, app));
-                //Marker startMarker = new Marker(map);
                 startMarker.setPosition(startPoint);
                 map.getOverlays().add(startMarker);
                 markers.add(startMarker);
@@ -310,6 +308,7 @@ public class GPSsource extends PositioningSource {
      */
     @Override
     public void stopLocationUpdates(MapView map, final AppCompatActivity app, ArrayList<Marker> markers, ArrayList<Polyline> lines, int mode) {
+        this.saveLastPoint(map,app,markers,lines);
         mFusedLocationClient
                 .removeLocationUpdates(mLocationCallback)
                 .addOnCompleteListener(app, new OnCompleteListener<Void>() {
@@ -386,7 +385,7 @@ public class GPSsource extends PositioningSource {
      */
     @Override
     public void setIntervalOnMillis(long interval) {
-
+        this.getmLocationRequest().setInterval(interval);
     }
 
     /**
@@ -398,7 +397,7 @@ public class GPSsource extends PositioningSource {
      */
     @Override
     public void setFastestIntervalOnMillis(long fastInterval) {
-
+        this.getmLocationRequest().setFastestInterval(fastInterval);
     }
 
 
@@ -452,20 +451,11 @@ public class GPSsource extends PositioningSource {
         LocationManager locationManager = (LocationManager) app.getSystemService(LOCATION_SERVICE);
         for (String provider : locationManager.getProviders(true)) {
             if (ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(app, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
                 return;
             }
             Location location = locationManager.getLastKnownLocation(provider);
             if (location != null)
             {
-                //location.setLatitude(MAP_DEFAULT_LATITUDE);
-                //location.setLongitude(MAP_DEFAULT_LONGITUDE);
                 actualPosition = location;
                 System.out.println(actualPosition.toString());
                 break;

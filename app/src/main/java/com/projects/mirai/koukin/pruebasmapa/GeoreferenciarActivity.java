@@ -153,7 +153,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     //follow_on = false ->  actualizar puntos en mapas
     private boolean follow_on = false;
     private int gpsMode = 0;
-    private GeoPoint lastPoint = null;
     ArrayList<Marker> marcadores;
     ArrayList<Polyline> lineas;
 
@@ -297,7 +296,8 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
     /**
-     *
+     * Method to use in order to update the request for positioning and also show the change on the
+     * UI
      */
     private void updateLocation(){
         String location = source.updateLocationUI(map,this,marcadores,lineas,mode,txtLocationResult);
@@ -311,7 +311,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 public void onClick(DialogInterface dialog, int whichButton) {}
             });
             alert.show();
-        }
+       }
         toggleButtons();
     }
 
@@ -602,6 +602,9 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
     }
 
 
+    /**
+     * Method used to open the settings read them and load them onto this intent
+     */
     private void openSettings() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -636,7 +639,6 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                 // pausing location updates
                 source.stopLocationUpdates(map,this,marcadores,lineas,mode);
             }else{
-                //stopHandlerRTK();
             }
         }
         super.onPause();
@@ -800,9 +802,7 @@ public class GeoreferenciarActivity extends AppCompatActivity implements MapEven
                             marker.setInfoWindow(default_iw);
                             marker.showInfoWindow();
                             Deg2UTM utm = new Deg2UTM(marker.getPosition().getLatitude(),marker.getPosition().getLongitude());
-                            textHitoMapa.setText("Position: "+utm.toString());
-                            //textHitoMapa.setText("");
-
+                            textHitoMapa.setText("Ubicación: "+utm.toString());
                             return true;
 
                         }
